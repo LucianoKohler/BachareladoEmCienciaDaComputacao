@@ -1,6 +1,6 @@
 # Incializando git local
 
-  - Abra o bash, e insira a linha de código `git --version `  para ver se o git está na versão correta; 
+- Abra o bash, e insira a linha de código `git --version `  para ver se o git está na versão correta; 
 
 - Agora configure seu usuário com os comandos:
     ```bash
@@ -50,3 +50,24 @@
 
 - git pull
 # Puxa as novas alterações/commits enviados ao repositório remoto para seu repositório local E altera seu código para a versão mais recente puxada pelo comando;
+```
+
+# Cadastrando a chave SSH de um dispositivo no GitHub
+
+
+
+# Empurrando um repositório local para o GitHub
+
+- Com o arquivo pronto (com as informações que você quer), abra o terminal com ctrl + " (ou ctrl + shift + " para criar um novo terminal), **Certifique-se que o caminho do terminal termina na pasta dos seus arquivos**;
+
+- Escreva no terminal ```git init``` para inicializar um repositório **Público** na sua máquina;
+
+- Digite ```git add .``` para salvar arquivos novos e/ou alterações no repositório local;
+
+- Em seguida, dê o clássico *commit* com o comando ```git commit -m "Descrição do commit"``` para salvar essa versão do código no repositório local;
+
+- Por fim, no menu "Source Control" no VSC, clique no botão para enviar o repositório local para o remoto;
+
+- Em seguida, fique no troca troca de requisições de login entre o VSC e o GitHub, e por fim, escolha se o repositório será privado ou público;
+
+- Para enviar futuras mudanças no projeto, utilize o comando ```git push```.
