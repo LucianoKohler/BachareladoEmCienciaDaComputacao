@@ -37,7 +37,7 @@
 # Cria um novo branch e entra nele;
 
 - git commit -m < description >
-# Cria uma versão do código, como um "save em um jogo" no repositório local;
+# Cria uma versão do código, como um "save em um jogo" no repositório local, junto com uma descrição;
 
 - git push
 # Envia as novas alterações/commits do repositório local para o repositório local;
