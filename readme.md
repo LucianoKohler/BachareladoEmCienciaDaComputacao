@@ -54,7 +54,12 @@
 
 # Cadastrando a chave SSH de um dispositivo no GitHub
 
-
+- Abra seu *Git Bash* e verifique se já há uma chave SSH com o comando ```ls -al ~/.ssh```;
+- Se não houver uma, crie com o comando ```ssh-keygen -t ed25519 -C "email@example.com"```;
+- Inicialize um agente (robozinho de SSH) com o comando ```eval "$(ssh-agent -s)"```
+- 
+- Com a chave em mãos, logue sua conta no GitHub e abra as *settings* > SSH and GPG keys
+- Clique no botão de adicionar uma chave SSH, dê um nome a essa chave (ex: casa, trabalho...) para identificação, em seguida, cole o código previamente copiado na caixa de texto grande. 
 
 # Empurrando um repositório local para o GitHub
 
