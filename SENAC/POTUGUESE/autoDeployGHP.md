@@ -10,7 +10,7 @@ Normalmente um site comum, com só tecnologias básicas como HTML, CSS e JS poss
 
 - Após isso, dentro da pasta raíz, crie a seguinte sequência de arquivos: `.github/workflows/build.yml`
 
-- Coloque esse código aqui: 
+- Dentro do build.yml, coloque esse código aqui: 
 
 ```yml 
 name: deploy 
@@ -39,7 +39,7 @@ jobs: #tarefas a fazer
           publish_dir: ./build
 ```
 
-- Com o código feito, acesse no seu repositório: `settings>actions>general` e, ao fim da página:
+- Com o código feito, acesse no seu repositório, e então `settings>actions>general` e, ao fim da página:
     - marque a checkbox `Allow GitHub Actions to create and approve pull requests`
     - Marque o radio (checkbox redonda) `Read and write permissions`
     
@@ -50,4 +50,4 @@ jobs: #tarefas a fazer
 - Agora, vá em `settings>pages` e:
     - Escolha para dar deploy via branch
     - Mude o branch para `gh-pages` (que o bot criou automaticamente com o build.yml)
-    - Espere um menu no topo da página que leve você ao seu site, agora com deploys automáticos!
+    - Espere um menu no topo da página que leve você ao seu site, agora com deploys automáticos!!!
