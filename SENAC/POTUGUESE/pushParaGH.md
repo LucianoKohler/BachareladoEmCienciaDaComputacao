@@ -1,6 +1,9 @@
-# Empurrando um repositório local para o GitHub
+# Empurrando Um Repositório Local Para o GitHub
+*Créditos: Grande [Professor Renan Ponick](https://www.youtube.com/@theinitcode/videos)*
 
-- Com o arquivo pronto (com as informações que você quer), abra o terminal com ctrl + " (ou ctrl + shift + " para criar um novo terminal), **Certifique-se que o caminho do terminal termina na pasta dos seus arquivos**;
+Se você tem um repositório local mas não sabe como enviá-lo para a nuvem do *Github*, veja como fazer isso de uma maneira fácil e rápida:
+
+- Com o arquivo pronto (com as informações que você quer), abra o terminal com `ctrl + "` (ou `ctrl + shift + "` para criar um novo terminal), **Certifique-se que o caminho do terminal termina na pasta dos seus arquivos**;
 
 - Escreva no terminal `git init` para inicializar um repositório **Público** na sua máquina;
 

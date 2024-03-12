@@ -1,4 +1,5 @@
-# Comandos essenciais do git
+# Comandos Essenciais do Git
+*Créditos: Grande [Professor Renan Ponick](https://www.youtube.com/@theinitcode/videos)*
 
 ```bash
 - git status
