@@ -37,7 +37,12 @@ Declare uma função que receba como parâmetro um inteiro n e retorne a soma do
 números pares entre 0 e n
 -}
 
-{- À fazer -}
+somaPares :: Integer -> Integer
+somaPares 0 = 0
+somaPares n = 
+   if even n  
+   then n + somaPares (n-2)
+   else somaPares (n-1)
 
 {-
 Declare uma função que receba inteiros (m e n) e retorne a seguinte série: 
