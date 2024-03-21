@@ -49,7 +49,9 @@ Declare uma função que receba inteiros (m e n) e retorne a seguinte série:
 2^0m + 2^1m + 2^2m + ... + 2^nm
 -}
 
-{- À fazer -}
+somaPot2m :: Integer -> Integer -> Integer
+somaPot2m m 0 = m
+somaPot2m m n = (2^n)*m + somaPot2m m (n-1)
 
 {-
 Declare uma função que receba um número e retorne True caso o número seja primo e
@@ -57,7 +59,17 @@ False caso contrário. Um número primo é um número natural maior que 1, e que
 apenas dois divisores: 1 e ele mesmo
 -}
 
-{- À fazer -}
+primo :: Integer -> Bool
+primo n = primoAux n (n-1)
+
+-- Pra passar 2 valores ao invés de só n para a recursao
+
+primoAux :: Integer -> Integer -> Bool
+primoAux n 1 = True
+primoAux n m =
+  if mod n m == 0
+    then False
+    else primoAux n (m-1)
 
 {-
 Uma aproximação para o valor de π pode ser obtida por meio da série:
@@ -70,3 +82,6 @@ testes
 -}
 
 {- À fazer -}
+main :: IO()
+main = do
+    putStrLn "RODANDO."
