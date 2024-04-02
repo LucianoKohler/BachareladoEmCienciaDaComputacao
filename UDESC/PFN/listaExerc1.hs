@@ -73,7 +73,6 @@ primoAux n m =
 
 {-
 Uma aproximação para o valor de π pode ser obtida por meio da série:
-
 4/1 – 4/3 + 4/5 – 4/7 + 4/9 – 4/11 + ...
 
 Declare uma função chamada seriePI que receba como parâmetro um inteiro n e
@@ -81,7 +80,11 @@ calcule o valor da série enquanto o termo for maior que 4/n. Execute os seguint
 testes
 -}
 
-{- À fazer -}
+-- Não consegui.
+seriePi :: Float -> Float
+seriePi 1 = 0.25
+seriePi n = (4/n) + seriePi (n-2)
+
 main :: IO()
 main = do
     putStrLn "RODANDO."
