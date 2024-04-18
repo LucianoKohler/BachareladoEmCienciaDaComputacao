@@ -15,7 +15,7 @@ intercessao (x:xs) ys
 
 -- 3. Retorne o inverso de uma lista
 
-inverso :: [Int] -> [Int]
+inverso :: [a] -> [a]
 inverso [] = []
 inverso (x:xs) = inverso xs ++ [x]
 
@@ -88,20 +88,32 @@ repetir :: Int -> Int -> [Int]
 repetir 0 _ = []
 repetir x y = y:repetir (x-1) y
 
+-- *** MELHOR FUNÇÃO DESTE MUNDO, USADA PARA AS FUNÇÕES ABAIXO ***
+concatIntList [] = 0
+concatIntList (x:xs) = ((concatIntList xs) + x*10^length(x:xs)) - 10^length(x:xs)+1
+
 -- 14. Converta Int em String
--- Não aprendi
 
 -- 15. Converta String em Int
--- Não aprendi
+
+char2Decimal :: Char -> Int
+char2Decimal x = fromEnum(x)-48
+
+stringNumAux "" = []
+stringNumAux (x:xs) = [char2Decimal x]++stringNumAux xs
+stringNum x = concatIntList(stringNumAux x)
 
 -- 16. Converta Binary para Int
--- Não aprendi
 
 -- 17. Int para Binary
--- Não aprendi
+
+int2Bin :: Integer -> [Integer]
+int2BinAux 0 = [0]
+int2BinAux 1 = [1] -- À fazer
+int2BinAux x = (rem x 2):int2BinAux (x `div` 2)
+int2Bin x = inverso(int2BinAux x)
 
 -- 18. String para lowercase String
--- Não aprendi
 
 main :: IO()
 main = do
