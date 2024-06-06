@@ -1,0 +1,1 @@
+-- Esta lista foi feita em um documento pdf, e seu tema foi lambda functions.
