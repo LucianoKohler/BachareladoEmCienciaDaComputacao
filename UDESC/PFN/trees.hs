@@ -6,8 +6,8 @@ data Arv a = No a (Arv a) (Arv a) | Nil deriving (Show)
 
 insTree e Nil = No e Nil Nil
 insTree e (No x esq dir) = | e == x = No x esq dir
-                          | e < x   = No x (insTree e esq) dir
-                          | e > x   = No x esq (insTree e dir)
+                           | e < x   = No x (insTree e esq) dir
+                           | e > x   = No x esq (insTree e dir)
 
 listToTree [] = []
 listToTree (x:xs) = insTree x (listToTree xs)
