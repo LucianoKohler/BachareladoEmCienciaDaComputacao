@@ -20,6 +20,7 @@ numLines :: Doc -> [(Index, Line)]
 numLines xs = zip [1 ..] (lines xs)
 
 -- C apontar em que linha cada palavra aparece
+-- Input teste: allNumWords (numLines "Departamento de Ciencia da Computacao\nCurso de Ciencia da Computacao\nProgramacao Funcional")
 
 allNumWords :: [(Index, Line)] -> [(Index, Word')]
 allNumWords [] = []
