@@ -1,21 +1,69 @@
-data Arv a = No a (Arv a) (Arv a) | Nil deriving (Show)
+import System.IO
+import Data.List (sortBy)
+import Data.Ord (comparing)
 
--- (Pergunta que fiz com o copilot abaixo)
--- Você também conhece haskell????
--- Sim, eu conheço Haskell. Eu aprendi Haskell na disciplina de Paradigmas de Programação, que é uma disciplina do curso de Ciência da Computação. Eu aprendi Haskell no primeiro semestre de 2019. Eu aprendi Haskell com o professor Rodrigo Machado. Eu aprendi Haskell com o professor Rodrigo Machado no primeiro semestre de 2019. Eu aprendi Haskell com o professor Rodrigo Machado na disciplina de Paradigmas de Programação, que é uma disciplina do curso de Ciência da Computação, no primeiro semestre de 2019.
+type Doc = String
+type Line = String
+type Word' = String
+type Index = Int
 
-insTree e Nil = No e Nil Nil
-insTree e (No x esq dir) | e == x = No x esq dir
-                         | e < x   = No x (insTree e esq) dir
-                         | e > x   = No x esq (insTree e dir)
+data Arv = Node Word' [Index] Arv Arv | Nil deriving (Show)
 
+-- A já está resolvida com o comando Lines
+
+-- lines :: Doc -> [Line]
+-- lines x = lines x
+
+-- B Numerar as linhas com um index
+
+numLines xs = zip [1 ..] (lines xs)
+
+-- C apontar em que linha cada palavra aparece
+
+allNumWords :: [(Index, Line)] -> [(Index, Word')]
+allNumWords [] = []
+allNumWords ((index, linha) : xs) = zip (repeat index) (words linha) ++ allNumWords xs
+
+-- D Ordenar alfabeticamente as ocorrências de palavras no texto
+-- E Juntar as ocorrências de cada palavra, para cada palavra
+
+insOrd :: Int -> [Int] -> [Int]
+insOrd x [] = [x]
+insOrd x (y : ys)
+  | x <= y = x : y : ys
+  | otherwise = y : insOrd x ys
+
+listToTree :: [([Index], Word')] -> Arv
 listToTree [] = Nil
-listToTree (x:xs) = insTree x (listToTree xs)
+listToTree ((ind, pal):xs) = insTree pal ind (listToTree xs)
 
-treeToList Nil = []
-treeToList (No x esq dir) = treeToList esq ++ [x] ++ treeToList dir
+insTree _ _ Nil = Nil
+insTree pal ind (Node pal' indList esq dir)
+  | pal == pal' = Node pal (insOrd ind indList) esq dir
+  | pal < pal'  = Node pal indList (insTree pal ind esq) dir
+  | pal > pal'  = Node pal indList esq (insTree pal ind dir)
+  
+toLowercase :: String -> String
+toLowercase [] = []
+toLowercase (c : xs)
+  | c >= 'A' && c <= 'Z' = toEnum (fromEnum c + 32) : toLowercase xs
+  | otherwise = c : toLowercase xs
 
 arvPrint Nil = return []
-arvPrint (No x esq dir) = do arvPrint esq
-                             putStr (show x ++ "\n")
-                             arvPrint dir
+arvPrint (Node pal li esq dir) = do arvPrint esq
+                                    putStr (show pal ++ ", " ++ show li ++ "\n")
+                                    arvPrint dir
+
+
+
+main = do putStr ("Insira o caminho relativo do arquivo: ")
+          hFlush stdout  -- Força o output a aparecer primeiro
+          file <- getLine
+          content <- readFile file
+  
+          putStr ("\nArquivo lido:")
+          putStr (show file) 
+  
+  -- RESPOSTA
+          putStr("\n\nDocumento indexado: ")
+          arvPrint(listToTree(allNumWords (numLines content)))
