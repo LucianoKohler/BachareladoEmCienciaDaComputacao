@@ -72,5 +72,5 @@ main = do   putStr ("Insira o caminho relativo do arquivo: ")
             
             -- RESPOSTA
             putStr("\n\nDocumento indexado: ")
-            arvPrint(mIndexTree(allNumWords(numLines "Departamento de Ciencia da Computacao\nCurso de Ciencia da Computacao\nProgramacao Funcional")))
+            arvPrint(mIndexTree(allNumWords(numLines content)))
           
