@@ -40,7 +40,8 @@ toLowercase (c : xs)
 insOrd :: Int -> [Int] -> [Int]
 insOrd x [] = [x]
 insOrd x (y:ys)
-  | x <= y = x:y:ys
+  | x < y = x:y:ys
+  | x == y = y:ys
   | otherwise = y : insOrd x ys
 -- Fim funções auxiliares
 
@@ -57,20 +58,22 @@ mIndexTree ((ind, pal):xs) = insTree (toLowercase pal) ind (mIndexTree xs)
 
 -- Imprimir a ávrore
 
-arvPrint Nil = return []
+arvPrint Nil = return ()
 arvPrint (Node pal li esq dir) = do arvPrint esq
                                     putStr (show pal ++ ", " ++ show li ++ "\n")
                                     arvPrint dir
 
-main = do   putStr ("Insira o caminho relativo do arquivo: ")
-            hFlush stdout  -- Força o output a aparecer primeiro
-            file <- getLine
-            content <- readFile file
-            
-            putStr ("\nArquivo lido:")
-            putStr (show file) 
-            
-            -- RESPOSTA
-            putStr("\n\nDocumento indexado: ")
-            arvPrint(mIndexTree(allNumWords(numLines content)))
+makeIndexTree content = arvPrint(mIndexTree(allNumWords(numLines content)))
+
+main :: IO()
+main = do putStr ("Insira o caminho relativo do arquivo: ")
+          hFlush stdout  -- Força o output a aparecer primeiro
+          file <- getLine
+          content <- readFile file
           
+          putStr ("\nArquivo lido:")
+          putStr (show file)
+          
+          -- RESPOSTA
+          putStr("\n\nDocumento indexado: ")
+          makeIndexTree content
