@@ -24,7 +24,7 @@
 - Q = Carga (Coulomb)
 - I = Corrente (Amperes)
 - t = tempo (Segundos)
-- Vab = Tensão entre A e B
+- V = Tensão/diferença de potencial
 
 ## Lei de Ohm:
 
