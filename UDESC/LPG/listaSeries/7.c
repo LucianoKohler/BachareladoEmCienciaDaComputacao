@@ -19,9 +19,9 @@ int main(){
 
       // Sem uso de função para potência
       if(i%2==0){
-        num += pow(x, 2*i)) / fat(2*i);
+        num += pow(x, 2*i) / fat(2*i);
       }else{
-        num -= pow(x, 2*i)) / fat(2*i);
+        num -= pow(x, 2*i) / fat(2*i);
       }
     }
 
