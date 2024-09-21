@@ -15,3 +15,23 @@ Capacitância é a carga dividido pela tensão
 
 E = V/d
 Intensidade do campo elétrico é a tensão dividido por...
+
+## Fórmulas de Carga
+
+Vc(t) = V0 * (1 - e^(t/RC))
+
+Ic(t) = Vo/R * e^(-t/RC)
+
+- Vc(t): Carga de um capacitor no tempo t
+- Ic(t): Corrente de um capacitor no tempo t
+- V0: Voltagem inicial do circuito
+- t: Tempo em segundos
+- RC: Resistência vezes capacitância do circuito
+
+---
+
+## Fórmulas de Descarga
+
+Vc(t) = V0 * e^(-t/RC)
+
+Ic(t) = - Vo/R * e^(-t/RC)

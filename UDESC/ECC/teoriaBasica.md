@@ -1,6 +1,6 @@
 ## Fórmulas:
 
-*Tensão ou diferneça de potencial é, por exemplo, uma pilha, que tem diferença de tensão entre os polos, porém não tem uma corrente passando por ela*
+*Tensão ou diferença de potencial é a força necessária para deslocar uma unidade de carga de A a B, ou:*
 
 - Vab = W/Q
 
@@ -19,7 +19,7 @@
 ## Abreviações:
 
 - R = Resistência (Ohms)
-- W = Energia (Watts)
+- W = Energia (Joules)
 - P = Potência (Watts)
 - Q = Carga (Coulomb)
 - I = Corrente (Amperes)
