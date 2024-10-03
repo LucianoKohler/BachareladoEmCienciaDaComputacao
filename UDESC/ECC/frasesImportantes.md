@@ -6,3 +6,5 @@
   - Fonte de corrente (⇡): substitui por um espaço aberto (gera A)
   - Fonte de tensão (┫┣): substitui por um curto circuito (gera V)
 - Material dielétrico = isolante
+- Um fasor sempre irá defasar em 90° a tensão da corrente
+- O inverso de um número imaginário trocará seu sinal já que j*j = -1 
