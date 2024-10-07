@@ -7,7 +7,7 @@
 
  - Um conjunto não deve ter valores repetidos
  - Como é necessário conferir se o valor digitado não existe no conjunto, fiz a op. 2 diferente do enunciado
- - Perguntar ao professor se o conjunto escolhido deve ser ZERADO na segunda operação
+ - Jogar os conjuntos abaixo do conjunto deletado "para cima"
  
 */
 
@@ -26,10 +26,10 @@ int validaOperacao(int cont, int arrEscolhido){
 }
 
 
-// Operação suporte para insereConjunto() e buscaValor()
+// Operação suporte para insereConjunto() e buscaValor(), a função Só retorna se achou ou não.
 int buscaSequencial(int chave, int arr[]){
     for(int i = 0; i < tamanho_conjunto; i++){
-        if(arr[i] == chave){
+        if(arr[i] == chave){ 
             return 1;
         }
     }
@@ -44,11 +44,11 @@ void zeraConjunto(int arr[]){
     }
 }
 
-// OPERAÇÕES PRINCIPAIS
+// ---OPERAÇÕES PRINCIPAIS---
 
 // OPERAÇÃO NÚMERO 1
-int criaConjunto(int cont){
-    if(cont > conjuntos){ // Maior que 8 pois cont sempre será o número de conjuntos + 1
+int criaConjunto(int cont){ // Problemas sobre índices já tratados com a função validaOperacao()
+    if(cont > conjuntos){
         printf("Número máximo de conjuntos criados, exclua algum.\n");
     }else{
         printf("Um novo conjunto foi criado no espaço %d!\n", cont);
@@ -62,8 +62,9 @@ int criaConjunto(int cont){
 void insereConjunto(int cont, int arr[]){
     int valor;
     int i = 0;
-    int pontoPartida = 0;
+    
     // Encontrando onde continuar a inserção de valores
+    int pontoPartida = 0;
     for(int i = 0; i < tamanho_conjunto; i++){
         if(arr[i] != 0) pontoPartida++;
     }
@@ -96,7 +97,7 @@ void insereConjunto(int cont, int arr[]){
 // OPERAÇÃO NÚMERO 3
 int ExcluiConjunto(int cont, int arrEscolhido, int matriz[][tamanho_conjunto]){
     zeraConjunto(matriz[arrEscolhido]);
-    for(int i = arrEscolhido; i < cont; i++){
+    for(int i = arrEscolhido; i < cont; i++){ // Passando elemento por elemento pois não é possível passar o array inteiro...
         for(int j = 0; j < tamanho_conjunto; j++){
             matriz[i][j] = matriz[i+1][j];
         }
@@ -117,7 +118,6 @@ int uniaoConjunto(int cont, int arr1[], int arr2[], int matriz[][10]){
         for(int i = 0; i < tamanho_conjunto; i++){ // Passando pelo primeiro conjunto
             
             if(arr1[i] == 0) break;
-                
                 matriz[cont][j] = arr1[i];
                 j++;
             }
@@ -145,11 +145,12 @@ int interConjunto(int cont, int arr1[], int arr2[], int matriz[][10]){
         printf("Não há espaço para criar o conjunto intersecção, exclua algum conjunto.\n");
     }else{
         int k = 0; // Tamanho do novo conjunto
-        
+        // For composto já que os conjuntos não são necessáriamente ordenados, complexidade vai à loucura!
         for(int i = 0; i < tamanho_conjunto; i++){
             if(arr1[i] == 0) break;
             
             for(int j = 0; j < tamanho_conjunto; j++){
+                // Condições de saída
                 if(arr2[j] == 0) break;
                 if(k == tamanho_conjunto) break;
                 
@@ -236,7 +237,7 @@ int main()
         printf("\033[H\033[J"); // Limpa a tela 
 
         
-        switch(escolha){
+        switch(escolha){ // Mega switch case para tratar com a escolha do usuário 
             
             case 1:
                 int cont = criaConjunto(cont);
@@ -346,13 +347,14 @@ int main()
                 break;
         }
         
+        // Como não há uma função única de sleep() para windows E linux e não sei qual máquina vai compilar o código, fiz por outro approach
         printf("\nPressione ENTER para continuar...");
         int c;
-        while ((c = getchar()) != '\n' && c != EOF);  // Limpa o buffer
+        while ((c = getchar()) != '\n' && c != EOF);  // Limpa o buffer pra remover os \n se houverem
         while (getchar() != '\n');
         
         printf("\033[H\033[J"); // Limpa a tela
     }
     
     return 0;
-}
+} // ACABOOOOO
