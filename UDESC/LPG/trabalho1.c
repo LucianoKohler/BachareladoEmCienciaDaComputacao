@@ -8,17 +8,18 @@
  - Um conjunto não deve ter valores repetidos
  - Como é necessário conferir se o valor digitado não existe no conjunto, fiz a op. 2 diferente do enunciado
  - Jogar os conjuntos abaixo do conjunto deletado "para cima"
+ - Perguntar ao professor se é necessário tratar com inputs errados (Ex: char em um input numérico)
  
 */
 
 // Operação suporte para validar se o conjunto escolhido é válido
 int validaOperacao(int cont, int arrEscolhido){
     if(arrEscolhido > conjuntos-1){
-        printf("Este valor ultrapassa o valor máximo de conjuntos!\n");
+        printf("Erro: Este valor ultrapassa o valor máximo de conjuntos!\n");
         return 0;
     }
     if(arrEscolhido > cont-1){
-        printf("Este array ainda não foi criado, crie-o!\n");
+        printf("Erro: Este array ainda não foi criado!\n");
         return 0;
     }
     
@@ -49,7 +50,7 @@ void zeraConjunto(int arr[]){
 // OPERAÇÃO NÚMERO 1
 int criaConjunto(int cont){ // Problemas sobre índices já tratados com a função validaOperacao()
     if(cont > conjuntos){
-        printf("Número máximo de conjuntos criados, exclua algum.\n");
+        printf("Erro: Número máximo de conjuntos criados, exclua algum.\n");
     }else{
         printf("Um novo conjunto foi criado no espaço %d!\n", cont);
         cont++;
@@ -85,7 +86,7 @@ void insereConjunto(int cont, int arr[]){
             break;
             
         }else if(buscaSequencial(valor, arr)){
-            printf("\nEste valor já está contido no conjunto.\n\n");
+            printf("\nErro: Este valor já está contido no conjunto, insira outro.\n\n");
             
         }else{
             arr[i+pontoPartida] = valor;
@@ -110,13 +111,16 @@ int ExcluiConjunto(int cont, int arrEscolhido, int matriz[][tamanho_conjunto]){
 
 // OPERAÇÃO NÚMERO 4
 int uniaoConjunto(int cont, int arr1[], int arr2[], int matriz[][10]){
+    
+    // Antes eu iria tratar o extrapolamento do array união usando a soma dos tamanho dos arrays, mas se houverem
+    // valores repetidos, a união é possível mesmo com a soma dos tamanhos passando de 10, então mudei o approach
+    
     if(cont == conjuntos-1){
-        printf("Não há espaço para criar o conjunto união, exclua algum conjunto.\n");
+        printf("Erro: Não há espaço para criar o conjunto união, exclua algum conjunto.\n");
     }else{
         
         int j = 0; // Tamanho do novo conjunto
         for(int i = 0; i < tamanho_conjunto; i++){ // Passando pelo primeiro conjunto
-            
             if(arr1[i] == 0) break;
                 matriz[cont][j] = arr1[i];
                 j++;
@@ -131,10 +135,15 @@ int uniaoConjunto(int cont, int arr1[], int arr2[], int matriz[][10]){
                 matriz[cont][j] = arr2[i];
                 j++;
             }
+            
+            if(j > 10){
+                zeraConjunto(matriz[cont]);
+                printf("Erro: A união dos conjuntos extrapola o tamanho máximo do conjunto.\n");
+            }
         }
         
         cont++;
-        printf("Conjunto união criado, lembre-se que ele pode não ter cabido na capacidade do conjunto!\n");
+        printf("Conjunto união criado com sucesso!\n");
     }
     return cont;
 }
@@ -142,10 +151,10 @@ int uniaoConjunto(int cont, int arr1[], int arr2[], int matriz[][10]){
 // OPERAÇÃO NÚMERO 5
 int interConjunto(int cont, int arr1[], int arr2[], int matriz[][10]){
     if(cont == conjuntos-1){
-        printf("Não há espaço para criar o conjunto intersecção, exclua algum conjunto.\n");
+        printf("Erro: Não há espaço para criar o conjunto intersecção, exclua algum conjunto.\n");
     }else{
         int k = 0; // Tamanho do novo conjunto
-        // For composto já que os conjuntos não são necessáriamente ordenados, complexidade vai à loucura!
+        // For composto já que os conjuntos não são necessariamente ordenados, complexidade vai à loucura!
         for(int i = 0; i < tamanho_conjunto; i++){
             if(arr1[i] == 0) break;
             
@@ -161,7 +170,7 @@ int interConjunto(int cont, int arr1[], int arr2[], int matriz[][10]){
             }
         }
         cont++;
-        printf("Conjunto intersecção criado, lembre-se que ele pode não ter cabido na capacidade do conjunto!\n");
+        printf("Conjunto intersecção criado com sucesso!\n");
     }
     return cont;
 }
@@ -184,8 +193,9 @@ void mostraConjunto(int arrEscolhido, int arr[]){
 // OPERAÇÃO NÚMERO 7
 void mostraTodosConjuntos(int cont, int matriz[][tamanho_conjunto]){
     if(cont == 0){
-        printf("Nenhum conjunto criado, crie algum!");
+        printf("Erro: Nenhum conjunto criado, crie algum!");
     }else{
+        printf("Temos %d conjuntos:\n", cont+1);
         for(int i = 0; i < cont; i++){
             mostraConjunto(i, matriz[i]);
         }
@@ -195,11 +205,11 @@ void mostraTodosConjuntos(int cont, int matriz[][tamanho_conjunto]){
 // OPERAÇÃO NÚMERO 8
 void buscaValor(int chave, int cont, int matriz[][tamanho_conjunto]){
     if(cont == 0){
-        printf("Nenhum conjunto criado, crie algum!");
+        printf("Eroo: Nenhum conjunto criado!");
     }else if(chave == 0){
-        printf("0 é um valor inválido par busca!\n");
+        printf("Erro: 0 é um valor inválido par busca!\n");
     }else{
-        printf("\nConjuntos que contém o valor %d:\n\n", chave);
+        printf("\nConjuntos que contém o valor %d:\n", chave);
         for(int i = 0; i < cont; i++){
             if(buscaSequencial(chave, matriz[i])){
                 printf("Conjunto %d\n", i);
@@ -279,7 +289,7 @@ int main()
                     scanf("%d", &arrEscolhido2);
                 
                     if(arrEscolhido == arrEscolhido2){
-                        printf("Os conjuntos não devem ser iguais.");
+                        printf("Erro: Os conjuntos não devem ser iguais.");
                         
                     }else if(validaOperacao(cont, arrEscolhido2)){
                         cont = uniaoConjunto(cont, matriz[arrEscolhido], matriz[arrEscolhido2], matriz);
@@ -298,7 +308,7 @@ int main()
                     scanf("%d", &arrEscolhido2);
                 
                     if(arrEscolhido == arrEscolhido2){
-                        printf("Os conjuntos não devem ser iguais.");
+                        printf("Erro: Os conjuntos não devem ser iguais.");
                         
                     }else if(validaOperacao(cont, arrEscolhido2)){
                         cont = interConjunto(cont, matriz[arrEscolhido], matriz[arrEscolhido2], matriz);
