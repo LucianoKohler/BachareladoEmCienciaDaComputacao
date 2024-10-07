@@ -37,11 +37,18 @@ int buscaSequencial(int chave, int arr[]){
     return 0;
 }
 
+// Operação suporte para insereConjunto() e ExcluiConjunto()
+void zeraConjunto(int arr[]){
+    for(int i = 0; i < tamanho_conjunto; i++){
+        arr[i] = 0;
+    }
+}
+
 // OPERAÇÕES PRINCIPAIS
 
 // OPERAÇÃO NÚMERO 1
 int criaConjunto(int cont){
-    if(cont > 8){ // Maior que 8 pois cont sempre será o número de conjuntos + 1
+    if(cont > conjuntos){ // Maior que 8 pois cont sempre será o número de conjuntos + 1
         printf("Número máximo de conjuntos criados, exclua algum.\n");
     }else{
         printf("Um novo conjunto foi criado no espaço %d!\n", cont);
@@ -55,15 +62,20 @@ int criaConjunto(int cont){
 void insereConjunto(int cont, int arr[]){
     int valor;
     int i = 0;
+    int pontoPartida = 0;
+    // Encontrando onde continuar a inserção de valores
+    for(int i = 0; i < tamanho_conjunto; i++){
+        if(arr[i] != 0) pontoPartida++;
+    }
     
     while(1){
         
-        if(i == 10){
-            printf("Valor máximo de números atingido\n");
+        if(i + pontoPartida == tamanho_conjunto){
+            printf("Valor máximo de números atingido no conjunto.\n");
             break;
         }
         
-        printf("Insira o valor do %d° valor: ", i+1);
+        printf("Insira o valor do %d° valor: ", i+pontoPartida+1);
         scanf("%d", &valor);
        
         // Tratando com erros
@@ -75,10 +87,82 @@ void insereConjunto(int cont, int arr[]){
             printf("\nEste valor já está contido no conjunto.\n\n");
             
         }else{
-            arr[i] = valor;
+            arr[i+pontoPartida] = valor;
             i++;
         }
     }
+}
+
+// OPERAÇÃO NÚMERO 3
+int ExcluiConjunto(int cont, int arrEscolhido, int matriz[][tamanho_conjunto]){
+    zeraConjunto(matriz[arrEscolhido]);
+    for(int i = arrEscolhido; i < cont; i++){
+        for(int j = 0; j < tamanho_conjunto; j++){
+            matriz[i][j] = matriz[i+1][j];
+        }
+    }
+    
+    cont--;
+    printf("Conjunto %d excluído com sucesso!\n", arrEscolhido);
+    return cont;
+}
+
+// OPERAÇÃO NÚMERO 4
+int uniaoConjunto(int cont, int arr1[], int arr2[], int matriz[][10]){
+    if(cont == conjuntos-1){
+        printf("Não há espaço para criar o conjunto união, exclua algum conjunto.\n");
+    }else{
+        
+        int j = 0; // Tamanho do novo conjunto
+        for(int i = 0; i < tamanho_conjunto; i++){ // Passando pelo primeiro conjunto
+            
+            if(arr1[i] == 0) break;
+                
+                matriz[cont][j] = arr1[i];
+                j++;
+            }
+            
+        for(int i = 0; i < tamanho_conjunto; i++){ // Passando pelo segundo conjunto
+            if(arr2[i] == 0){
+                break;
+            }
+            
+            if(!buscaSequencial(arr2[i], matriz[cont])){ // Verificando se não for repetido
+                matriz[cont][j] = arr2[i];
+                j++;
+            }
+        }
+        
+        cont++;
+        printf("Conjunto união criado, lembre-se que ele pode não ter cabido na capacidade do conjunto!\n");
+    }
+    return cont;
+}
+
+// OPERAÇÃO NÚMERO 5
+int interConjunto(int cont, int arr1[], int arr2[], int matriz[][10]){
+    if(cont == conjuntos-1){
+        printf("Não há espaço para criar o conjunto intersecção, exclua algum conjunto.\n");
+    }else{
+        int k = 0; // Tamanho do novo conjunto
+        
+        for(int i = 0; i < tamanho_conjunto; i++){
+            if(arr1[i] == 0) break;
+            
+            for(int j = 0; j < tamanho_conjunto; j++){
+                if(arr2[j] == 0) break;
+                if(k == tamanho_conjunto) break;
+                
+                if(arr1[i] == arr2[j]){
+                    matriz[cont][k] = arr1[i];
+                    k++;
+                }
+            }
+        }
+        cont++;
+        printf("Conjunto intersecção criado, lembre-se que ele pode não ter cabido na capacidade do conjunto!\n");
+    }
+    return cont;
 }
 
 // OPERAÇÃO NÚMERO 6
@@ -97,7 +181,7 @@ void mostraConjunto(int arrEscolhido, int arr[]){
 }
 
 // OPERAÇÃO NÚMERO 7
-void mostraTodosConjuntos(int cont, int matriz[][10]){
+void mostraTodosConjuntos(int cont, int matriz[][tamanho_conjunto]){
     if(cont == 0){
         printf("Nenhum conjunto criado, crie algum!");
     }else{
@@ -108,7 +192,7 @@ void mostraTodosConjuntos(int cont, int matriz[][10]){
 }
 
 // OPERAÇÃO NÚMERO 8
-void buscaValor(int chave, int cont, int matriz[][10]){
+void buscaValor(int chave, int cont, int matriz[][tamanho_conjunto]){
     if(cont == 0){
         printf("Nenhum conjunto criado, crie algum!");
     }else if(chave == 0){
@@ -130,6 +214,7 @@ int main()
     int cont = 0;
     int matriz[conjuntos][tamanho_conjunto] = {0};
     int arrEscolhido; // Variável muito usada em operações que usam um conjunto específico
+    int arrEscolhido2; // Variável usada em união e intersecçõa
     
     while(1){
     
@@ -173,10 +258,51 @@ int main()
                 
                 
             case 3:
-                break;
+                printf("Insira o índice do array para fazer a operacão (0 a 7): ");
+                scanf("%d", &arrEscolhido);
+                if(validaOperacao(cont, arrEscolhido)){
+                    cont = ExcluiConjunto(cont, arrEscolhido, matriz);
+                    break;
+                }else{
+                    break;
+                }
+                
+                
+                
             case 4:
+                printf("Insira o índice do PRIMEIRO conjunto para fazer a operacão (0 a 7): ");
+                scanf("%d", &arrEscolhido);
+                
+                if(validaOperacao(cont, arrEscolhido)){
+                    printf("Insira o índice do SEGUNDO conjunto para fazer a operacão (0 a 7): ");
+                    scanf("%d", &arrEscolhido2);
+                
+                    if(arrEscolhido == arrEscolhido2){
+                        printf("Os conjuntos não devem ser iguais.");
+                        
+                    }else if(validaOperacao(cont, arrEscolhido2)){
+                        cont = uniaoConjunto(cont, matriz[arrEscolhido], matriz[arrEscolhido2], matriz);
+                    }
+                }
                 break;
+            
+            
+            
             case 5:
+                printf("Insira o índice do PRIMEIRO conjunto para fazer a operacão (0 a 7): ");
+                scanf("%d", &arrEscolhido);
+                
+                if(validaOperacao(cont, arrEscolhido)){
+                    printf("Insira o índice do SEGUNDO conjunto para fazer a operacão (0 a 7): ");
+                    scanf("%d", &arrEscolhido2);
+                
+                    if(arrEscolhido == arrEscolhido2){
+                        printf("Os conjuntos não devem ser iguais.");
+                        
+                    }else if(validaOperacao(cont, arrEscolhido2)){
+                        cont = interConjunto(cont, matriz[arrEscolhido], matriz[arrEscolhido2], matriz);
+                    }
+                }
                 break;
                 
                 
@@ -220,8 +346,10 @@ int main()
                 break;
         }
         
-        printf("\nPressione ESPACO e ENTER para continuar...");
-        while(getchar() != ' ');
+        printf("\nPressione ENTER para continuar...");
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF);  // Limpa o buffer
+        while (getchar() != '\n');
         
         printf("\033[H\033[J"); // Limpa a tela
     }
