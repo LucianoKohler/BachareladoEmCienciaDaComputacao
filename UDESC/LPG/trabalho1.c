@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
-#define conjuntos 8
-#define tamanho_conjunto 10
+#define conjuntos 3 // N° de conjuntos +1
+#define tamanho_conjunto 8
 
 /* NOTAS IMPORTANTES
 
@@ -110,7 +110,7 @@ int ExcluiConjunto(int cont, int arrEscolhido, int matriz[][tamanho_conjunto]){
 }
 
 // OPERAÇÃO NÚMERO 4
-int uniaoConjunto(int cont, int arr1[], int arr2[], int matriz[][10]){
+int uniaoConjunto(int cont, int arr1[], int arr2[], int matriz[][tamanho_conjunto]){
     
     // Antes eu iria tratar o extrapolamento do array união usando a soma dos tamanho dos arrays, mas se houverem
     // valores repetidos, a união é possível mesmo com a soma dos tamanhos passando de 10, então mudei o approach
@@ -149,7 +149,7 @@ int uniaoConjunto(int cont, int arr1[], int arr2[], int matriz[][10]){
 }
 
 // OPERAÇÃO NÚMERO 5
-int interConjunto(int cont, int arr1[], int arr2[], int matriz[][10]){
+int interConjunto(int cont, int arr1[], int arr2[], int matriz[][tamanho_conjunto]){
     if(cont == conjuntos-1){
         printf("Erro: Não há espaço para criar o conjunto intersecção, exclua algum conjunto.\n");
     }else{
@@ -195,7 +195,7 @@ void mostraTodosConjuntos(int cont, int matriz[][tamanho_conjunto]){
     if(cont == 0){
         printf("Erro: Nenhum conjunto criado, crie algum!");
     }else{
-        printf("Temos %d conjuntos:\n", cont+1);
+        printf("Temos %d conjunto(s):\n", cont);
         for(int i = 0; i < cont; i++){
             mostraConjunto(i, matriz[i]);
         }
@@ -256,7 +256,7 @@ int main()
                 
                 
             case 2:
-                printf("Insira o índice do array para fazer a operacão (0 a 7): ");
+                printf("Insira o índice do array para fazer a operacão (0 a %d): ", conjuntos);
                 scanf("%d", &arrEscolhido);
                 
                 if(validaOperacao(cont, arrEscolhido)){
@@ -269,7 +269,7 @@ int main()
                 
                 
             case 3:
-                printf("Insira o índice do array para fazer a operacão (0 a 7): ");
+                printf("Insira o índice do array para fazer a operacão (0 a %d): ", conjuntos);
                 scanf("%d", &arrEscolhido);
                 if(validaOperacao(cont, arrEscolhido)){
                     cont = ExcluiConjunto(cont, arrEscolhido, matriz);
@@ -281,11 +281,11 @@ int main()
                 
                 
             case 4:
-                printf("Insira o índice do PRIMEIRO conjunto para fazer a operacão (0 a 7): ");
+                printf("Insira o índice do PRIMEIRO conjunto para fazer a operacão (0 a %d): ", conjuntos);
                 scanf("%d", &arrEscolhido);
                 
                 if(validaOperacao(cont, arrEscolhido)){
-                    printf("Insira o índice do SEGUNDO conjunto para fazer a operacão (0 a 7): ");
+                    printf("Insira o índice do SEGUNDO conjunto para fazer a operacão (0 a %d): ", conjuntos);
                     scanf("%d", &arrEscolhido2);
                 
                     if(arrEscolhido == arrEscolhido2){
@@ -300,11 +300,11 @@ int main()
             
             
             case 5:
-                printf("Insira o índice do PRIMEIRO conjunto para fazer a operacão (0 a 7): ");
+                printf("Insira o índice do PRIMEIRO conjunto para fazer a operacão (0 a %d): ", conjuntos);
                 scanf("%d", &arrEscolhido);
                 
                 if(validaOperacao(cont, arrEscolhido)){
-                    printf("Insira o índice do SEGUNDO conjunto para fazer a operacão (0 a 7): ");
+                    printf("Insira o índice do SEGUNDO conjunto para fazer a operacão (0 a %d): ", conjuntos);
                     scanf("%d", &arrEscolhido2);
                 
                     if(arrEscolhido == arrEscolhido2){
@@ -319,7 +319,7 @@ int main()
                 
                 
             case 6:
-                printf("Insira o índice do array para fazer a operacão (0 a 7): ");
+                printf("Insira o índice do array para fazer a operacão (0 a %d): ", conjuntos);
                 scanf("%d", &arrEscolhido);
                 if(validaOperacao(cont, arrEscolhido)){
                     mostraConjunto(cont, matriz[arrEscolhido]);
