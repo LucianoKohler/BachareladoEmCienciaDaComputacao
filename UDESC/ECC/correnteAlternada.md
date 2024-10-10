@@ -20,7 +20,8 @@ Remete à sinais analógicos e irá variar igual à um gráfico ed uma função 
 - V(t) = v(t+T)
 - F = 1/T
 - w = 2pi/T
-
+- transformando capacitor para o sistema de fasores:
+- Xc = 1/jwc
 ## Defasagem
 
 Como sabemos, o gráfico de uma CA segue o padrão de uma senóide, mas essa senóide pode ser deslocada para esquerda ou para direita, para realizar isso, é necessário somar o nosso ø ao seno da função
@@ -68,3 +69,14 @@ Como devemos tratar as defasagens como vetores, não podemos apenas somá-los, m
 (43,09 + j20,64)^1/2 * ang(θ)
 
 *Sendo θ procurada pelo gráfico do fasor com X = 43,09 e Y = 20,64
+
+## Multiplicação/divisão de fasores
+
+Aqui pode fazer tudo normalmente kkkkk, é só multiplicar/dividir os numerais inteiros e somar/subtrair os ângulos 
+
+(2ang(90°) * 5ang(30°))/10ang(10°)
+
+Separar os números 
+- (2 * 5)/ 10 = 1
+- 90° + 30° - 10° = 110°
+- = 1ang(110°)

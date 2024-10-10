@@ -8,3 +8,6 @@
 - Material dielétrico = isolante
 - Um fasor sempre irá defasar em 90° a tensão da corrente
 - O inverso de um número imaginário trocará seu sinal já que j*j = -1 
+- Se:
+  - X < 0, o circuito é capacitivo
+  - X > 0, o circuito é indutivo
