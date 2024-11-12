@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
-#define conjuntos 3 // N° de conjuntos +1
-#define tamanho_conjunto 8
+#define conjuntos 8 // N° de conjuntos +1
+#define tamanho_conjunto 10
 
 /* NOTAS IMPORTANTES
 
@@ -136,14 +136,15 @@ int uniaoConjunto(int cont, int arr1[], int arr2[], int matriz[][tamanho_conjunt
                 j++;
             }
             
-            if(j > 10){
-                zeraConjunto(matriz[cont]);
-                printf("Erro: A união dos conjuntos extrapola o tamanho máximo do conjunto.\n");
-            }
         }
-        
-        cont++;
-        printf("Conjunto união criado com sucesso!\n");
+        if(j > tamanho_conjunto){
+            zeraConjunto(matriz[cont]);
+            printf("Erro: A união dos conjuntos extrapola o tamanho máximo do conjunto.\n");
+        }else{
+            cont++;
+            printf("Conjunto união criado com sucesso!\n");
+
+        }
     }
     return cont;
 }

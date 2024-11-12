@@ -13,7 +13,7 @@ int main()
     p[0] = 0;
     *(p+0) = 0;
     
-    printf("%d\n", *p); // 12
+    printf("%d\n", *p); // 0
     
     printf("%p\n", *pp); // Endereço da memória de p
     
