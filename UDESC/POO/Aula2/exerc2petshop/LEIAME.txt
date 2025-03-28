@@ -1,0 +1,1 @@
+Boa tarde professor, enviei o exercício 2 como o senhor fez em aula, tentei seguir o slide porém recebi inúmeros erros que não encontrei solução, principalmente envolvendo o uso da keyword "static", então estarei eviando apenas o que o professor nos guiou durante a aula.

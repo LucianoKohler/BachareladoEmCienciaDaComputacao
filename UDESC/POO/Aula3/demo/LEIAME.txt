@@ -1,0 +1,6 @@
+Boa tarde professor, o projeto está praticamente pronto:
+- cadastrando clientes
+- cadastrando cidades
+- criando reservas
+
+porém ainda não implementei a feature de ida e volta dentro das reservas, mas de resto, fazer esse projeto foi show de bola
