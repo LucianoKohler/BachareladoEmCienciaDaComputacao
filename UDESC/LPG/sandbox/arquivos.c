@@ -1,10 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
-#define N 20
 
 int main(){
-  FILE *f = fopen("teste.txt", "wt"); // Write, Text
+  FILE *f = fopen("texto.txt", "wt"); // Write, Text
   /*
   w - write (apaga e escreve do 0)
   r - read
@@ -13,12 +11,17 @@ int main(){
   b - binario
   */
 
-  int i;
-  srand(time(0));
-  for(int i = 1; i <= N; i++){
-    int x = rand() % 1000 + 1; // 1 a 1000
-    fprintf(f, "%d\n", x); // Arquivo, formato do print, variavel
-  }
+    // Criando e inserindo
+	fprintf(f, "teste");
 
-  fclose(f);
+	fclose(f);
+
+    // Abrindo, extraindo uma str e printando
+	f = fopen("texto.txt", "rt");
+	
+	char str[10];
+	fscanf(f, "%s", str);
+
+	printf("%s", str);
+	fclose(f);
 }
