@@ -46,7 +46,7 @@ public class Imovel {
     String str = "";
     str += "Largura: " + largura + "\n";
     str += "Comprimento: " + comprimento + "\n";
-    str += "Preço: " + preco + "\n";
+    str += "Preço: R$" + preco + "\n";
 
     return str;
   }

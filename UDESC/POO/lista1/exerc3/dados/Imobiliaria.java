@@ -24,6 +24,7 @@ public class Imobiliaria {
   public Imovel[] getImoveis() {
     return imoveis;
   }
+
   public void adicionarImovel(Imovel imovel) {
     if(quantImoveis < imoveis.length) {
       imoveis[quantImoveis] = imovel;
@@ -52,9 +53,9 @@ public class Imobiliaria {
           if(imoveis[j].getPreco() > imoveis[i].getPreco()){
             Imovel aux = this.imoveis[j];
             this.imoveis[j] = this.imoveis[i];
-            this.imoveis[i] = aux;          }
+            this.imoveis[i] = aux;          
+          }
         }
-
       }
   }
 

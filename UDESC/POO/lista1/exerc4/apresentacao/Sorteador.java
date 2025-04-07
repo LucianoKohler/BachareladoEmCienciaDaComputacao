@@ -1,39 +1,41 @@
 package apresentacao;
 
 import dados.Pessoa;
+import java.util.ArrayList;
 
 public class Sorteador {
 
-  public int sortearProximo(Pessoa[] pessoas, int quantPessoas) {
-    if (quantPessoas == 0) { return quantPessoas; }
+  public Pessoa sortearProximo(ArrayList<Pessoa> pessoas) {
+    if (pessoas.size() == 0) { return null; }
 
-    int i = (int) (Math.random() * 5); // gera entre 0 e 4
+    int i = (int) (Math.random() * (pessoas.size())); // gera entre 0 e n, sendo n o número de pessoas
 
-    if (pessoas[i] != null) { // Pessoas já geradas se tornam null
-      System.out.println("A pessoa sorteada foi: " + pessoas[i].getNome());
-      pessoas[i] = null;
-      quantPessoas--;
-    } else {
-        // Tenta de novo recursivamente
-        return sortearProximo(pessoas, quantPessoas);
-    }
-
-    return quantPessoas;
+    Pessoa sorteada = pessoas.get(i);
+    pessoas.remove(i);
+    return sorteada;
 }
   public static void main(String[] args){
-    Pessoa pessoas[] = new Pessoa[5];
-    int quantPessoas = 5;
+    ArrayList<Pessoa> pessoas = new ArrayList<Pessoa>();
 
-    pessoas[0] = new Pessoa("Jonas", 20);
-    pessoas[1] = new Pessoa("Maria", 25);
-    pessoas[3] = new Pessoa("Ana", 35);
-    pessoas[2] = new Pessoa("Pedro", 30);
-    pessoas[4] = new Pessoa("Lucas", 40);
+    pessoas.add(new Pessoa("Jonas", 20));
+    pessoas.add(new Pessoa("Maria", 25));
+    pessoas.add(new Pessoa("Ana", 35));
+    pessoas.add(new Pessoa("Pedro", 30));
+    pessoas.add(new Pessoa("Lucas", 40));
 
-    Sorteador sorteador = new Sorteador();
+    Pessoa p = null;
+    Sorteador s = new Sorteador();
     System.out.println("Sorteando pessoas: ");
-    while(quantPessoas > 0){
-      quantPessoas = sorteador.sortearProximo(pessoas, quantPessoas);
+    
+    while (true) {
+      p = s.sortearProximo(pessoas);
+      if (p != null) {
+        System.out.println(p.toString());
+      }else {
+        break;
+      }
     }
+
+    System.out.println("Sorteio finalizado");
   }
 }

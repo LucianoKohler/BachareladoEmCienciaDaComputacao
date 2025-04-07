@@ -26,12 +26,10 @@ public class Main {
   
 
     System.out.println("======================================\n");
-    System.out.println("MOSTRANDO IMOVEIS ACIMA DE 500M², ORDENADOS POR PRECO:");
-
+    
     // Filtrando por apenas imoveis acima de Xm²
-    float area = 500; // Mude-me
+    float area = 500; // ****** Mude-me ******
+    System.out.printf("MOSTRANDO IMOVEIS ACIMA DE %.2fM², ORDENADOS POR PRECO:\n", area);
     System.out.println(jonasImobiliaria.filtrarPorArea(area));
-
   }
-  
 }
