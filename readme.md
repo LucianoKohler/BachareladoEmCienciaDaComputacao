@@ -16,3 +16,19 @@ Antigamente, estudava no SENAC, porém só vou atualizar a pasta da UDESC pois n
 E-mail pra contato: lucianokohlerdasilva@gmail.com
 
 Valeu falou! 👋👋
+
+# Destaques de projetos semestrais da UDESC
+
+* ## 1° Semestre:
+  - ```Haskell```: [Separador e ordenador de textos por meio da estrutura de dados de árvore](https://github.com/LucianoKohler/notas/blob/master/UDESC/PFN/Exerc4Tree/listaExerc4.hs)
+* ## 2° Semestre:
+  - ```C```: [Sistema de escrita, leitura e geração de informações formatadas em aquivos .txt](https://github.com/LucianoKohler/notas/blob/master/UDESC/LPG/trabalho2/trabalho2.c)
+
+* ## 3° Semestre:
+  - ```Java```: [Sistema bancário de contas corrente e salário](https://github.com/LucianoKohler/notas/tree/master/UDESC/POO/Aula4/SistemaBanco)
+* ## 4° Semestre:
+* ## 5° Semestre:
+* ## 6° Semestre:
+* ## 7° Semestre:
+* ## 8° Semestre:
+* ## 9° Semestre:
