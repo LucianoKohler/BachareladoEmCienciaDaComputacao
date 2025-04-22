@@ -32,3 +32,28 @@ Crie um programa em Java que possui as classes Equipe, Aluno e Turma. A Turma po
 2. Adicione eles na turma
 3. Separe-os com o método ```separarEmEquipes()```
 4. Exibir as equipes, seus membros e a média de cada um
+
+# Exercício 5
+Crie um algoritmo em Python que seja capaz de ler um ```.json``` e transformá-lo em um ou vários objetos do tipo Filme. Cada Filme possui um **titulo**, **ano**, **classificação indicativa** e **nota** dos usuários. O programa deve ser capaz de listar todos os filmes do arquivo ```.json``` e ordená-los por nota. Na classe Filme deve haver um método que dado um pedaço de ```.json``` recebido como parâmetro, que represente um Filme, atribua os valores do ```.json``` aos atributos do objeto. O algoritmo deve ser capaz de receber os dados na forma descrita a seguir:
+
+```JSON
+[
+{
+  "titulo": "A Rainy Day in New York",
+  "ano": 2019,
+  "classificacao": "PG-13",
+  "nota": 6.6
+},
+{
+  "titulo": "Jurassic World: Fallen Kingdom",
+  "ano": 2018,
+  "classificacao": "PG-13",
+  "nota": 6.2
+},
+...
+]
+```
+
+*Nota: Veja como utilizar a biblioteca JSON para converter uma string em um dicionário*
+
+Os dados foram retirados do dataset Complete [IMDB Movies Dataset](https://www.kaggle.com/datasets/gorochu/complete-imdb-movies-dataset) e adaptadas as tags para o português de forma a tornar o exemplo mais didático. Caso deseje, utilize o arquivo.json original e transforme-o para um objeto
