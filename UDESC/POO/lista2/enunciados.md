@@ -21,3 +21,14 @@ Crie a classe Matriz&lt;T>, ela deve possuir como atributos a ordem da matriz e 
 Utilizando a classe criada no exemplo anterior, crie um programa em Java que leia do console uma matriz 5 × 5, até que o usuário digite -1 e exiba no console o **menor elemento presente na matriz**. Para encontrar o menor elemento, o programa deve encontrar o menor elemento dos quadrantes e exibir o menor deles.
 
 ***NOTA DO ALUNO:*** Como o professor pede para encontrar o menor valor da matriz no exercício 3, entende-se que a matriz conterá valores numéricos, então ao invés de utilizar tipos genéricos **T**, utilizei **Integers** no lugar.
+
+# Exercício 4:
+Crie um programa em Java que possui as classes Equipe, Aluno e Turma. A Turma possui uma lista de Alunos, estes com nome, idade e cinco notas. A classe Turma possui um método para adicionar novos alunos e um método privado ```ordenarAlunosPorMedia()```, esse método deve rearranjar a lista em ordem crescente de média. Além disso, a classe Turma deve possuir o método ```separarEmEquipes()```, que retorna uma lista de equipes contendo 3 ou 4 alunos.
+
+*Nota: Estes agrupados levando em consideração a média. Agrupe os alunos pegando um ou dois elementos do começo da lista ordenada por média e um ou dois alunos do final da lista.*
+
+### Após isso, faça com que o programa:
+1. Leia os alunos
+2. Adicione eles na turma
+3. Separe-os com o método ```separarEmEquipes()```
+4. Exibir as equipes, seus membros e a média de cada um
