@@ -1,0 +1,2 @@
+# Ignorar a pasta que o pyCharm chama toda vez que abro um projeto
+.idea/
