@@ -1,15 +1,15 @@
 package dados;
 import java.util.ArrayList;
 
-public class Equipe {
+public class Equipe<T> {
   // Limite máximo de alunos por equipe: 4
   private String nome;
-  private ArrayList<Aluno> alunos;
+  private ArrayList<T> alunos;
 
   // Construtor
   public Equipe(String nome) {
     this.nome = nome;
-    this.alunos = new ArrayList<Aluno>();
+    this.alunos = new ArrayList<T>();
   }
 
   // Gets e Sets
@@ -20,7 +20,7 @@ public class Equipe {
     this.nome = nome;
   }
 
-  public boolean adicionarAluno(Aluno aluno) {
+  public boolean adicionarAluno(T aluno) {
     if (alunos.size() < 4) {
       alunos.add(aluno);
       return true;

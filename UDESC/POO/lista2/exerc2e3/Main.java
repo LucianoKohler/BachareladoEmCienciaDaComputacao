@@ -25,19 +25,19 @@ public class Main {
 
     // Mostrando os quadrantes da matriz
     System.out.println("Valores no primeiro quadrante:");
-    ArrayList<Integer> primQuad = m.getElementosQuadrante(Quadrante.PRIMEIRO);
+    ArrayList<Object> primQuad = m.getElementosQuadrante(Quadrante.PRIMEIRO);
     primQuad.forEach((num) -> {System.out.print(num + " ");});
 
     System.out.println("\nValores no segundo quadrante:");
-    ArrayList<Integer> segunQuad = m.getElementosQuadrante(Quadrante.SEGUNDO);
+    ArrayList<Object> segunQuad = m.getElementosQuadrante(Quadrante.SEGUNDO);
     segunQuad.forEach((num) -> {System.out.print(num + " ");});
     
     System.out.println("\nValores no terceiro quadrante:");
-    ArrayList<Integer> tercQuad = m.getElementosQuadrante(Quadrante.TERCEIRO);
+    ArrayList<Object> tercQuad = m.getElementosQuadrante(Quadrante.TERCEIRO);
     tercQuad.forEach((num) -> {System.out.print(num + " ");});
     
     System.out.println("\nValores no quarto quadrante:");
-    ArrayList<Integer> quarQuad = m.getElementosQuadrante(Quadrante.QUARTO);
+    ArrayList<Object> quarQuad = m.getElementosQuadrante(Quadrante.QUARTO);
     quarQuad.forEach((num) -> {System.out.print(num + " ");});
 
     // Mostrando o menor e maior valor da matriz:

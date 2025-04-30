@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 
-public class Matriz {
+public class Matriz<T> {
   private int n; // N° de linhas
   private int m; // N° de colunas
-  private ArrayList<ArrayList<Integer>> matriz;
+  private ArrayList<ArrayList<Object>> matriz;
 
   // Construtor
   public Matriz(int n, int m) {
@@ -11,7 +11,7 @@ public class Matriz {
     this.m = m;
     matriz = new ArrayList<>();
     for (int i = 0; i < n; i++) {
-      ArrayList<Integer> linha = new ArrayList<>();
+      ArrayList<Object> linha = new ArrayList<>();
       for (int j = 0; j < m; j++) {
         linha.add(0);
       }
@@ -19,7 +19,7 @@ public class Matriz {
     }
   }
 
-  public int get(int li, int col){
+  public Object get(int li, int col){
     if(li > n || col > m || li < 0 || col < 0){
       System.out.println("Índices fora dos limites");
       return 0;
@@ -38,7 +38,7 @@ public class Matriz {
     }
   }
   
-  public ArrayList<Integer> getLinha(int li){
+  public ArrayList<Object> getLinha(int li){
     if(li > n || li < 0){
       System.out.println("Índices fora dos limites");
       return null;
@@ -47,12 +47,12 @@ public class Matriz {
     }
   }
 
-  public ArrayList<Integer> getColuna(int col){
+  public ArrayList<Object> getColuna(int col){
     if(col > m || col < 0){
       System.out.println("Índices fora dos limites");
       return null;
     }else{
-      ArrayList<Integer> coluna = new ArrayList<>();
+      ArrayList<Object> coluna = new ArrayList<>();
       for(int i = 0; i < n; i++){
         coluna.add(matriz.get(i).get(col-1)); // Contando de 0 a 4, logo a 1° coluna é a 0°
       }
@@ -60,7 +60,7 @@ public class Matriz {
     }
   }
 
-  public ArrayList<Integer> getElementosQuadrante(Quadrante quadrante){
+  public ArrayList<Object> getElementosQuadrante(Quadrante quadrante){
     // Definindo dimensões a se procurar os elementos
     int startLi;
     int endLi;
@@ -104,7 +104,7 @@ public class Matriz {
     }
 
     // Criando e preenchendo o arrayList:
-    ArrayList<Integer> quad = new ArrayList<>();
+    ArrayList<Object> quad = new ArrayList<>();
 
     for(int i = startLi; i < endLi; i++){
       for(int j = startCol; j < endCol; j++){
@@ -127,24 +127,26 @@ public class Matriz {
   }
 
   // Métodos utilizados no exercício 3:
-  public int menorValor(){
-    int menor = Integer.MAX_VALUE;
+  public Object menorValor(){
+    Double menor = Double.MAX_VALUE;
     for(int i = 0; i < n; i++){
       for(int j = 0; j < m; j++){
-        if(this.get(i, j) < menor){
-          menor = this.get(i, j);
+        Double valor = (Double) this.get(i, j);
+        if(valor < menor){
+          menor = valor;
         }
       }
     }
     return menor;
   }
 
-  public int maiorValor(){
-    int maior = Integer.MIN_VALUE;
+  public Object maiorValor(){
+    Double maior = Double.MIN_VALUE;
     for(int i = 0; i < n; i++){
       for(int j = 0; j < m; j++){
-        if(this.get(i, j) > maior){
-          maior = this.get(i, j);
+        Double valor = (Double) this.get(i, j);
+        if(valor > maior){
+          maior = valor;
         }
       }
     }
