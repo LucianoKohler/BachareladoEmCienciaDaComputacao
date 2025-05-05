@@ -24,10 +24,10 @@ public class Pessoa {
     return this.peso / (this.altura * this.altura);
   }
 
-  public boolean equals(Pessoa outra) {
-    if (outra == null) return false;
-    if (this.nome.equals(outra.getNome()) && this.idade == outra.getIdade() &&
-        this.altura == outra.getAltura() && this.peso == outra.getPeso()) {
+  @Override
+  public boolean equals (Object o) {
+    Pessoa p = (Pessoa)(o);
+    if(p.getNome() == this.getNome()) {
       return true;
     }
     return false;
