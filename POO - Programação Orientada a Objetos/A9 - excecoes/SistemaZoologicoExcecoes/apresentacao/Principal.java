@@ -3,7 +3,8 @@ package apresentacao;
 import java.util.Scanner;
 
 import dados.*;
-import negocio.SistemaZoologico;
+import exceptions.EspacoIndisponivelException;
+import negocio.*;
 
 public class Principal {
   private static SistemaZoologico s = new SistemaZoologico();
@@ -120,11 +121,15 @@ public class Principal {
     return s.getAnimais()[i-1];
   }
 
-  public static void alocarAnimal(){
+  public static void alocarAnimal() {
     Animal animal = escolherAnimal();
     Viveiro viveiro = escolherViveiro();
 
-    s.alocarAnimal(viveiro, animal);
+    try{
+      s.alocarAnimal(viveiro, animal);
+    } catch (EspacoIndisponivelException e){
+      System.out.println(e.getMessage());
+    }
   }
 
   public static void mostrarAnimaisEmUmViveiro(){

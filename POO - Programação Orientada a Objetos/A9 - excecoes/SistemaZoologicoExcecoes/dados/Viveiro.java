@@ -1,5 +1,7 @@
 package dados;
 
+import exceptions.EspacoIndisponivelException;
+
 public class Viveiro {
   protected String nome;
   protected float comprimento;
@@ -55,7 +57,7 @@ public class Viveiro {
     return this.calculaEspaco() - this.espacoOcupado();
   }
 
-  public boolean adicionarAnimal(Animal animal){
+  public boolean adicionarAnimal(Animal animal) throws EspacoIndisponivelException{
     // Os animais apenas podem ser alocados no viveiro se a área disponível no for maior que 70% da área do animal. 
     if(this.espacoDisponivel() >= animal.calculaEspacoOcupado()*0.7){
       this.animais[qtdAnimais] = animal;
@@ -63,8 +65,7 @@ public class Viveiro {
       System.out.println("Animal alocado com sucesso.");
       return true;
     } else {
-      System.out.println("Não há espaço suficiente para alocar o animal.");
-      return false;
+      throw new EspacoIndisponivelException();
     }
   }
 

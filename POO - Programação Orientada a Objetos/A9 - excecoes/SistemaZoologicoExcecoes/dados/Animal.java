@@ -1,6 +1,5 @@
 package dados;
 
-
 public class Animal {
   private String nome;
   private String cor;

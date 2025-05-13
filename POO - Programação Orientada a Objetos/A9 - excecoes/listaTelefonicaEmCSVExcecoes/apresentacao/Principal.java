@@ -4,10 +4,7 @@ import java.util.Scanner;
 import java.util.List;
 import java.util.Map;
 import dados.Contato;
-import exceptions.ContatoJaCadastradoException;
-import exceptions.ContatoNaoCadastradoException;
-import exceptions.ErroNaGravacaoException;
-import exceptions.ErroNaLeituraException;
+import exceptions.*;
 import negocio.ListaTelefonica;
 
 public class Principal {

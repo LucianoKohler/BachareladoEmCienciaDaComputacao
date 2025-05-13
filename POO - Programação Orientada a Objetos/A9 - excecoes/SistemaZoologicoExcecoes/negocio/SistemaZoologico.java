@@ -1,5 +1,6 @@
 package negocio;
 
+import exceptions.EspacoIndisponivelException;
 import dados.*;
 
 public class SistemaZoologico {
@@ -42,13 +43,13 @@ public class SistemaZoologico {
     }
   }
 
-  public void alocarAnimal(Viveiro viveiro, Animal animal){
+  public void alocarAnimal(Viveiro viveiro, Animal animal) throws EspacoIndisponivelException{
     if(viveiro instanceof Aquario && animal instanceof Peixe){
       viveiro.adicionarAnimal(animal);
     }else if(!(viveiro instanceof Aquario) && !(animal instanceof Peixe)){
       viveiro.adicionarAnimal(animal);
     }else{
-      System.out.println("Não é possível alocar o animal no viveiro/aquário.");
+      throw new EspacoIndisponivelException();
     }
   }
 
