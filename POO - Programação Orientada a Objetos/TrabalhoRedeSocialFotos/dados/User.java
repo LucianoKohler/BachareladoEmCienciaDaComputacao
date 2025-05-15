@@ -1,0 +1,88 @@
+package dados;
+
+import java.util.ArrayList;
+
+public class User {
+  private int ID;
+  private String username;
+  private String senha;
+  private String nomeCompleto;
+  private String biografia;
+  private ArrayList<Post> posts;
+  private ArrayList<Post> favoritos;
+  private ArrayList<User> seguidores;
+  private ArrayList<User> seguindo;
+
+  // Construtor
+  public User(int ID, String username, String senha, String nomeCompleto, String biografia){
+    this.ID = ID;
+    this.username = username;
+    this.senha = senha;
+    this.nomeCompleto = nomeCompleto;
+    this.biografia = biografia;
+    this.posts = new ArrayList<Post>();
+    this.favoritos = new ArrayList<Post>();
+    this.seguidores = new ArrayList<User>();
+    this.seguindo = new ArrayList<User>();
+  }
+
+  // Gets
+  public int getID() {
+    return ID;
+  }
+  public String getUsername() {
+    return username;
+  }
+  public String getSenha() {
+    return senha;
+  }
+  public String getNomeCompleto() {
+    return nomeCompleto;
+  }
+  public String getBiografia() {
+    return biografia;
+  }
+  public ArrayList<Post> getPosts() {
+    return posts;
+  }
+  public ArrayList<Post> getFavoritos() {
+    return favoritos;
+  }
+  public ArrayList<User> verSeguidores() {
+    return seguidores;
+  }
+  public ArrayList<User> verSeguindo() {
+    return seguindo;
+  }
+
+  // Sets
+  public void mudarUsername(String username) {
+    this.username = username;
+  }
+  public void mudarSenha(String senha) {
+    this.senha = senha;
+  }
+  public void mudarNomeCompleto(String nomeCompleto) {
+    this.nomeCompleto = nomeCompleto;
+  }
+  public void mudarBiografia(String biografia) {
+    this.biografia = biografia;
+  }
+
+  // Outros métodos
+  public void follow(User u){ this.seguindo.add(u); } // ID ??
+
+  public void novoSeguidor(User u){ this.seguidores.add(u); } // ID ??
+
+  public void unfollow(User u){ this.seguindo.remove(u); } // ID ??
+
+  public void removerSeguidor(User u){ this.seguidores.remove(u); } // ID ??
+  
+  public void postar(Post p){ this.posts.add(p); } // ID ??
+
+  public void deletarPost(Post p){ this.posts.remove(p); } // ID ??
+
+  public void favoritarPost(Post p){ this.favoritos.add(p); } // ID ??
+
+  public void desFavoritarPost(Post p){ this.favoritos.remove(p); } // ID ??
+}
