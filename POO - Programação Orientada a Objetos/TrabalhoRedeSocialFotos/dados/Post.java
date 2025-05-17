@@ -48,6 +48,6 @@ public class Post {
   }
 
   public String toString(){
-    return "Post n° " + ID + ":\n Caminho da imagem: " + img + "\n Legenda do post: " + legenda + "\n";
+    return "\nPost n° " + ID + ":\n Caminho da imagem: " + img + "\n Legenda do post: " + legenda + "\n";
   }
 }

@@ -46,9 +46,22 @@ public class Sistema {
   }
 
   public boolean deletarUser(User u){
+    // Deixando de seguir todos os seus seguindos:
+    for(User userSeguindo : u.verSeguindo()){ 
+      u.unfollow(userSeguindo);
+    }
+
+    // Removendo ele da lista de seguidores dos outros
+    for(User seguidor : u.verSeguidores()){
+      seguidor.unfollow(u);
+    }
+
+    // Apagando cada post dele
+    for(Post p : u.getPosts()){
+      // Remove o post dos favoritos dos usuários
+      deletarPost(p);
+    }
     return users.remove(u);
-    // Se eu remover o user, ele é removido das listas dos outros seguidores e dos favoritados de um post?
-    // A função já retorna se o valor foi encontrado no banco
   }
 
   public void criarPost(User u, Post p){
@@ -60,13 +73,19 @@ public class Sistema {
 
   public void deletarPost(Post p){
     p.getDonoPost().deletarPost(p);
+    // Cria uma cópia da lista para evitar ConcurrentModificationException
+    ArrayList<User> listaFavoritadores = new ArrayList<>(p.getFavoritadores());
+    for(User userFavoritador : listaFavoritadores){
+      desFavoritarPost(userFavoritador, p);
+    }
     posts.remove(p);
   }
 
   public ArrayList<Post> verPostsDisponiveis(User u){
     ArrayList<Post> postsVisiveis = new ArrayList<Post>();
     for(Post post : posts){
-      if(post.getDonoPost().verSeguidores().contains(u)){
+      if(post.getDonoPost().verSeguidores().contains(u) || post.getDonoPost().equals(u)){
+        // Se você segue o dono do post OU o post é seu
         postsVisiveis.add(post);
       }
     }
@@ -134,15 +153,15 @@ public class Sistema {
     }
   }
 
-  public boolean desFavoritarPost(User u, Post p){
-    boolean a = p.removerFavoritador(u);
-    boolean b = u.desFavoritarPost(p);
-    return (a && b);
+  public void desFavoritarPost(User u, Post p){
+    p.removerFavoritador(u);
+    u.desFavoritarPost(p);
   }
 
   public ArrayList<User> verSeguidoresDeUmUser(User u){
     return u.verSeguidores();
   }
+  
   public ArrayList<User> verSeguindoDeUmUser(User u){
     return u.verSeguindo();
   }

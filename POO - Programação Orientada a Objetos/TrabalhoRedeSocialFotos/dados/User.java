@@ -90,6 +90,19 @@ public class User {
   public boolean desFavoritarPost(Post p){ return this.favoritos.remove(p); } // ID ??
 
   public String toString(){
-    return "Usuário N° " + ID + "\n username: " + username + "\n Nome Completo: " + nomeCompleto + "\n";
+    return "Usuário N° " + ID + "\n Username: " + username + "\n Nome Completo: " + nomeCompleto + "\n";
+  }
+
+  public String toStringCompleto(){
+    String str = "";
+    str +=  "Usuário N° " + ID;
+    str += "\n Username: " + username;
+    str += "\n Senha: " + senha;
+    str += "\n Nome Completo: " + nomeCompleto;
+    str += "\n Biografia: " + biografia;
+    str += "\n Seguidores: " + seguidores.size();
+    str += "\n Seguindo: " + seguindo.size();
+
+    return str;
   }
 }

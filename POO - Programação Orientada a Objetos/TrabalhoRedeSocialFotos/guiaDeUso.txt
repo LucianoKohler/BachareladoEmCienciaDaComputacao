@@ -1,0 +1,24 @@
+Como existem múltiplas funcionalidades no software, criei este documento para servir como um "roteiro" ou "tour" para passar por todas as funcionalidades do código.
+
+DÚVIDAS: 
+1. Devo ver meus próprios posts no feed?
+
+ROTEIRO: 
+1. Cadastrar uma conta própria (existem 3 contas falsas para já terem dados, cada uma com 3 posts)
+2. Já fazer logout e fazer login com a conta própria
+3. Ver posts no seu feed (aparecerão apenas os seus posts pois você não segue ninguém)
+4. Postar algo
+5. Ver seus próprios posts
+6. Apagar seu post recém-criado
+7. Seguir um usuário
+8. Ver o feed (com os novos posts do usuário que você seguiu)
+9. Favoritar uns posts do seu novo seguindo
+10. Ver posts favoritos
+11. Remover um post dos favoritos
+12. Sair da conta e entrar em outra conta (a que você seguiu)
+13. Ver perfil
+14. Mudar uma credencial do perfil
+15. Deletar conta
+16. Logar novamente na conta criada
+17. Ver que você não segue mais o usuário que foi deletado e que não há mais o post favorito (pois foi deletado)
+18. 0 para sair do programa	

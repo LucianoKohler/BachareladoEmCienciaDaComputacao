@@ -52,11 +52,15 @@ public class Main {
 
   public void imprimeMenuGuest(){
     System.out.println("Não há uma conta logada, gostaria de logar em uma conta ou se cadastrar no software?");
+    System.out.println("0. Sair do programa");
     System.out.println("1. Cadastro");
     System.out.println("2. Login");
     System.out.print("Sua escolha: ");
     int escolha = Integer.parseInt(scanner.nextLine());
     switch (escolha) {
+      case 0:
+        System.exit(0);
+        break;
       case 1:
         cadastrarUser();
         break;
@@ -82,9 +86,9 @@ public class Main {
       System.out.println("4. Ver seus seguidores");
       System.out.println("5. Ver/deixar de seguir quem você segue");
       System.out.println("6. Seguir um usuário");
-      System.out.println("7. Mudar credenciais do perfil");
-      System.out.println("8. Ver/desfavoritar posts favoritos");
-      System.out.println("9. ver perfil");
+      System.out.println("7. Ver/desfavoritar posts favoritos");
+      System.out.println("8. ver/mudar perfil");
+      System.out.println("9. logout");
       System.out.println("10. Apagar conta");
       System.out.print("Sua escolha: ");
     }
@@ -102,19 +106,25 @@ public class Main {
     System.out.println("Postado com sucesso");
   }
 
+  public void deletarPost(Post p){
+    s.deletarPost(p);
+  }
+
   public void verProximoPostDisponivel(int qtdPostsVistos){
     ArrayList<Post> posts = s.verPostsDisponiveis(userLogado);
     if (posts.isEmpty()){
       System.out.println("Não há posts disponíveis no momento");
     }else{
-        if(qtdPostsVistos > posts.size()){
+        if(qtdPostsVistos >= posts.size()){
           System.out.println("Acabaram os posts do seu feed, voltando ao menu principal...");
           return;
         }
 
         Post post = posts.get(qtdPostsVistos);
-        qtdPostsVistos++;
         System.out.println(post.toString());
+
+        if(post.getDonoPost() == userLogado){ System.out.println("Nota: Esse post é seu!"); }
+        System.out.println();
         System.out.println("O que fazer agora?");
         System.out.println("1. Ver o próximo post");
         System.out.println("2. Voltar para o menu");
@@ -131,20 +141,50 @@ public class Main {
             
           case 3:
             favoritarPost(post);
+            System.out.println("Indo para o próximo post: ");
+            verProximoPostDisponivel(qtdPostsVistos+1);
+
           default:
             break;
         }
     }
   }
 
-  public void verPostsDeUmUser(){
+  public void verPropriosPosts(int qtdPostsPropriosVistos){
     ArrayList<Post> posts = s.verPostsDeUmUser(userLogado);
-    if(posts.isEmpty()){
-      System.out.println("Você ainda não posto nada");
+    if (posts.isEmpty()){
+      System.out.println("Você ainda não postou nada.");
     }else{
-      for(Post post : posts){
+        if(qtdPostsPropriosVistos >= posts.size()){
+          System.out.println("Acabaram os seus posts, voltando ao menu principal...");
+          return;
+        }
+
+        Post post = posts.get(qtdPostsPropriosVistos);
         System.out.println(post.toString());
-      }
+        
+        System.out.println("O que fazer agora?");
+        System.out.println("1. Ver o próximo post");
+        System.out.println("2. Voltar para o menu");
+        System.out.println("3. Deletar post");
+        System.out.print("Sua escolha: ");
+        int escolha = Integer.parseInt(scanner.nextLine());
+        switch (escolha) {
+          case 1:
+            verPropriosPosts(qtdPostsPropriosVistos+1);
+            break;
+
+          case 2:
+            return;
+            
+          case 3:
+            deletarPost(post);
+            System.out.println("Indo para o próximo post: ");
+            verPropriosPosts(qtdPostsPropriosVistos);
+            // Sem incrementar 1 pois a lista também perdeu 1 elemento
+          default:
+            break;
+        }
     }
   }
 
@@ -159,26 +199,50 @@ public class Main {
     }
   }
 
-  public void verSeguindoDeUmUser(){
+  public void verSeguindoDeUmUser(int qtdSeguindoVistos){
     ArrayList<User> seguindos = s.verSeguindoDeUmUser(userLogado);
     if(seguindos.isEmpty()){
       System.out.println("Você não segue ninguém");
     }else{
-      for(User seguindo : seguindos){
-        System.out.println(seguindo.toString());
+      
+      User user = seguindos.get(qtdSeguindoVistos);
+      System.out.println(user.toString());
+      System.out.println("O que fazer agora?");
+      System.out.println("1. Ver o próximo user que você segue");
+      System.out.println("2. Voltar para o menu");
+      System.out.println("3. Deixar de seguir este user");
+      System.out.print("Sua escolha: ");
+      int escolha = Integer.parseInt(scanner.nextLine());
+      switch (escolha) {
+        case 1:
+          verSeguindoDeUmUser(qtdSeguindoVistos+1);
+        break;
+        
+        case 2:
+        return;
+        
+        case 3:
+        s.unfollowUser(userLogado, user);
+        System.out.println("Você não segue " + user.getUsername() + " mais, indo para o próximo user");
+        verSeguindoDeUmUser(qtdSeguindoVistos); 
+        // Sem incrementar 1 pois a lista também perdeu 1 elemento
+        default:
+        break;
       }
     }
   }
 
-  public void verTodosOsUsers(){
+  public void verTodosOsUsers(int modificador){ // Se o modificador for -1, não mostrar o usuário logado
     ArrayList<User> users = s.getAllUsers();
+    System.out.println("Veja os usuários disponíveis: ");
     for(User u : users){
+      if(u.equals(userLogado) && modificador == -1){ continue; }
       System.out.println(u.toString());
     }
   }
 
   public User escolherUser(){
-    verTodosOsUsers();
+    verTodosOsUsers(-1);
     System.out.print("Escolha um usuário pelo seu username: ");
     String escolha = scanner.nextLine();
     for(User u : s.getAllUsers()){
@@ -186,16 +250,69 @@ public class Main {
         return u;
       }
     }
-    System.out.println("Usuário não encontrado");
+    System.out.println("\nUsuário não encontrado");
     return null;
   }
 
   public void seguirUser(){
     User escolhido = escolherUser();
+
+    if(escolhido == userLogado){
+      System.out.println("Você não pode se seguir!");
+      return;
+    }
+
     if(escolhido != null){
       userLogado.follow(escolhido);
       escolhido.novoSeguidor(userLogado);
-      System.out.println("Você agora segue: " + escolhido.getUsername());
+      System.out.println("\nVocê agora segue: " + escolhido.getUsername());
+    }
+  }
+
+  public void verProximoPostFavoritoDisponivel(int qtdPostsFavVistos){
+        ArrayList<Post> posts = userLogado.getFavoritos();
+    if (posts.isEmpty()){
+      System.out.println("Não há posts favoritos");
+    }else{
+        if(qtdPostsFavVistos >= posts.size()){
+          System.out.println("Acabaram os posts favoritos, voltando ao menu principal...");
+          return;
+        }
+
+        Post post = posts.get(qtdPostsFavVistos);
+        System.out.println(post.toString());
+        System.out.println("O que fazer agora?");
+        System.out.println("1. Ver o próximo post favorito");
+        System.out.println("2. Voltar para o menu");
+        System.out.println("3. Remover o post dos favoritos");
+        System.out.print("Sua escolha: ");
+        int escolha = Integer.parseInt(scanner.nextLine());
+        switch (escolha) {
+          case 1:
+            verProximoPostFavoritoDisponivel(qtdPostsFavVistos+1);
+            break;
+
+          case 2:
+            return;
+            
+          case 3:
+            s.desFavoritarPost(userLogado, post);
+            System.out.println("Post desfavoritado, indo para o próximo post favorito: ");
+            verProximoPostFavoritoDisponivel(qtdPostsFavVistos);
+            // Sem incrementar 1 pois a lista também perdeu 1 elemento
+          default:
+            break;
+        }
+    }
+  }
+  
+  public void verPerfil(){
+  System.out.println("Seu perfil: ");
+  System.out.println(userLogado.toStringCompleto());
+  System.out.print("Quer mudar alguma informação do seu perfil? (S - sim, N - não): ");
+  String escolha = scanner.nextLine();
+  if(escolha.equals("S")){
+      mudarCredenciaisPerfil();
     }
   }
 
@@ -213,13 +330,20 @@ public class Main {
     s.mudarCredenciaisPerfil(userLogado, credencial, escolha);
   }
 
-  public void favoritarPost(Post p){
+  public boolean favoritarPost(Post p){
     boolean sucesso = s.favoritarPost(userLogado, p);
     if(!sucesso){
-      System.out.println("Post já favoritado ou inexistente");
+      System.out.println("Post já favoritado, remova-o no menu de favoritos");
+      return false;
     }else{
       System.out.println("Post favoritado com sucesso!");
+      return true;
     }
+  }
+
+  public void logout(){
+    System.out.println("Saindo da conta...");
+    userLogado = null;
   }
 
   public void apagarConta(){
@@ -231,7 +355,7 @@ public class Main {
       userLogado = null;
     }
   }
-
+  
   public static void main(String[] args) {
     Main m = new Main();
     int escolha = -1;
@@ -253,7 +377,6 @@ public class Main {
     Post p7 = new Post(u3, "primeiraPipa.jgp", "Olha minha primeira pipa" );
     Post p8 = new Post(u3, "segundaPipa.jpg", "Olha minha segunda pipa");
     Post p9 = new Post(u3, "terceiraPipa.jpg", "Olha minha terceira pipa" );
-
     m.s.criarPost(u1, p1);
     m.s.criarPost(u1, p2);
     m.s.criarPost(u1, p3);
@@ -265,13 +388,13 @@ public class Main {
     m.s.criarPost(u3, p9);
     
     while(escolha != 0){
+      System.out.println("====================================");
 
       if(m.userLogado == null){
         m.imprimeMenuGuest();
       }else{
         m.imprimeMenuUser();
         escolha = Integer.parseInt(m.scanner.nextLine());
-        System.out.println("====================================");
         switch (escolha) {
           case 0:
             System.out.println("Saindo do programa...");
@@ -283,26 +406,28 @@ public class Main {
             m.verProximoPostDisponivel(0); // 0 pois seria como se ele acabasse de abrir o feed
             break;
           case 3:
-            m.verPostsDeUmUser();
+            m.verPropriosPosts(0);
             break;
           case 4:
             m.verSeguidoresDeUmUser();
             break;
           case 5:
-            m.verSeguindoDeUmUser();
+            m.verSeguindoDeUmUser(0);
             break;
           case 6:
             m.seguirUser();
             break;
           case 7:
-            m.mudarCredenciaisPerfil();
-            break;
+            m.verProximoPostFavoritoDisponivel(0);
+          break;
           case 8:
+            m.verPerfil();
             break;
           case 9:
+            m.logout();
             break;
           case 10:
-            m.apagarConta();
+          m.apagarConta();
             break;
         
           default:
@@ -310,16 +435,7 @@ public class Main {
             break;
         }
       }
-      System.out.println("====================================");
+      System.out.println();  
     }
   }
 }
-
-/* O que falta:
- * ver lista favoritos
- * remover favoritos
- * deletar proprio post
- * não seguir a si mesmo (talvez sempre se seguir)
- * deixar de seguir
- * ver perfil
-*/
