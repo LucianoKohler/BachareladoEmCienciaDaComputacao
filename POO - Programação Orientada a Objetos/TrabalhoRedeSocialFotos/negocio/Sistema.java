@@ -19,6 +19,10 @@ public class Sistema {
     return users;
   }
 
+  public ArrayList<Post> getAllPosts(){
+    return posts;
+  }
+
   public boolean cadastrarUser(User u){
     for(User userNaBase : getAllUsers()){
       if(userNaBase.getUsername().equals(u.getUsername())){ // Se já há um username igual cadastrado
@@ -100,10 +104,6 @@ public class Sistema {
       }
     }
     return postsVisiveis;
-  }
-
-  public ArrayList<Post> getAllPosts(){
-    return posts;
   }
 
   public void followUser(User u, User alvo){

@@ -67,27 +67,26 @@ public class User {
   public void mudarBiografia(String biografia) {
     this.biografia = biografia;
   }
-
   public void setID(int id) {
     ID = id;
   }
 
   // Outros métodos
-  public void follow(User u){ this.seguindo.add(u); } // ID ??
+  public void follow(User u){ this.seguindo.add(u); } 
 
-  public void novoSeguidor(User u){ this.seguidores.add(u); } // ID ??
+  public void novoSeguidor(User u){ this.seguidores.add(u); } 
 
-  public void unfollow(User u){ this.seguindo.remove(u); } // ID ??
+  public void unfollow(User u){ this.seguindo.remove(u); } 
 
-  public void removerSeguidor(User u){ this.seguidores.remove(u); } // ID ??
+  public void removerSeguidor(User u){ this.seguidores.remove(u); } 
   
-  public void postar(Post p){ this.posts.add(p); } // ID ??
+  public void postar(Post p){ this.posts.add(p); } 
 
-  public void deletarPost(Post p){ this.posts.remove(p); } // ID ??
+  public void deletarPost(Post p){ this.posts.remove(p); } 
 
-  public void favoritarPost(Post p){ this.favoritos.add(p); } // ID ??
+  public void favoritarPost(Post p){ this.favoritos.add(p); }
 
-  public boolean desFavoritarPost(Post p){ return this.favoritos.remove(p); } // ID ??
+  public boolean desFavoritarPost(Post p){ return this.favoritos.remove(p); } 
 
   public String toString(){
     return "Usuário N° " + ID + "\n Username: " + username + "\n Nome Completo: " + nomeCompleto + "\n";
