@@ -14,8 +14,7 @@ public class User {
   private ArrayList<User> seguindo;
 
   // Construtor
-  public User(int ID, String username, String senha, String nomeCompleto, String biografia){
-    this.ID = ID;
+  public User(String username, String senha, String nomeCompleto, String biografia){
     this.username = username;
     this.senha = senha;
     this.nomeCompleto = nomeCompleto;
@@ -69,6 +68,10 @@ public class User {
     this.biografia = biografia;
   }
 
+  public void setID(int id) {
+    ID = id;
+  }
+
   // Outros métodos
   public void follow(User u){ this.seguindo.add(u); } // ID ??
 
@@ -84,5 +87,9 @@ public class User {
 
   public void favoritarPost(Post p){ this.favoritos.add(p); } // ID ??
 
-  public void desFavoritarPost(Post p){ this.favoritos.remove(p); } // ID ??
+  public boolean desFavoritarPost(Post p){ return this.favoritos.remove(p); } // ID ??
+
+  public String toString(){
+    return "Usuário N° " + ID + "\n username: " + username + "\n Nome Completo: " + nomeCompleto + "\n";
+  }
 }

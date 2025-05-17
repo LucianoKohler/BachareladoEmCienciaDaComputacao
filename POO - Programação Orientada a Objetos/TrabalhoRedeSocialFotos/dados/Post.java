@@ -10,8 +10,7 @@ public class Post {
   private ArrayList<User> favoritadores;
 
   // Construtor
-  public Post(int ID, User donoPost, String img, String legenda){
-    this.ID = ID;
+  public Post(User donoPost, String img, String legenda){
     this.donoPost = donoPost;
     this.legenda = legenda;
     this.img = img;
@@ -35,8 +34,20 @@ public class Post {
     return favoritadores;
   }
 
+  public void setID(int id) {
+    ID = id;
+  }
+
   // Métodos
   public void adicionarFavoritador(User u){ // ID ??
     this.favoritadores.add(u);
+  }
+
+  public boolean removerFavoritador(User u){
+    return this.favoritadores.remove(u);
+  }
+
+  public String toString(){
+    return "Post n° " + ID + ":\n Caminho da imagem: " + img + "\n Legenda do post: " + legenda + "\n";
   }
 }
