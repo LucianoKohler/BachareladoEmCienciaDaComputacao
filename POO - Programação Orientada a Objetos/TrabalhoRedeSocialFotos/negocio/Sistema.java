@@ -51,17 +51,20 @@ public class Sistema {
 
   public boolean deletarUser(User u){
     // Deixando de seguir todos os seus seguindos:
-    for(User userSeguindo : u.verSeguindo()){ 
+    ArrayList<User> seguindoCopia = new ArrayList<>(u.verSeguindo());
+    for(User userSeguindo : seguindoCopia){ 
       u.unfollow(userSeguindo);
     }
 
     // Removendo ele da lista de seguidores dos outros
-    for(User seguidor : u.verSeguidores()){
+    ArrayList<User> seguidoresCopia = new ArrayList<>(u.verSeguidores());
+    for(User seguidor : seguidoresCopia){
       seguidor.unfollow(u);
     }
 
     // Apagando cada post dele
-    for(Post p : u.getPosts()){
+    ArrayList<Post> postsCopia = new ArrayList<>(u.getPosts());
+    for(Post p : postsCopia){
       // Remove o post dos favoritos dos usuários
       deletarPost(p);
     }
