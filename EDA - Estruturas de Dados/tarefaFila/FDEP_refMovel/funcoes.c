@@ -1,29 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "arq.h"
 
-typedef struct{ 
-  char nome[30];
-  int matricula; // Int pois durante o processo, matricula será usado como prioridade
-  int ranking; // Prioridade
-  char curso[30];
-} aluno;
-
-typedef struct noDados{
-  struct noDados *atras;
-  aluno info;
-  struct noDados *defronte;
-}noDados;
-
-typedef struct descritor{
-  int tamLista;
-  int tamInfo; // sizeof(aluno)
-
-  struct noDados *frente; // maior prioridade
-  struct noDados *refMovel;
-  struct noDados *cauda; // menor prioridade
-  
-}descritor;
+/*************** CRIAR FILA ***************/
 
 descritor* criarFila(){
   descritor* d = malloc(sizeof(descritor));  
@@ -35,6 +15,8 @@ descritor* criarFila(){
   return d;
 }
 
+/*** INSERE COM PRIORIADE USANDO REFMOVEL **********/
+
 void inserirFilaPrioridade(descritor* fila, aluno a){
   noDados* novoNodo = malloc(sizeof(noDados));
   novoNodo->info = a;
@@ -45,7 +27,16 @@ void inserirFilaPrioridade(descritor* fila, aluno a){
     fila->frente = novoNodo;
     fila->cauda = novoNodo;
   }else{
-    noDados* atual = fila->frente; // maior prioridade
+    noDados* atual = NULL;
+
+    // Começa pela referência móvel, se fizer sentido
+    if (fila->refMovel && fila->refMovel->info.ranking <= a.ranking) {
+      atual = fila->refMovel;
+    } else {
+      atual = fila->frente;
+    }
+
+
     while(atual != NULL && atual->info.ranking <= a.ranking){
       atual = atual->defronte; // aumenta prioridade
     } // Ao sair do while, temos a posição para colocar o novo aluno
@@ -65,7 +56,11 @@ void inserirFilaPrioridade(descritor* fila, aluno a){
       atual->atras = novoNodo;
     }
   }
+  fila->refMovel = novoNodo;
+  fila->tamLista++;
 }
+
+/************** LE O ARQUIVO .CSV *************/
 
 void lerCSV(const char *nomeArquivo, descritor *fila) {
   // Abrindo o arquivo
@@ -98,6 +93,84 @@ void lerCSV(const char *nomeArquivo, descritor *fila) {
     fclose(arquivo);
   }
 
+/************** TAMANHO DA FILA *************/
+
+int tamanhoDaFila(struct descritor *p){
+  return p->tamLista;
+}
+
+/************** REINICIA A FILA *************/
+
+int reinicia(struct descritor *p)
+{   int status=0;
+    noDados *aux=NULL;
+
+    if(p->frente != NULL && p->cauda != NULL) 
+    {  
+        aux = p->cauda->defronte;
+        while(aux != NULL) 
+        {
+            free(p->cauda);
+            p->cauda = aux;
+            aux = aux->defronte;
+        }
+        
+        free(p->cauda);
+        p->frente = NULL;
+        p->cauda = NULL;
+        status=1; 
+    }
+    return status;	
+}
+
+/************** TESTA SE VAZIA *************/
+
+int testaVazia(struct descritor *p){
+  if(p->cauda == NULL && p->frente == NULL){
+    return 1;
+  }else{
+    return 0;
+  }
+}
+
+/************* DESTROI A FILA **************/
+
+descritor * destroi(descritor *p)
+{
+    reinicia(p);
+    free(p);
+    return NULL; // aterra o ponteiro externo, declarado na aplicação
+}
+
+/************ INVERTE A FILA ***************/
+
+int inverte(descritor* fila) {
+  if (fila == NULL || fila->frente == NULL) return 0;
+
+  noDados* atual = fila->frente;
+  noDados* temp = NULL; // Nova fila invertida
+
+  while (atual != NULL) {
+    temp = atual->atras;
+    atual->atras = atual->defronte;
+    atual->defronte = temp;
+
+    atual = atual->atras;
+  }
+
+  temp = fila->frente;
+  fila->frente = fila->cauda;
+  fila->cauda = temp;
+
+  // nullificamos a refMovel pois ela não fará sentido na lista invertida
+  fila->refMovel = NULL;
+
+  return 1; // sucesso
+}
+
+
+/************** PRINTA A FILA **************/
+
 void printarFila(descritor* fila){
   int contador = 1;
   noDados *nodo = fila->frente;
@@ -111,14 +184,4 @@ void printarFila(descritor* fila){
     contador++;
     nodo = nodo->defronte;
   }
-}
-
-int main(){
-  descritor* fila = criarFila();
-  lerCSV("dataset_v1.csv", fila);
-  printarFila(fila);
-
-
-
-  return 0;
 }
