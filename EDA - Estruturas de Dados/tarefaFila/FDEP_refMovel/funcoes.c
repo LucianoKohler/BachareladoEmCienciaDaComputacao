@@ -118,6 +118,8 @@ int reinicia(struct descritor *p)
         free(p->cauda);
         p->frente = NULL;
         p->cauda = NULL;
+        p->tamLista = 0;
+        p->refMovel = NULL;
         status=1; 
     }
     return status;	
@@ -145,7 +147,7 @@ descritor * destroi(descritor *p)
 /************ INVERTE A FILA ***************/
 
 int inverte(descritor* fila) {
-  if (fila == NULL || fila->frente == NULL) return 0;
+  if (fila == NULL || fila->frente == NULL) return 0; // falha
 
   noDados* atual = fila->frente;
   noDados* temp = NULL; // Nova fila invertida
@@ -172,6 +174,11 @@ int inverte(descritor* fila) {
 /************** PRINTA A FILA **************/
 
 void printarFila(descritor* fila){
+  if(tamanhoDaFila(fila) == 0){
+    printf("A fila esta vazia!\n");
+    return;
+  }
+  
   int contador = 1;
   noDados *nodo = fila->frente;
   while(nodo != NULL){

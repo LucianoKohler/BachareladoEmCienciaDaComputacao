@@ -45,7 +45,7 @@ public abstract class Gerador implements ISequencia {
     for (int i = 0; i < sequencia.length; i++) {
       somaQuadrados += Math.pow(sequencia[i] - media, 2);
     }
-    return somaQuadrados / (Double) sequencia.length;
+    return somaQuadrados / (double) sequencia.length;
   }
 
   public double desvioPadrao(){
