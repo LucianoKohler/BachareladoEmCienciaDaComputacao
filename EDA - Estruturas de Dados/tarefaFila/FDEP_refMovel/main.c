@@ -81,7 +81,10 @@ int main(){
       break;
     }      
     case 6:
-      
+      printf("Escreva a matricula do aluno a ser removido: ");
+      int matriculaAlvo;
+      scanf("%d", &matriculaAlvo);
+      remove_(&matriculaAlvo, fila);
     break;
     
     case 7:
