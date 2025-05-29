@@ -17,7 +17,7 @@ descritor* criarFila(){
 
 /*** INSERE COM PRIORIADE USANDO REFMOVEL **********/
 
-void inserirFilaPrioridade(descritor* fila, aluno a){
+void inserirFilaPrioridadeREFMOVEL(descritor* fila, aluno a){
   noDados* novoNodo = malloc(sizeof(noDados));
   novoNodo->info = a;
   novoNodo->atras = NULL;
@@ -58,6 +58,45 @@ void inserirFilaPrioridade(descritor* fila, aluno a){
   fila->refMovel = novoNodo;
   fila->tamLista++;
 }
+
+void inserirFilaPrioridadeSEMREFMOVEL(descritor* fila, aluno a){
+  noDados* novoNodo = malloc(sizeof(noDados));
+  novoNodo->info = a;
+  novoNodo->atras = NULL;
+  novoNodo->defronte = NULL;
+
+  if(fila->frente == NULL){ // Se ela estiver vazia
+    fila->frente = novoNodo;
+    fila->cauda = novoNodo;
+  }else{
+    noDados* atual = NULL;
+
+    // Sem referência móvel, começamos pelo início sempre
+    atual = fila->frente;
+
+    while(atual != NULL && atual->info.ranking <= a.ranking){
+      atual = atual->defronte; // aumenta prioridade
+    } // Ao sair do while, temos a posição para colocar o novo aluno
+
+    if(atual == NULL){ // Temos que o novo aluno tem rank minimo, então inserimos na cauda
+      novoNodo->atras = fila->cauda;
+      fila->cauda->defronte = novoNodo;
+      fila->cauda = novoNodo;
+    }else if(atual == fila->frente){ // Se o while saiu já no primeiro caso, temos que o aluno tem rank máximo
+      novoNodo->defronte = fila->frente;
+      fila->frente->atras = novoNodo;
+      fila->frente = novoNodo;
+    }else{ // Se estamos nem no fim e nem no início, inserimos no meio
+      novoNodo->atras = atual->atras;
+      novoNodo->defronte = atual;
+      atual->atras->defronte = novoNodo;
+      atual->atras = novoNodo;
+    }
+  }
+  fila->refMovel = novoNodo;
+  fila->tamLista++;
+}
+
 
 /****** RETORNA PRÓXIMO VALOR NA FILA ********/
 
@@ -188,32 +227,6 @@ descritor * destroi(descritor *p)
     reinicia(p);
     free(p);
     return NULL; // aterra o ponteiro externo, declarado na aplicação
-}
-
-/************ INVERTE A FILA ***************/
-
-int inverte(descritor* fila) {
-  if (fila == NULL || fila->frente == NULL) return 0; // falha
-
-  noDados* atual = fila->frente;
-  noDados* temp = NULL; // Nova fila invertida
-
-  while (atual != NULL) {
-    temp = atual->atras;
-    atual->atras = atual->defronte;
-    atual->defronte = temp;
-
-    atual = atual->atras;
-  }
-
-  temp = fila->frente;
-  fila->frente = fila->cauda;
-  fila->cauda = temp;
-
-  // nullificamos a refMovel pois ela não fará sentido na lista invertida
-  fila->refMovel = NULL;
-
-  return 1; // sucesso
 }
 
 /************** PRINTA A FILA **************/

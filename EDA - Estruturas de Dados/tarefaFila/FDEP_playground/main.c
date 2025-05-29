@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h> // Para medir tempo de execução
 #include "arq.h"
 
 void imprimeMenu(){
@@ -15,6 +16,7 @@ void imprimeMenu(){
   printf("5. Ver a frente da fila\n");
   printf("6. Remove elemento da fila\n");
   printf("7. Inverte a fila\n");
+  printf("8. Mostra quantos elementos na lista\n");
   printf("Sua escolha: ");
 }
 
@@ -37,6 +39,8 @@ int main(){
     scanf("%d", &escolha);
     printf("=========================\n");
 
+    clock_t inicio = clock();
+
     switch (escolha)
     {
     case 1:
@@ -58,6 +62,8 @@ int main(){
       printf("Insira o curso do novo aluno: ");
       scanf("%s", novoAluno.curso);
 
+      inicio = clock();
+
       inserirFilaPrioridade(fila, novoAluno);
       printf("Aluno inserido");
       break;
@@ -68,33 +74,41 @@ int main(){
       break;
         
     case 4: {
-      aluno* a = NULL;
-      int sucesso = buscaNaCauda(a, fila);
-      sucesso ? printf("Aluno na cauda: %s", a->nome) : printf("Aluno não encontrado");
+      aluno a;
+      int sucesso = buscaNaCauda(&a, fila);
+      sucesso ? printf("Aluno na cauda: %s\n", a.nome) : printf("Aluno não encontrado\n");
       break;
     }
         
     case 5: {
-      aluno* a = NULL;
-      int sucesso = buscaNaFrente(a, fila);
-      sucesso ? printf("Aluno na frente: %s", a->nome) : printf("Aluno não encontrado");
+      aluno a;
+      int sucesso = buscaNaFrente(&a, fila);
+      sucesso ? printf("Aluno na frente: %s\n", a.nome) : printf("Aluno não encontrado\n");
       break;
     }      
     case 6:
       printf("Escreva a matricula do aluno a ser removido: ");
       int matriculaAlvo;
       scanf("%d", &matriculaAlvo);
+
+      inicio = clock();
+
       remove_(&matriculaAlvo, fila);
     break;
-    
-    case 7:
-      inverte(fila);
-      printf("Fila invertida\n");
+
+    case 8:
+      printf("A fila tem atualmente %d registros", tamanhoDaFila(fila));
     break;
 
     default:
       break;
     }
+
+    clock_t fim = clock();
+    double tempo_ms = ((double)(fim - inicio)) * 1000.0 / CLOCKS_PER_SEC;
+    printf("\nTempo de execucao da operacao: %.3f ms\n", tempo_ms);
+
+
   }
 
   return 0;

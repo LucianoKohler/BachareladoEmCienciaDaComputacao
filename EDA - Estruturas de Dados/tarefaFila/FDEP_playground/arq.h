@@ -33,7 +33,8 @@ void lerCSV(const char *nomeArquivo, descritor *fila);
 void printarFila(descritor* fila);
 //======================FILA==========================
 descritor * criarFila();
-void inserirFilaPrioridade(descritor* fila, aluno a); // usar refMovel
+void inserirFilaPrioridadeREFMOVEL(descritor* fila, aluno a);
+void inserirFilaPrioridadeSEMREFMOVEL(descritor* fila, aluno a);
 int tamanhoDaFila(descritor *fila);
 int reinicia( descritor *fila);
 descritor * destroi( descritor *fila);
@@ -41,5 +42,3 @@ int buscaNaCauda(aluno *alunoEncontrado,  descritor *fila);
 int buscaNaFrente(aluno *alunoEncontrado,  descritor *fila);
 int remove_(int *matriculaDoAlvo,  descritor *fila); // usar refMovel somente se a prioridade for pela matricula
 int testaVazia( descritor *fila);
-int inverte(descritor *fila);
-
