@@ -37,9 +37,9 @@ void inserirFilaPrioridade(descritor* fila, aluno a); // usar refMovel
 int tamanhoDaFila(descritor *fila);
 int reinicia( descritor *fila);
 descritor * destroi( descritor *fila);
-int buscaNaCauda(aluno *alvo,  descritor *fila); // usar refMovel
-int buscaNaFrente(aluno *alvo,  descritor *fila); // usar refMovel
-int remove_(aluno *alvo,  descritor *fila); // usar refMovel
+int buscaNaCauda(aluno *alunoEncontrado,  descritor *fila);
+int buscaNaFrente(aluno *alunoEncontrado,  descritor *fila);
+int remove_(int *matriculaDoAlvo,  descritor *fila); // usar refMovel somente se a prioridade for pela matricula
 int testaVazia( descritor *fila);
 int inverte(descritor *fila);
 

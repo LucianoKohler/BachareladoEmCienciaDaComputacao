@@ -11,9 +11,10 @@ void imprimeMenu(){
   printf("1. Printar fila\n");
   printf("2. Inserir na fila\n");
   printf("3. Reiniciar fila\n");
-  printf("4. Buscar na fila\n");
-  printf("5. Remove elemento da fila\n");
-  printf("6. Inverte a fila\n");
+  printf("4. Ver a cauda da fila\n");
+  printf("5. Ver a frente da fila\n");
+  printf("6. Remove elemento da fila\n");
+  printf("7. Inverte a fila\n");
   printf("Sua escolha: ");
 }
 
@@ -43,6 +44,22 @@ int main(){
       break;
     
     case 2:
+      aluno novoAluno;
+
+      printf("Insira o nome do novo aluno: ");
+      scanf("%s", novoAluno.nome);
+
+      printf("Insira a matricula do novo aluno: ");
+      scanf("%d", &novoAluno.matricula);
+
+      printf("Insira o ranking do novo aluno: ");
+      scanf("%d", &novoAluno.ranking);
+
+      printf("Insira o curso do novo aluno: ");
+      scanf("%s", novoAluno.curso);
+
+      inserirFilaPrioridade(fila, novoAluno);
+      printf("Aluno inserido");
       break;
         
     case 3:
@@ -50,17 +67,28 @@ int main(){
       printf("Fila reiniciada\n");
       break;
         
-    case 4:
+    case 4: {
+      aluno* a = NULL;
+      int sucesso = buscaNaCauda(a, fila);
+      sucesso ? printf("Aluno na cauda: %s", a->nome) : printf("Aluno não encontrado");
       break;
+    }
         
-    case 5:
+    case 5: {
+      aluno* a = NULL;
+      int sucesso = buscaNaFrente(a, fila);
+      sucesso ? printf("Aluno na frente: %s", a->nome) : printf("Aluno não encontrado");
       break;
-        
+    }      
     case 6:
+      
+    break;
+    
+    case 7:
       inverte(fila);
       printf("Fila invertida\n");
-      break;
-        
+    break;
+
     default:
       break;
     }

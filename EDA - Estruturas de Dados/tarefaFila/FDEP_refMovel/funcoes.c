@@ -36,7 +36,6 @@ void inserirFilaPrioridade(descritor* fila, aluno a){
       atual = fila->frente;
     }
 
-
     while(atual != NULL && atual->info.ranking <= a.ranking){
       atual = atual->defronte; // aumenta prioridade
     } // Ao sair do while, temos a posição para colocar o novo aluno
@@ -58,6 +57,53 @@ void inserirFilaPrioridade(descritor* fila, aluno a){
   }
   fila->refMovel = novoNodo;
   fila->tamLista++;
+}
+
+/****** RETORNA PRÓXIMO VALOR NA FILA ********/
+
+int buscaNaCauda(aluno *alunoEncontrado,  descritor *fila){
+  if(fila->cauda == NULL || fila->frente == NULL){ return 0; }
+  memcpy(alunoEncontrado, &(fila->cauda->info), fila->tamInfo);
+  return 1;
+}
+
+int buscaNaFrente(aluno *alunoEncontrado,  descritor *fila){
+  if(fila->cauda == NULL || fila->frente == NULL){ return 0; }
+  memcpy(alunoEncontrado, &(fila->frente->info), fila->tamInfo);
+  return 1;
+}
+
+/************** REMOVE UM ALUNO ***************/
+
+int remove_(int *matriculaDoAlvo,  descritor *fila){
+  if (fila == NULL || fila->frente == NULL) return 0;
+  noDados *aux = fila->frente;
+  noDados *anterior = NULL;
+  while (aux != NULL) {
+    if (aux->info.matricula == *matriculaDoAlvo) {
+      // Remove o nó
+      if (anterior == NULL) { // Remover da frente
+        fila->frente = aux->defronte;
+        if (fila->frente != NULL) fila->frente->atras = NULL;
+        else fila->cauda = NULL; // Lista ficou vazia
+      } else {
+        anterior->defronte = aux->defronte;
+        if (aux->defronte != NULL)
+          aux->defronte->atras = anterior;
+        else
+          fila->cauda = anterior; // Removendo da cauda
+      }
+      if (fila->refMovel == aux) fila->refMovel = NULL;
+      free(aux);
+      fila->tamLista--;
+      printf("Aluno encontrado e removido.\n");
+      return 1;
+    }
+    anterior = aux;
+    aux = aux->defronte;
+  }
+  printf("Aluno não encontrado.\n");
+  return 0;
 }
 
 /************** LE O ARQUIVO .CSV *************/
@@ -169,7 +215,6 @@ int inverte(descritor* fila) {
 
   return 1; // sucesso
 }
-
 
 /************** PRINTA A FILA **************/
 
