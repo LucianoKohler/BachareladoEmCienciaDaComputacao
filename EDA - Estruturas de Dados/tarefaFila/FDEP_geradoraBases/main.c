@@ -11,20 +11,22 @@ int main(){
   embaralhaFila(fila); // Deixa ela aleatória para que a simulação seja mais fiel a um cenário real
 
   printf("RELATORIO DE DESEMPENHO DA FILA DE PRIORIDADE COM/SEM REFERENCIA MOVEL\n");
-  printf(" BASE | TIPO INSERCAO | ITERACOES | ITERACOES MEDIAS |\n");
+  printf(" BASE | TIPO INSERCAO | ITERACOES | ITERACOES MEDIAS | MELHORIA (%%) |\n");
   for(int i = 500; i <=9000; i+=500){
-    int numIter = 0;
+    int numIterComRef = 0;
+    int numIterSemRef = 0;
     descritor *novaFila = criarFila();
     
-    geraBase(1, i, &numIter, fila, novaFila);
-    printf(" %4d |    COM REF:   | %9d | %16.2f |\n", i, numIter, (numIter / (1.0 * i)));
+    geraBase(1, i, &numIterComRef, fila, novaFila);
+    printf(" %4d |    COM REF:   | %9d | %16.2f |              | \n", i, numIterComRef, (numIterComRef / (1.0 * i)));
     
     reinicia(novaFila);
-    numIter = 0;
     
-    geraBase(0, i, &numIter, fila, novaFila);
-    printf("      |    SEM REF:   | %9d | %16.2f |\n", numIter, (numIter / (1.0 * i)));
-    printf("------------------------------------------------------\n");
+    geraBase(0, i, &numIterSemRef, fila, novaFila);
+    double melhoria = 100.0 * (numIterSemRef - numIterComRef) / numIterSemRef;
+
+    printf("      |    SEM REF:   | %9d | %16.2f |    %4.2f%%    |\n", numIterSemRef, (numIterSemRef / (1.0 * i)), melhoria);
+    printf("---------------------------------------------------------------------\n");
 
   }
   return 0;
