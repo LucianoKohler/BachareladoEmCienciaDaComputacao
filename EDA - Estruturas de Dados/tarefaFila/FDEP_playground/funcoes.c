@@ -173,7 +173,7 @@ void lerCSV(const char *nomeArquivo, descritor *fila) {
       valor = strtok(NULL, ",");
       if(valor) strncpy(a.curso, valor, sizeof(a.curso));
 
-      inserirFilaPrioridade(fila, a);
+      inserirFilaPrioridadeREFMOVEL(fila, a);
     }
     fclose(arquivo);
   }

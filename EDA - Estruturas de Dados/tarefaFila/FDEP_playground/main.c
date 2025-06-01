@@ -64,7 +64,7 @@ int main(){
 
       inicio = clock();
 
-      inserirFilaPrioridade(fila, novoAluno);
+      inserirFilaPrioridadeREFMOVEL(fila, novoAluno);
       printf("Aluno inserido");
       break;
         
