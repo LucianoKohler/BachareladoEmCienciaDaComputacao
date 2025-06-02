@@ -1,4 +1,7 @@
+Membros do trabalho: Luciano Kohler e Pedro Stupp
+
 Olá, dentro da pasta do trabalho, existem duas pastas distintas que representam versões diferentes do mesmo código gerador de FDEPs:
+Nota que ambos os códigos já estão compilados, então basta rodá-los pelo comando ".\programa"
 
 * FDEP_geradoraBases é uma versão sem interação do usuário e é responsável por gerar os dados responsáveis pela análise do trabalho
 * FDEP_playground (parquinho) é uma versão que inclui interação humano-máquina, então é possível inserir, visualizar, e aplicar outras funcionalidades na fila de forma prática

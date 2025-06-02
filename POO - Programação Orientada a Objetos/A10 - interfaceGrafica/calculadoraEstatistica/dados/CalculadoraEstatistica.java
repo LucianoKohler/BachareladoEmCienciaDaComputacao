@@ -3,7 +3,7 @@ package dados;
 import java.util.LinkedList;
 import java.util.List;
 
-public class CalculadoraEstatistica implements ICalculadora {
+public class CalculadoraEstatistica implements ISequencia {
   private static CalculadoraEstatistica instance = null;
   private List<Integer> sequencia = new LinkedList<Integer>();
 
@@ -47,11 +47,11 @@ public class CalculadoraEstatistica implements ICalculadora {
 
   // Auxiliar
   public long produtorio(){
-    long soma = 0;
-    for (int i = 0; i < sequencia.size(); i++) {
-      soma *= sequencia.get(i);
+    long produto = 1;
+    for (final int x : sequencia) {
+      produto *= x;
     }
-    return soma;
+    return produto;
   }
 
   public double mediaGeometrica(){
