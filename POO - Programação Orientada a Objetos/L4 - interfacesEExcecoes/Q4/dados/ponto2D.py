@@ -1,4 +1,4 @@
-class ponto2D():
+class Ponto2D():
     def __init__(self, x, y):
         self.x = x
         self.y = y
