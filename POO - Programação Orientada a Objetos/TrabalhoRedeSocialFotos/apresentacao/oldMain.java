@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 import dados.*;
 
-public class Main {
+public class oldMain {
   public User userLogado = null;
   public Sistema s = new Sistema();
   public Scanner scanner = new Scanner(System.in);
@@ -356,8 +356,8 @@ public class Main {
     }
   }
   
-  public static void main(String[] args) {
-    Main m = new Main();
+  public static void oldMain(String[] args) {
+    TelaGuest m = new TelaGuest();
     int escolha = -1;
     
     // Criando uma base de usuários, cada um com 3 posts: 
