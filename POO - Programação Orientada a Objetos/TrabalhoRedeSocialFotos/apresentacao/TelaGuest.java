@@ -6,16 +6,13 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import dados.User;
 
+import negocio.Sistema;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class TelaGuest extends JFrame {
-  User userLogado = null;
   
   /* INSTANCIANDO ELEMENTOS */
   public JPanel painelGuest = new JPanel();
@@ -23,7 +20,7 @@ public class TelaGuest extends JFrame {
   public JButton loginButton = new JButton("Fazer login");
   public JButton cadastrarButton = new JButton("Cadastrar-se");
 
-  public TelaGuest() {
+  public TelaGuest(Sistema s) {
     int DEFAULT_HEIGHT = 700;
     int DEFAULT_WIDTH = 400;
     setTitle("Rede Social de Fotos");
@@ -32,10 +29,12 @@ public class TelaGuest extends JFrame {
     setContentPane(painelGuest);
     painelGuest.setLayout(new BoxLayout(painelGuest, BoxLayout.Y_AXIS));
 
+    /* INDICANDO COMO CADA ELEMENTO DEVE SE COMPORTAR */
     labelGuest.setAlignmentX(Component.CENTER_ALIGNMENT);
     loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
     cadastrarButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+    /* INSERINDO OS ELEMENTOS NA TELA */
     painelGuest.add(Box.createVerticalGlue());
     painelGuest.add(labelGuest);
     painelGuest.add(Box.createRigidArea(new Dimension(0, 10))); // Padding
@@ -44,20 +43,17 @@ public class TelaGuest extends JFrame {
     painelGuest.add(cadastrarButton);
     painelGuest.add(Box.createVerticalGlue());
     
-    loginButton.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e){
-        TelaLogin telaLogin = new TelaLogin();
+    /* FUNCIONALIDADES DOS BOTÕES */
+    loginButton.addActionListener(e -> {
+        TelaLogin telaLogin = new TelaLogin(s);
         telaLogin.setVisible(true);
-      }
+        TelaGuest.this.setVisible(false);
     });
-
-    cadastrarButton.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e){
-        TelaCadastro telaCadastro = new TelaCadastro();
+    
+    cadastrarButton.addActionListener(e -> {
+        TelaCadastro telaCadastro = new TelaCadastro(s);
         telaCadastro.setVisible(true);
-      }
+        TelaGuest.this.dispose(); // fecha e remove a janela anterior
     });
   }
 

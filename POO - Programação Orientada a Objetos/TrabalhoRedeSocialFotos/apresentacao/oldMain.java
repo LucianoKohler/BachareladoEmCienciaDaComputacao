@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 import dados.*;
 
-public class oldMain {
+public class OldMain {
   public User userLogado = null;
   public Sistema s = new Sistema();
   public Scanner scanner = new Scanner(System.in);
@@ -80,17 +80,34 @@ public class oldMain {
     }else{
       System.out.println("Bem vindo, " + userLogado.getNomeCompleto() + "!");
       System.out.println("0. Sair do programa");
-      System.out.println("1. Postar");
+      System.out.println("1. Postar"); // ver
       System.out.println("2. Ver posts no seu feed");
       System.out.println("3. Ver/deletar seus posts");
       System.out.println("4. Ver seus seguidores");
       System.out.println("5. Ver/deixar de seguir quem você segue");
       System.out.println("6. Seguir um usuário");
-      System.out.println("7. Ver/desfavoritar posts favoritos");
-      System.out.println("8. ver/mudar perfil");
-      System.out.println("9. logout");
-      System.out.println("10. Apagar conta");
+      System.out.println("7. Ver/desfavoritar posts favoritos"); 
+      System.out.println("8. ver/mudar perfil"); 
+      System.out.println("9. logout"); 
+      System.out.println("10. Apagar conta"); 
       System.out.print("Sua escolha: ");
+
+      /*
+      POSTAR
+      ver:
+        posts no feed
+        seus próprios posts
+        usuarios para seguir
+        posts favoritos
+      conta:
+        perfil:
+          mudar credenciais
+          ver seus seguidores
+          ver seus seguindo
+          apagar conta
+      logout
+      
+      */
     }
   }
 
@@ -357,7 +374,7 @@ public class oldMain {
   }
   
   public static void oldMain(String[] args) {
-    TelaGuest m = new TelaGuest();
+    OldMain m = new OldMain();
     int escolha = -1;
     
     // Criando uma base de usuários, cada um com 3 posts: 
