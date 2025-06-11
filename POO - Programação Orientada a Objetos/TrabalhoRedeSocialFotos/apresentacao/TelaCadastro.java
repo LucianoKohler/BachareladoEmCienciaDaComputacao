@@ -94,7 +94,7 @@ public class TelaCadastro extends JFrame {
       String nomeCompleto = new String(textFieldNomeCompleto.getText());
       String biografia = new String(textAreaBiografia.getText());
 
-      User novoUser = new User(username, senha, nomeCompleto, biografia);
+      User novoUser = new User(username, senha, nomeCompleto, biografia, null);
       boolean sucesso = s.cadastrarUser(novoUser);
         if(!sucesso){
           JOptionPane.showMessageDialog(this, "Erro: nome de usuário já cadastrado.");

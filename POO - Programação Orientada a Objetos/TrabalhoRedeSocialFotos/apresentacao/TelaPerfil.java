@@ -1,6 +1,5 @@
 package apresentacao;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -26,7 +25,6 @@ public class TelaPerfil extends JFrame {
   /* INSTANCIANDO ELEMENTOS */
   public JPanel painelPrincipal = new JPanel();
   public JLabel labelUsername = new JLabel("USUÁRIO"); // Setado no construtor
-  public ImagemCircular imagemPerfil = new ImagemCircular(System.getProperty("user.dir") + "/imagens/image.png", 100, 100);
   public JPanel painelAcoes = new JPanel();
 
   public JPanel estatisticasPanel = new JPanel();
@@ -44,7 +42,7 @@ public class TelaPerfil extends JFrame {
   /* BOTÕES */
   public JButton mudarCredenciaisButton = new JButton("Mudar credenciais de perfil");
   public JButton verSeguidoresButton = new JButton("Ver seus seguidores");
-  public JButton verSeguindoButton = new JButton("Ver quem te segue");
+  public JButton verSeguindoButton = new JButton("Ver quem você segue");
   public JButton apagarContaButton = new JButton("Apagar conta");
   public JButton voltarButton = new JButton("Voltar");
 
@@ -55,6 +53,9 @@ public class TelaPerfil extends JFrame {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBounds(100, 100, DEFAULT_WIDTH, DEFAULT_HEIGHT);
     setContentPane(painelPrincipal);
+
+    String caminhoImagem = System.getProperty("user.dir") + "/imagens/fotosPerfil/" + userLogado.getNomeImagem();
+    ImagemCircular imagemPerfil = new ImagemCircular(caminhoImagem, 100, 100);
     
     painelPrincipal.setLayout(new BoxLayout(painelPrincipal, BoxLayout.Y_AXIS));
     estatisticasPanel.setLayout(new BoxLayout(estatisticasPanel, BoxLayout.X_AXIS));
@@ -83,10 +84,15 @@ public class TelaPerfil extends JFrame {
     apagarContaButton.setAlignmentX(Component.CENTER_ALIGNMENT);
     voltarButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+    qtdPostsLabel1.setText(String.valueOf(userLogado.getPosts().size()));
     qtdPostsLabel1.setAlignmentX(Component.CENTER_ALIGNMENT);
     qtdPostsLabel2.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+    seguidoresLabel1.setText(String.valueOf(userLogado.verSeguidores().size()));
     seguidoresLabel1.setAlignmentX(Component.CENTER_ALIGNMENT);
     seguidoresLabel2.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+    seguindoLabel1.setText(String.valueOf(userLogado.verSeguindo().size()));
     seguindoLabel1.setAlignmentX(Component.CENTER_ALIGNMENT);
     seguindoLabel2.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -191,7 +197,11 @@ public class TelaPerfil extends JFrame {
     }
     });
     verSeguidoresButton.addActionListener(e -> {});
-    verSeguindoButton.addActionListener(e -> {});
+    verSeguindoButton.addActionListener(e -> {
+      TelaVerSeguindo telaVerSeguindo = new TelaVerSeguindo(s, userLogado);
+      telaVerSeguindo.setVisible(true);
+      this.dispose();
+    });
 
     apagarContaButton.addActionListener(e -> {
       int resposta = JOptionPane.showConfirmDialog(

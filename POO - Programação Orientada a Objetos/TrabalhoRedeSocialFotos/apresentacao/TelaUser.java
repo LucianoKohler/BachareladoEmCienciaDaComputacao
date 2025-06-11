@@ -20,7 +20,6 @@ public class TelaUser extends JFrame {
   /* INSTANCIANDO ELEMENTOS */
   public JPanel painelPrincipal = new JPanel();
   public JLabel labelGuest = new JLabel("Bem vindo, usuário!"); // Setado no construtor
-  public ImagemCircular imagemPerfil = new ImagemCircular(System.getProperty("user.dir") + "/imagens/image.png", 100, 100);
   public JPanel paineisPainel = new JPanel();
   public JPanel descubraPainel = new JPanel();
   public JPanel contaPainel = new JPanel();
@@ -42,6 +41,9 @@ public class TelaUser extends JFrame {
     setBounds(100, 100, DEFAULT_WIDTH, DEFAULT_HEIGHT);
     setContentPane(painelPrincipal);
     
+    String caminhoImagem = System.getProperty("user.dir") + "/imagens/fotosPerfil/" + userLogado.getNomeImagem();
+    ImagemCircular imagemPerfil = new ImagemCircular(caminhoImagem, 100, 100);
+
     painelPrincipal.setLayout(new BoxLayout(painelPrincipal, BoxLayout.Y_AXIS));
     labelGuest.setText("Bem vindo, " + userLogado.getNomeCompleto() + "!");
     
@@ -116,7 +118,11 @@ public class TelaUser extends JFrame {
 
     postarButton.addActionListener(e -> {});    
     verPostsButton.addActionListener(e -> {});    
-    verUsersButton.addActionListener(e -> {});    
+    verUsersButton.addActionListener(e -> {
+      TelaDescobrirUsers telaDescobrirUsers = new TelaDescobrirUsers(s, s.getAllUsers(), userLogado);
+      telaDescobrirUsers.setVisible(true);
+      this.dispose();
+    });    
     verPropriosPostsButton.addActionListener(e -> {});    
     verFavoritosButton.addActionListener(e -> {});    
     verPerfilButton.addActionListener(e -> {

@@ -25,7 +25,7 @@ public class OldMain {
     System.out.print("Insira sua biografia: ");
     String biografia = scanner.nextLine();
 
-    User novoUser = new User(username, senha, nome, biografia);
+    User novoUser = new User(username, senha, nome, biografia, null);
     boolean sucesso = s.cadastrarUser(novoUser);
     if(!sucesso){
       System.out.println("Erro: nome de usuário já cadastrado.");
@@ -378,9 +378,9 @@ public class OldMain {
     int escolha = -1;
     
     // Criando uma base de usuários, cada um com 3 posts: 
-    User u1 = new User("joaoInstagram", "Joao123", "João Inácio da Silva", "Apenas um cara tranks");
-    User u2 = new User("FelipeDiasss", "Filipao", "Felipe Dias", "Conto os dias");
-    User u3 = new User("JohnatanPipas", "Pipas123", "Johnatan Holz", "Adoro pipas!");
+    User u1 = new User("joaoInstagram", "Joao123", "João Inácio da Silva", "Apenas um cara tranks", null);
+    User u2 = new User("FelipeDiasss", "Filipao", "Felipe Dias", "Conto os dias", null);
+    User u3 = new User("JohnatanPipas", "Pipas123", "Johnatan Holz", "Adoro pipas!", null);
     m.s.cadastrarUser(u1);
     m.s.cadastrarUser(u2);
     m.s.cadastrarUser(u3);

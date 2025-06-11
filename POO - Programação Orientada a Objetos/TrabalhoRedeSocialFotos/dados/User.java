@@ -8,17 +8,19 @@ public class User {
   private String senha;
   private String nomeCompleto;
   private String biografia;
+  private String nomeImagem;
   private ArrayList<Post> posts;
   private ArrayList<Post> favoritos;
   private ArrayList<User> seguidores;
   private ArrayList<User> seguindo;
 
   // Construtor
-  public User(String username, String senha, String nomeCompleto, String biografia){
+  public User(String username, String senha, String nomeCompleto, String biografia, String nomeImagem){
     this.username = username;
     this.senha = senha;
     this.nomeCompleto = nomeCompleto;
     this.biografia = biografia;
+    this.nomeImagem = (nomeImagem == null) ? "DEFAULT.png" : nomeImagem; // Pode ou não ter imagem
     this.posts = new ArrayList<Post>();
     this.favoritos = new ArrayList<Post>();
     this.seguidores = new ArrayList<User>();
@@ -53,6 +55,9 @@ public class User {
   public ArrayList<User> verSeguindo() {
     return seguindo;
   }
+  public String getNomeImagem() {
+    return nomeImagem;
+  }
 
   // Sets
   public void mudarUsername(String username) {
@@ -69,6 +74,9 @@ public class User {
   }
   public void setID(int id) {
     ID = id;
+  }
+  public void setNomeImagem(String nomeImagem) {
+    this.nomeImagem = nomeImagem;
   }
 
   // Outros métodos
