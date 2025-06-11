@@ -5,6 +5,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -71,9 +72,9 @@ public class TelaLogin extends JFrame {
 
       userLogado = s.fazerLogin(username, senha);
         if(userLogado == null){
-          javax.swing.JOptionPane.showMessageDialog(this, "Usuário ou senha inválidos.");
+          JOptionPane.showMessageDialog(this, "Usuário ou senha inválidos.");
       }else{
-        javax.swing.JOptionPane.showMessageDialog(this, "Login realizado com sucesso!");
+        JOptionPane.showMessageDialog(this, "Login realizado com sucesso!");
         TelaUser telaUser = new TelaUser(userLogado, s);
         telaUser.setVisible(true);
         TelaLogin.this.setVisible(false);
@@ -83,7 +84,7 @@ public class TelaLogin extends JFrame {
     buttonIrParaCadastro.addActionListener(e -> {
       TelaCadastro telaCadastro = new TelaCadastro(s);
       telaCadastro.setVisible(true);
-      TelaLogin.this.dispose(); // fecha e remove a janela anterior
+      this.dispose(); // fecha e remove a janela anterior
     });
     }
 }

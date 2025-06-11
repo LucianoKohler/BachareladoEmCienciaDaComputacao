@@ -53,7 +53,7 @@ public class TelaGuest extends JFrame {
     cadastrarButton.addActionListener(e -> {
         TelaCadastro telaCadastro = new TelaCadastro(s);
         telaCadastro.setVisible(true);
-        TelaGuest.this.dispose(); // fecha e remove a janela anterior
+        this.dispose(); // fecha e remove a janela anterior
     });
   }
 

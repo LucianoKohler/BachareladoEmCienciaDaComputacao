@@ -12,7 +12,6 @@ import dados.User;
 import negocio.Sistema;
 import apresentacao.componentes.ImagemCircular;
 
-import java.awt.Button;
 import java.awt.Component;
 import java.awt.Dimension;
 
@@ -120,13 +119,17 @@ public class TelaUser extends JFrame {
     verUsersButton.addActionListener(e -> {});    
     verPropriosPostsButton.addActionListener(e -> {});    
     verFavoritosButton.addActionListener(e -> {});    
-    verPerfilButton.addActionListener(e -> {});  
+    verPerfilButton.addActionListener(e -> {
+      TelaPerfil telaPerfil = new TelaPerfil(userLogado, s);
+      telaPerfil.setVisible(true);
+      this.dispose();
+    });  
 
     /* FUNÇÃO DE LOGOUT */  
     logoutButton.addActionListener(e -> {
       TelaGuest telaGuest = new TelaGuest(s);
       telaGuest.setVisible(true);
-      TelaUser.this.dispose();
+      this.dispose();
     });    
   }
 }

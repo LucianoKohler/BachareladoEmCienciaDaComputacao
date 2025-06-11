@@ -5,6 +5,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
@@ -96,12 +97,12 @@ public class TelaCadastro extends JFrame {
       User novoUser = new User(username, senha, nomeCompleto, biografia);
       boolean sucesso = s.cadastrarUser(novoUser);
         if(!sucesso){
-          javax.swing.JOptionPane.showMessageDialog(this, "Erro: nome de usuário já cadastrado.");
+          JOptionPane.showMessageDialog(this, "Erro: nome de usuário já cadastrado.");
       }else{
-        javax.swing.JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!");
+        JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!");
         TelaUser telaUser = new TelaUser(novoUser, s);
         telaUser.setVisible(true);
-        TelaCadastro.this.dispose(); // fecha e remove a janela anterior
+        this.dispose(); // fecha e remove a janela anterior
       }
     });
 

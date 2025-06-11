@@ -120,6 +120,8 @@ public class Sistema {
   }
 
   public boolean mudarCredenciaisPerfil(User u, String s, int escolha){
+    if(s.equals("")) return false;
+
     switch (escolha) {
       case 1: // username
         // Checando para ver se já há um username igual:
@@ -143,7 +145,7 @@ public class Sistema {
         System.out.println("Escolha inválida");
         break;
     }
-    return false;
+    return true;
   }
 
   public boolean favoritarPost(User u, Post p){
