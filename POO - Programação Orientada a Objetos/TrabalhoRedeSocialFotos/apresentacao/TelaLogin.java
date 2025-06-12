@@ -21,17 +21,23 @@ public class TelaLogin extends JFrame {
 
   /* INSTANCIANDO ELEMENTOS */
   public JPanel mainPanel = new JPanel();
+
+  /* LABELS */
   public JLabel labelUsername = new JLabel("Username: ");
-  public JTextField textFieldUsername = new JTextField();
   public JLabel labelSenha = new JLabel("Senha: ");
+
+  /* TEXTFIELDS */
+  public JTextField textFieldUsername = new JTextField();
   public JPasswordField textFieldSenha = new JPasswordField();
+
+  /* BUTTONS */
   public JButton buttonLogin = new JButton("Logar");
   public JButton buttonIrParaCadastro = new JButton("Não tem uma conta? Cadastre-se");
   
   public TelaLogin(Sistema s) {
     int DEFAULT_HEIGHT = 400;
     int DEFAULT_WIDTH = 400;
-    setTitle("Tela Login");
+    setTitle("Login");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBounds(100, 100, DEFAULT_WIDTH, DEFAULT_HEIGHT);
     setContentPane(mainPanel);
@@ -47,6 +53,7 @@ public class TelaLogin extends JFrame {
     buttonLogin.setAlignmentX(Component.CENTER_ALIGNMENT);
     buttonIrParaCadastro.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+    /* CARACTERÍSTICAS DOS ELEMENTOS */
     textFieldUsername.setMaximumSize(new Dimension(200, 25));
     textFieldSenha.setMaximumSize(new Dimension(200, 25));
     
@@ -84,7 +91,7 @@ public class TelaLogin extends JFrame {
     buttonIrParaCadastro.addActionListener(e -> {
       TelaCadastro telaCadastro = new TelaCadastro(s);
       telaCadastro.setVisible(true);
-      this.dispose(); // fecha e remove a janela anterior
+      this.dispose();
     });
     }
 }

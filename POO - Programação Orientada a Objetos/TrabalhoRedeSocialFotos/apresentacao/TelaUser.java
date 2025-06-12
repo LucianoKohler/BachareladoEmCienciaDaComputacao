@@ -36,13 +36,12 @@ public class TelaUser extends JFrame {
   public TelaUser(User userLogado, Sistema s) {
     int DEFAULT_HEIGHT = 700;
     int DEFAULT_WIDTH = 400;
-    setTitle("Rede Social de Fotos");
+    setTitle("Tela Principal");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBounds(100, 100, DEFAULT_WIDTH, DEFAULT_HEIGHT);
     setContentPane(painelPrincipal);
     
-    String caminhoImagem = System.getProperty("user.dir") + "/imagens/fotosPerfil/" + userLogado.getNomeImagem();
-    ImagemCircular imagemPerfil = new ImagemCircular(caminhoImagem, 100, 100);
+    ImagemCircular imagemPerfil = new ImagemCircular(userLogado.getFotoPerfil(), 100, 100);
 
     painelPrincipal.setLayout(new BoxLayout(painelPrincipal, BoxLayout.Y_AXIS));
     labelGuest.setText("Bem vindo, " + userLogado.getNomeCompleto() + "!");
@@ -50,14 +49,16 @@ public class TelaUser extends JFrame {
     descubraPainel.setBorder(BorderFactory.createTitledBorder("DESCUBRA"));
     contaPainel.setBorder(BorderFactory.createTitledBorder("CONTA"));
 
+    /* COMO CADA PANEL DEVE ARMAZENAR SEUS COMPONENTES */
     descubraPainel.setLayout(new BoxLayout(descubraPainel, BoxLayout.Y_AXIS));
     contaPainel.setLayout(new BoxLayout(contaPainel, BoxLayout.Y_AXIS));
     paineisPainel.setLayout(new BoxLayout(paineisPainel, BoxLayout.X_AXIS));
+
+    /* CARACTERÍSTICAS DOS ELEMENTOS */
     descubraPainel.setPreferredSize(new Dimension(175, 150));
     descubraPainel.setMaximumSize(new Dimension(175, 150));
     contaPainel.setPreferredSize(new Dimension(175, 150));
     contaPainel.setMaximumSize(new Dimension(175, 150));
-
     postarButton.setMaximumSize(new Dimension(150, 25));
     verPostsButton.setMaximumSize(new Dimension(150, 25));
     verPropriosPostsButton.setMaximumSize(new Dimension(150, 25));
@@ -66,7 +67,7 @@ public class TelaUser extends JFrame {
     verPerfilButton.setMaximumSize(new Dimension(150, 25));
     logoutButton.setMaximumSize(new Dimension(150, 25));
 
-
+    /* INDICANDO COMO CADA ELEMENTO DEVE SE COMPORTAR */
     verPostsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
     verPropriosPostsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
     verUsersButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -76,7 +77,6 @@ public class TelaUser extends JFrame {
     postarButton.setAlignmentX(Component.CENTER_ALIGNMENT);
     labelGuest.setAlignmentX(Component.CENTER_ALIGNMENT);
     imagemPerfil.setAlignmentX(Component.CENTER_ALIGNMENT);
-
 
     /* DESIGN DO PAINEL DESCUBRA */
     descubraPainel.add(Box.createVerticalGlue());
@@ -115,23 +115,42 @@ public class TelaUser extends JFrame {
     painelPrincipal.add(Box.createVerticalGlue());
 
     /* FUNCIONALIDADES DOS BOTÕES */
+    postarButton.addActionListener(e -> {
+      TelaPostar telaPostar = new TelaPostar(s, userLogado);
+      telaPostar.setVisible(true);
+      this.dispose();
+    });    
 
-    postarButton.addActionListener(e -> {});    
-    verPostsButton.addActionListener(e -> {});    
+    verPostsButton.addActionListener(e -> {
+      TelaPostsFeed telaPostsFeed = new TelaPostsFeed(userLogado, s);
+      telaPostsFeed.setVisible(true);
+      this.dispose(); 
+    });    
+
     verUsersButton.addActionListener(e -> {
       TelaDescobrirUsers telaDescobrirUsers = new TelaDescobrirUsers(s, s.getAllUsers(), userLogado);
       telaDescobrirUsers.setVisible(true);
       this.dispose();
     });    
-    verPropriosPostsButton.addActionListener(e -> {});    
-    verFavoritosButton.addActionListener(e -> {});    
+
+    verPropriosPostsButton.addActionListener(e -> {
+      TelaVerPropriosPosts telaVerPropriosPosts = new TelaVerPropriosPosts(userLogado, s);
+      telaVerPropriosPosts.setVisible(true);
+      this.dispose();
+    });    
+
+    verFavoritosButton.addActionListener(e -> {
+      TelaVerFavoritos telaVerFavoritos = new TelaVerFavoritos(userLogado, s);
+      telaVerFavoritos.setVisible(true);
+      this.dispose();
+    });    
+
     verPerfilButton.addActionListener(e -> {
       TelaPerfil telaPerfil = new TelaPerfil(userLogado, s);
       telaPerfil.setVisible(true);
       this.dispose();
     });  
 
-    /* FUNÇÃO DE LOGOUT */  
     logoutButton.addActionListener(e -> {
       TelaGuest telaGuest = new TelaGuest(s);
       telaGuest.setVisible(true);

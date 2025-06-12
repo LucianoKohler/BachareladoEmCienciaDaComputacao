@@ -14,11 +14,13 @@ import javax.swing.JTextField;
 import dados.User;
 import negocio.Sistema;
 import apresentacao.componentes.ImagemCircular;
+import apresentacao.componentes.SeletorImagem;
 
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.image.BufferedImage;
 
 public class TelaPerfil extends JFrame {
   
@@ -27,6 +29,7 @@ public class TelaPerfil extends JFrame {
   public JLabel labelUsername = new JLabel("USUÁRIO"); // Setado no construtor
   public JPanel painelAcoes = new JPanel();
 
+  /* LABELS */
   public JPanel estatisticasPanel = new JPanel();
   public JPanel qtdPostsPanel = new JPanel();
   public JLabel qtdPostsLabel1 = new JLabel("0");
@@ -37,43 +40,52 @@ public class TelaPerfil extends JFrame {
   public JPanel seguindoPanel = new JPanel();
   public JLabel seguindoLabel1 = new JLabel("0");
   public JLabel seguindoLabel2 = new JLabel("SEGUINDO");
+  public JLabel ouLabel = new JLabel("OU");
 
-  
   /* BOTÕES */
   public JButton mudarCredenciaisButton = new JButton("Mudar credenciais de perfil");
   public JButton verSeguidoresButton = new JButton("Ver seus seguidores");
   public JButton verSeguindoButton = new JButton("Ver quem você segue");
   public JButton apagarContaButton = new JButton("Apagar conta");
   public JButton voltarButton = new JButton("Voltar");
+  JButton adicionarImagemButton = new JButton("Mudar foto de perfil");
 
   public TelaPerfil(User userLogado, Sistema s) {
     int DEFAULT_HEIGHT = 700;
     int DEFAULT_WIDTH = 400;
-    setTitle("Rede Social de Fotos");
+    setTitle("Perfil");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBounds(100, 100, DEFAULT_WIDTH, DEFAULT_HEIGHT);
     setContentPane(painelPrincipal);
 
-    String caminhoImagem = System.getProperty("user.dir") + "/imagens/fotosPerfil/" + userLogado.getNomeImagem();
-    ImagemCircular imagemPerfil = new ImagemCircular(caminhoImagem, 100, 100);
+    ImagemCircular imagemPerfil = new ImagemCircular(userLogado.getFotoPerfil(), 100, 100);
     
+    /* COMO CADA PANEL DEVE ARMAZENAR SEUS COMPONENTES */
     painelPrincipal.setLayout(new BoxLayout(painelPrincipal, BoxLayout.Y_AXIS));
     estatisticasPanel.setLayout(new BoxLayout(estatisticasPanel, BoxLayout.X_AXIS));
     qtdPostsPanel.setLayout(new BoxLayout(qtdPostsPanel, BoxLayout.Y_AXIS));
     seguidoresPanel.setLayout(new BoxLayout(seguidoresPanel, BoxLayout.Y_AXIS));
     seguindoPanel.setLayout(new BoxLayout(seguindoPanel, BoxLayout.Y_AXIS));
 
+    /* CARACTERÍSTICAS DOS ELEMENTOS */
     labelUsername.setText(userLogado.getNomeCompleto());
     labelUsername.setFont(new Font("Arial", Font.BOLD, 24));
     qtdPostsLabel1.setFont(new Font("Arial", Font.BOLD, 24));
     seguidoresLabel1.setFont(new Font("Arial", Font.BOLD, 24));
     seguindoLabel1.setFont(new Font("Arial", Font.BOLD, 24));
-
+    ouLabel.setFont(new Font("arial", Font.BOLD, 16));
+    
     mudarCredenciaisButton.setMaximumSize(new Dimension(250, 25));
     verSeguidoresButton.setMaximumSize(new Dimension(250, 25));
     verSeguindoButton.setMaximumSize(new Dimension(250, 25));
     apagarContaButton.setMaximumSize(new Dimension(250, 25));
     voltarButton.setMaximumSize(new Dimension(250, 25));
+    
+    qtdPostsLabel1.setText(String.valueOf(userLogado.getPosts().size()));
+    seguidoresLabel1.setText(String.valueOf(userLogado.verSeguidores().size()));
+    seguindoLabel1.setText(String.valueOf(userLogado.verSeguindo().size()));
+
+    /* INDICANDO COMO CADA ELEMENTO DEVE SE COMPORTAR */
     painelPrincipal.setAlignmentX(Component.CENTER_ALIGNMENT);
     imagemPerfil.setAlignmentX(Component.CENTER_ALIGNMENT);
     labelUsername.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -83,16 +95,13 @@ public class TelaPerfil extends JFrame {
     verSeguindoButton.setAlignmentX(Component.CENTER_ALIGNMENT);
     apagarContaButton.setAlignmentX(Component.CENTER_ALIGNMENT);
     voltarButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+    ouLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+    adicionarImagemButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-    qtdPostsLabel1.setText(String.valueOf(userLogado.getPosts().size()));
     qtdPostsLabel1.setAlignmentX(Component.CENTER_ALIGNMENT);
     qtdPostsLabel2.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-    seguidoresLabel1.setText(String.valueOf(userLogado.verSeguidores().size()));
     seguidoresLabel1.setAlignmentX(Component.CENTER_ALIGNMENT);
     seguidoresLabel2.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-    seguindoLabel1.setText(String.valueOf(userLogado.verSeguindo().size()));
     seguindoLabel1.setAlignmentX(Component.CENTER_ALIGNMENT);
     seguindoLabel2.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -154,7 +163,7 @@ public class TelaPerfil extends JFrame {
     mudarCredenciaisButton.addActionListener(e -> {
       JPanel formPainel = new JPanel(new GridLayout(0, 1));
       JRadioButton usernameOption = new JRadioButton("Username");
-      usernameOption.setSelected(true);
+      usernameOption.setSelected(true); // Começa com esse setado por padrão
       JRadioButton senhaOption = new JRadioButton("Senha");
       JRadioButton nomeCompletoOption = new JRadioButton("Nome Completo");
       JRadioButton biografiaOption = new JRadioButton("Biografia");
@@ -174,6 +183,9 @@ public class TelaPerfil extends JFrame {
 
       formPainel.add(new JLabel("Insira a nova informação: "));
       formPainel.add(novaInformacaoTextField);
+
+      formPainel.add(ouLabel);
+      formPainel.add(adicionarImagemButton);
 
       int resultado = JOptionPane.showConfirmDialog(null, formPainel, "Mudar credenciais", JOptionPane.OK_CANCEL_OPTION);
     
@@ -196,7 +208,13 @@ public class TelaPerfil extends JFrame {
       }
     }
     });
-    verSeguidoresButton.addActionListener(e -> {});
+
+    verSeguidoresButton.addActionListener(e -> {
+      TelaVerSeguidores telaVerSeguidores = new TelaVerSeguidores(s, userLogado);
+      telaVerSeguidores.setVisible(true);
+      this.dispose();      
+    });
+
     verSeguindoButton.addActionListener(e -> {
       TelaVerSeguindo telaVerSeguindo = new TelaVerSeguindo(s, userLogado);
       telaVerSeguindo.setVisible(true);
@@ -214,18 +232,25 @@ public class TelaPerfil extends JFrame {
           TelaGuest telaGuest = new TelaGuest(s);
           telaGuest.setVisible(true);
           this.dispose();
-
-        } else if (resposta == JOptionPane.NO_OPTION) {
-            System.out.println("Usuário clicou em NÃO");
-        } else {
-            System.out.println("Usuário fechou a janela ou cancelou");
         }
-
     });
 
     voltarButton.addActionListener(e -> {
       TelaUser telaUser = new TelaUser(userLogado, s);
       telaUser.setVisible(true);
+      this.dispose();
+    });
+
+    adicionarImagemButton.addActionListener(e -> {
+      BufferedImage imagemEscolhida = SeletorImagem.solicitarImagem(this);
+      if(imagemEscolhida == null) {
+        JOptionPane.showMessageDialog(this, "Nenhuma imagem escolhida");
+        return;
+      }
+      userLogado.setFotoPerfil(User.ImageParaBytes(imagemEscolhida, "png"));
+      JOptionPane.showMessageDialog(this, "Informação alterada com sucesso!");
+      TelaPerfil telaPerfil = new TelaPerfil(userLogado, s);
+      telaPerfil.setVisible(true);
       this.dispose();
     });
   }

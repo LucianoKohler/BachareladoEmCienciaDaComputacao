@@ -1,6 +1,12 @@
 package dados;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 public class User {
   private int ID;
@@ -8,19 +14,19 @@ public class User {
   private String senha;
   private String nomeCompleto;
   private String biografia;
-  private String nomeImagem;
+  private byte[] imagemPerfil;
   private ArrayList<Post> posts;
   private ArrayList<Post> favoritos;
   private ArrayList<User> seguidores;
   private ArrayList<User> seguindo;
 
   // Construtor
-  public User(String username, String senha, String nomeCompleto, String biografia, String nomeImagem){
+  public User(String username, String senha, String nomeCompleto, String biografia, byte[] imagemPerfil){
     this.username = username;
     this.senha = senha;
     this.nomeCompleto = nomeCompleto;
     this.biografia = biografia;
-    this.nomeImagem = (nomeImagem == null) ? "DEFAULT.png" : nomeImagem; // Pode ou não ter imagem
+    this.imagemPerfil = (imagemPerfil == null) ? carregarImagemPadrao() : imagemPerfil;// Pode ou não ter imagem
     this.posts = new ArrayList<Post>();
     this.favoritos = new ArrayList<Post>();
     this.seguidores = new ArrayList<User>();
@@ -55,8 +61,8 @@ public class User {
   public ArrayList<User> verSeguindo() {
     return seguindo;
   }
-  public String getNomeImagem() {
-    return nomeImagem;
+  public byte[] getFotoPerfil() {
+    return imagemPerfil;
   }
 
   // Sets
@@ -75,8 +81,8 @@ public class User {
   public void setID(int id) {
     ID = id;
   }
-  public void setNomeImagem(String nomeImagem) {
-    this.nomeImagem = nomeImagem;
+  public void setFotoPerfil(byte[] imagemPerfil) {
+    this.imagemPerfil = imagemPerfil;
   }
 
   // Outros métodos
@@ -95,6 +101,41 @@ public class User {
   public void favoritarPost(Post p){ this.favoritos.add(p); }
 
   public boolean desFavoritarPost(Post p){ return this.favoritos.remove(p); } 
+
+  public static byte[] carregarImagemPadrao() {
+    try {
+        String caminhoImagem = System.getProperty("user.dir") + "/imagens/fotosPerfil/DEFAULT.png"; 
+        BufferedImage imagem = ImageIO.read(new File(caminhoImagem));
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(imagem, "png", baos);
+        return baos.toByteArray();
+    } catch (Exception e) {
+        e.printStackTrace();
+        return null;
+    }
+}
+
+  public static byte[] ImageParaBytes(BufferedImage imagem, String formato) {
+    if(imagem == null){ return null; }
+    try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+        ImageIO.write(imagem, formato, baos);
+        return baos.toByteArray();
+    } catch (Exception e) {
+        e.printStackTrace();
+        return null;
+    }
+  }
+
+  public static BufferedImage BytesParaImage(byte[] bytes) {
+    if(bytes == null){ return null; }
+    try (ByteArrayInputStream bais = new ByteArrayInputStream(bytes)) {
+        return ImageIO.read(bais);
+    } catch (Exception e) {
+        e.printStackTrace();
+        return null;
+    }
+  }
+
 
   public String toString(){
     return "Usuário N° " + ID + "\n Username: " + username + "\n Nome Completo: " + nomeCompleto + "\n";

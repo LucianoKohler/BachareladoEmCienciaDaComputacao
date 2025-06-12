@@ -11,34 +11,45 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import apresentacao.componentes.SeletorImagem;
 import dados.User;
 import negocio.Sistema;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.image.BufferedImage;
 
 public class TelaCadastro extends JFrame {
   User userLogado = null;
+  private BufferedImage fotoPerfil = null;
   
   /* INSTANCIANDO ELEMENTOS */
   public JPanel mainPanel = new JPanel();
+
+  /* LABELS */
   public JLabel labelUsername = new JLabel("Username: ");
-  public JTextField textFieldUsername = new JTextField();
   public JLabel labelSenha = new JLabel("Senha: ");
-  public JPasswordField textFieldSenha = new JPasswordField();
   public JLabel labelNomeCompleto = new JLabel("Nome Completo: ");
-  public JTextField textFieldNomeCompleto = new JTextField();
   public JLabel labelBiografia = new JLabel("Biografia: ");
+  public JLabel labelImagemPerfil = new JLabel("Selecione a imagem de perfil: ");
+
+  /* TEXTFIELDS */
+  public JTextField textFieldUsername = new JTextField();
+  public JPasswordField textFieldSenha = new JPasswordField();
+  public JTextField textFieldNomeCompleto = new JTextField();
   public JTextArea textAreaBiografia = new JTextArea();
+  
+  /* BUTTONS */
+  public JButton buttonImagemPerfil = new JButton("Escolher");
   public JButton buttonCadastro = new JButton("Cadastrar");
   public JButton buttonIrParaLogin = new JButton("Já tem uma conta? Faça login");
-  
 
   public TelaCadastro(Sistema s) {
-    int DEFAULT_HEIGHT = 400;
+    int DEFAULT_HEIGHT = 500;
     int DEFAULT_WIDTH = 400;
-    setTitle("Tela Cadastro");
+    setTitle("Cadastro");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, DEFAULT_WIDTH, DEFAULT_HEIGHT);
     setBounds(100, 100, DEFAULT_WIDTH, DEFAULT_HEIGHT);
     setContentPane(mainPanel);
     mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -54,12 +65,15 @@ public class TelaCadastro extends JFrame {
     textAreaBiografia.setAlignmentX(Component.CENTER_ALIGNMENT);
     buttonCadastro.setAlignmentX(Component.CENTER_ALIGNMENT);
     buttonIrParaLogin.setAlignmentX(Component.CENTER_ALIGNMENT);
+    labelImagemPerfil.setAlignmentX(Component.CENTER_ALIGNMENT);
+    buttonImagemPerfil.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+    /* CARACTERÍSTICAS DOS ELEMENTOS */
     textFieldUsername.setMaximumSize(new Dimension(200, 25));
     textFieldSenha.setMaximumSize(new Dimension(200, 25));
     textFieldNomeCompleto.setMaximumSize(new Dimension(200, 25));
     textAreaBiografia.setRows(2);
-    textAreaBiografia.setLineWrap(true); // quebra linha
+    textAreaBiografia.setLineWrap(true); // Quebra linha
     textAreaBiografia.setWrapStyleWord(true);
     textAreaBiografia.setMaximumSize(new Dimension(200, 50));
     textAreaBiografia.setPreferredSize(new Dimension(200, 50));
@@ -82,6 +96,10 @@ public class TelaCadastro extends JFrame {
     mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
     mainPanel.add(textAreaBiografia);
     mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+    mainPanel.add(labelImagemPerfil);
+    mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+    mainPanel.add(buttonImagemPerfil);
+    mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
     mainPanel.add(buttonCadastro);
     mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
     mainPanel.add(buttonIrParaLogin);
@@ -94,22 +112,34 @@ public class TelaCadastro extends JFrame {
       String nomeCompleto = new String(textFieldNomeCompleto.getText());
       String biografia = new String(textAreaBiografia.getText());
 
-      User novoUser = new User(username, senha, nomeCompleto, biografia, null);
+      if(username.isEmpty() || senha.isEmpty() || nomeCompleto.isEmpty() || biografia.isEmpty()){
+        JOptionPane.showMessageDialog(this, "Erro: todos os campos devem ser preenchidos.");
+        return;
+      }
+
+      User novoUser = new User(username, senha, nomeCompleto, biografia, User.ImageParaBytes(fotoPerfil, "png"));
       boolean sucesso = s.cadastrarUser(novoUser);
-        if(!sucesso){
+      if(!sucesso){
           JOptionPane.showMessageDialog(this, "Erro: nome de usuário já cadastrado.");
       }else{
         JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!");
         TelaUser telaUser = new TelaUser(novoUser, s);
         telaUser.setVisible(true);
-        this.dispose(); // fecha e remove a janela anterior
+        this.dispose();
       }
     });
 
     buttonIrParaLogin.addActionListener(e -> {
       TelaLogin telaLogin = new TelaLogin(s);
       telaLogin.setVisible(true);
-      TelaCadastro.this.setVisible(false);
+      this.setVisible(false);
+    });
+
+    buttonImagemPerfil.addActionListener(e -> {
+      fotoPerfil = SeletorImagem.solicitarImagem(this);
+      if(fotoPerfil != null){
+        buttonImagemPerfil.setText("Selecionada! Selecionar outra foto?");
+      }
     });
     }
 }

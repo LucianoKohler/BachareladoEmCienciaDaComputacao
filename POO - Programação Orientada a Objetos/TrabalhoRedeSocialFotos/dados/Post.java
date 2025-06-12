@@ -1,19 +1,25 @@
 package dados;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 public class Post {
   private int ID;
   private User donoPost;
   private String legenda;
-  private String img;
+  private byte[] imagem;
   private ArrayList<User> favoritadores;
 
   // Construtor
-  public Post(User donoPost, String img, String legenda){
+  public Post(User donoPost, String legenda, byte[] imagem){
     this.donoPost = donoPost;
     this.legenda = legenda;
-    this.img = img;
+    this.imagem = (imagem == null) ? carregarImagemPadrao() : imagem;
     this.favoritadores = new ArrayList<User>();
   }
 
@@ -24,8 +30,8 @@ public class Post {
   public User getDonoPost() { // ID ??
     return donoPost;
   }
-  public String getImg() {
-    return img;
+  public byte[] getImagem() {
+    return imagem;
   }
   public String getLegenda() {
     return legenda;
@@ -39,7 +45,41 @@ public class Post {
   }
 
   // Métodos
-  public void adicionarFavoritador(User u){ // ID ??
+public static byte[] carregarImagemPadrao() {
+  try {
+      String caminhoImagem = System.getProperty("user.dir") + "/imagens/fotosPost/postSemImagem.png"; 
+      BufferedImage imagem = ImageIO.read(new File(caminhoImagem));
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+      ImageIO.write(imagem, "png", baos);
+      return baos.toByteArray();
+  } catch (Exception e) {
+      e.printStackTrace();
+      return null;
+  }
+}
+
+  public static byte[] ImageParaBytes(BufferedImage imagem, String formato) {
+    if(imagem == null){ return null; }
+    try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+        ImageIO.write(imagem, formato, baos);
+        return baos.toByteArray();
+    } catch (Exception e) {
+        e.printStackTrace();
+        return null;
+    }
+  }
+
+  public static BufferedImage BytesParaImage(byte[] bytes) {
+    if(bytes == null){ return null; }
+    try (ByteArrayInputStream bais = new ByteArrayInputStream(bytes)) {
+        return ImageIO.read(bais);
+    } catch (Exception e) {
+        e.printStackTrace();
+        return null;
+    }
+  }
+
+  public void adicionarFavoritador(User u){
     this.favoritadores.add(u);
   }
 
@@ -48,6 +88,6 @@ public class Post {
   }
 
   public String toString(){
-    return "\nPost n° " + ID + ":\n Caminho da imagem: " + img + "\n Legenda do post: " + legenda + "\n";
+    return "\nPost n° " + ID + "\n Legenda do post: " + legenda + "\n";
   }
 }

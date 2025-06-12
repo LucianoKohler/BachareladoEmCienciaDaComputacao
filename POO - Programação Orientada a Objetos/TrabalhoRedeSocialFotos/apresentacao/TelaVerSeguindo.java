@@ -15,7 +15,6 @@ import negocio.Sistema;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.util.ArrayList;
 
 public class TelaVerSeguindo extends JFrame {
   
@@ -28,7 +27,7 @@ public class TelaVerSeguindo extends JFrame {
   public TelaVerSeguindo(Sistema s, User userLogado) {
     int DEFAULT_HEIGHT = 700;
     int DEFAULT_WIDTH = 400;
-    setTitle("Rede Social de Fotos");
+    setTitle("Seguindo");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBounds(100, 100, DEFAULT_WIDTH, DEFAULT_HEIGHT);
     setContentPane(painelPrincipal);

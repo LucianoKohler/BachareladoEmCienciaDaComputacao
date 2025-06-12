@@ -15,24 +15,22 @@ import negocio.Sistema;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.util.ArrayList;
 
-public class TelaDescobrirUsers extends JFrame {
+public class TelaVerSeguidores extends JFrame {
   
   /* INSTANCIANDO ELEMENTOS */
   JScrollPane painelPrincipal = new JScrollPane();
   JPanel painelConteudo = new JPanel();
-  JLabel tituloLabel = new JLabel("Usuários que você pode seguir");
+  JLabel tituloLabel = new JLabel("Seus seguidores");
   JButton voltarButton = new JButton("Voltar");
 
-  public TelaDescobrirUsers(Sistema s, ArrayList<User> users, User userLogado) {
+  public TelaVerSeguidores(Sistema s, User userLogado) {
     int DEFAULT_HEIGHT = 700;
     int DEFAULT_WIDTH = 400;
-    setTitle("Descubra novos usuários");
+    setTitle("Seguidores");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBounds(100, 100, DEFAULT_WIDTH, DEFAULT_HEIGHT);
     setContentPane(painelPrincipal);
-
     painelConteudo.setLayout(new BoxLayout(painelConteudo, BoxLayout.Y_AXIS));
     voltarButton.setAlignmentX(Component.CENTER_ALIGNMENT);
     tituloLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -42,54 +40,49 @@ public class TelaDescobrirUsers extends JFrame {
     painelConteudo.add(tituloLabel);
     painelConteudo.add(Box.createRigidArea(new Dimension(0, 20)));
 
-    int qtdUsersListados = 0;
-    for (User user : users) {
-      if(userLogado.verSeguindo().contains(user)){ continue; } // Se o usuário já está seguindo o usuário, pula para o próximo
-      if(user.equals(userLogado)) { continue; } // Mesma coisa se o usário for ele mesmo
+    for (User user : userLogado.verSeguidores()) {
       
-      qtdUsersListados++;
       JPanel userPainel = new JPanel();
       userPainel.setLayout(new BoxLayout(userPainel, BoxLayout.X_AXIS));
 
       JLabel nomeLabel = new JLabel(user.getNomeCompleto());
-      JButton seguirButton = new JButton("Seguir");
-      
+      JButton removerSeguidorButton = new JButton("Remover seguidor");
       nomeLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-      seguirButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
+      removerSeguidorButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
       userPainel.add(Box.createRigidArea(new Dimension(20, 0)));
       userPainel.add(nomeLabel);
       userPainel.add(Box.createHorizontalGlue());
-      userPainel.add(seguirButton);
+      userPainel.add(removerSeguidorButton);
       userPainel.add(Box.createRigidArea(new Dimension(20, 0)));
       
       painelConteudo.add(userPainel);
       painelConteudo.add(Box.createRigidArea(new Dimension(0, 10)));
 
-      seguirButton.addActionListener(e -> {
-        JOptionPane.showMessageDialog(this, "Agora você segue: " + user.getNomeCompleto());
-        userLogado.follow(user);
-        user.novoSeguidor(userLogado);
-        TelaDescobrirUsers telaDescobrirUsers = new TelaDescobrirUsers(s, users, userLogado);
-        telaDescobrirUsers.setVisible(true);
+      removerSeguidorButton.addActionListener(e -> {
+        JOptionPane.showMessageDialog(this, "Você removeu " + user.getNomeCompleto() + " da sua lista de seguidores");
+        user.unfollow(userLogado);
+        userLogado.removerSeguidor(user);
+        TelaVerSeguidores telaVerSeguidores = new TelaVerSeguidores(s, userLogado);
+        telaVerSeguidores.setVisible(true);
         this.dispose();
       });
     }
 
-    if(qtdUsersListados == 0){
-      JLabel semUsuariosLabel = new JLabel("Parece que não há usuários disponíveis para seguir...");
+    if(userLogado.verSeguidores().size() == 0){
+      JLabel semUsuariosLabel = new JLabel("Parece que ninguém te segue...");
       semUsuariosLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
       painelConteudo.add(semUsuariosLabel);
       painelConteudo.add(Box.createRigidArea(new Dimension(0, 20)));
     }
 
     painelConteudo.add(voltarButton);
-    
     painelPrincipal.setViewportView(painelConteudo);
-
+    
+    /* FUNCIONALIDADES DOS BOTÕES */
     voltarButton.addActionListener(e -> {
-      TelaUser telaUser = new TelaUser(userLogado, s);
-      telaUser.setVisible(true);
+      TelaPerfil telaPerfil = new TelaPerfil(userLogado, s);
+      telaPerfil.setVisible(true);
       this.dispose();
     });
   }
