@@ -117,7 +117,7 @@ public class TelaCadastro extends JFrame {
         return;
       }
 
-      User novoUser = new User(username, senha, nomeCompleto, biografia, User.ImageParaBytes(fotoPerfil, "png"));
+      User novoUser = new User(username, senha, nomeCompleto, biografia, Sistema.ImageParaBytes(fotoPerfil));
       boolean sucesso = s.cadastrarUser(novoUser);
       if(!sucesso){
           JOptionPane.showMessageDialog(this, "Erro: nome de usuário já cadastrado.");

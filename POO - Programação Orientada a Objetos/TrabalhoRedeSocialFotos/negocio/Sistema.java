@@ -1,6 +1,12 @@
 package negocio;
 import dados.*;
+
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 public class Sistema {
   private ArrayList<User> users;
@@ -169,5 +175,26 @@ public class Sistema {
   
   public ArrayList<User> verSeguindoDeUmUser(User u){
     return u.verSeguindo();
+  }
+
+  public static byte[] ImageParaBytes(BufferedImage imagem) {
+    if(imagem == null){ return null; }
+    try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+        ImageIO.write(imagem, "png", baos);
+        return baos.toByteArray();
+    } catch (Exception e) {
+        e.printStackTrace();
+        return null;
+    }
+  }
+
+  public static BufferedImage BytesParaImage(byte[] bytes) {
+    if(bytes == null){ return null; }
+    try (ByteArrayInputStream bais = new ByteArrayInputStream(bytes)) {
+        return ImageIO.read(bais);
+    } catch (Exception e) {
+        e.printStackTrace();
+        return null;
+    }
   }
 }

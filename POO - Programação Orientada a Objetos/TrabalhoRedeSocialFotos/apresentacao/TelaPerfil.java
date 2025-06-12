@@ -247,7 +247,7 @@ public class TelaPerfil extends JFrame {
         JOptionPane.showMessageDialog(this, "Nenhuma imagem escolhida");
         return;
       }
-      userLogado.setFotoPerfil(User.ImageParaBytes(imagemEscolhida, "png"));
+      userLogado.setFotoPerfil(Sistema.ImageParaBytes(imagemEscolhida));
       JOptionPane.showMessageDialog(this, "Informação alterada com sucesso!");
       TelaPerfil telaPerfil = new TelaPerfil(userLogado, s);
       telaPerfil.setVisible(true);

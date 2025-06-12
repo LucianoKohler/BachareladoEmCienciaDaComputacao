@@ -1,7 +1,6 @@
 package dados;
 
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
@@ -115,42 +114,4 @@ public class User {
     }
 }
 
-  public static byte[] ImageParaBytes(BufferedImage imagem, String formato) {
-    if(imagem == null){ return null; }
-    try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-        ImageIO.write(imagem, formato, baos);
-        return baos.toByteArray();
-    } catch (Exception e) {
-        e.printStackTrace();
-        return null;
-    }
-  }
-
-  public static BufferedImage BytesParaImage(byte[] bytes) {
-    if(bytes == null){ return null; }
-    try (ByteArrayInputStream bais = new ByteArrayInputStream(bytes)) {
-        return ImageIO.read(bais);
-    } catch (Exception e) {
-        e.printStackTrace();
-        return null;
-    }
-  }
-
-
-  public String toString(){
-    return "Usuário N° " + ID + "\n Username: " + username + "\n Nome Completo: " + nomeCompleto + "\n";
-  }
-
-  public String toStringCompleto(){
-    String str = "";
-    str +=  "Usuário N° " + ID;
-    str += "\n Username: " + username;
-    str += "\n Senha: " + senha;
-    str += "\n Nome Completo: " + nomeCompleto;
-    str += "\n Biografia: " + biografia;
-    str += "\n Seguidores: " + seguidores.size();
-    str += "\n Seguindo: " + seguindo.size();
-
-    return str;
-  }
 }

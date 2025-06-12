@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
 import dados.Post;
+import negocio.Sistema;
 
 public class ImagemQuadrada extends JPanel {
     private Image imagemRedimensionada;
@@ -17,7 +18,7 @@ public class ImagemQuadrada extends JPanel {
             imagemPost = Post.carregarImagemPadrao();
         }
 
-        BufferedImage imagem = Post.BytesParaImage(imagemPost);
+        BufferedImage imagem = Sistema.BytesParaImage(imagemPost);
         imagemRedimensionada = imagem.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 
         setMaximumSize(new Dimension(width, height));

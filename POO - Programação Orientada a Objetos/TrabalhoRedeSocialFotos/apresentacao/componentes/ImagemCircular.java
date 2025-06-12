@@ -1,17 +1,20 @@
 package apresentacao.componentes;
 
 import javax.swing.JPanel;
-import java.awt.*;
+
+import negocio.Sistema;
+
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import javax.imageio.ImageIO;
 
 public class ImagemCircular extends JPanel {
     private BufferedImage imagemOriginal;
     private BufferedImage imagemCircular;
 
-    public ImagemCircular(byte[] dadosImagem, int width, int height) {
+    public ImagemCircular(byte[] imagem, int width, int height) {
         try {
             // Definindo tamanho fixo pra imagem 
             Dimension tamanhoImagem = new Dimension(width, height);
@@ -19,8 +22,8 @@ public class ImagemCircular extends JPanel {
             setMinimumSize(tamanhoImagem);
             setMaximumSize(tamanhoImagem);
 
-            if (dadosImagem != null) {
-                imagemOriginal = ImageIO.read(new ByteArrayInputStream(dadosImagem));
+            if (imagem != null) {
+                imagemOriginal = Sistema.BytesParaImage(imagem);
 
                 int tamanho = Math.min(imagemOriginal.getWidth(), imagemOriginal.getHeight());
                 imagemCircular = new BufferedImage(tamanho, tamanho, BufferedImage.TYPE_INT_ARGB);

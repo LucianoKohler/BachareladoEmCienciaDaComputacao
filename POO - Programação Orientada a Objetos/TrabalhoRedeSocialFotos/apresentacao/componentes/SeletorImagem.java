@@ -1,11 +1,14 @@
 package apresentacao.componentes;
 
-import javax.swing.*;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import javax.imageio.ImageIO;
+
+import java.awt.Component;
+import java.awt.image.BufferedImage;
+
+import java.io.File;
 
 public class SeletorImagem {
 

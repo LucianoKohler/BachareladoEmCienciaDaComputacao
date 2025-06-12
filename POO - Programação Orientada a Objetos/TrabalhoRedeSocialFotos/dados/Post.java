@@ -1,7 +1,6 @@
 package dados;
 
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
@@ -58,36 +57,11 @@ public static byte[] carregarImagemPadrao() {
   }
 }
 
-  public static byte[] ImageParaBytes(BufferedImage imagem, String formato) {
-    if(imagem == null){ return null; }
-    try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-        ImageIO.write(imagem, formato, baos);
-        return baos.toByteArray();
-    } catch (Exception e) {
-        e.printStackTrace();
-        return null;
-    }
-  }
-
-  public static BufferedImage BytesParaImage(byte[] bytes) {
-    if(bytes == null){ return null; }
-    try (ByteArrayInputStream bais = new ByteArrayInputStream(bytes)) {
-        return ImageIO.read(bais);
-    } catch (Exception e) {
-        e.printStackTrace();
-        return null;
-    }
-  }
-
   public void adicionarFavoritador(User u){
     this.favoritadores.add(u);
   }
 
   public boolean removerFavoritador(User u){
     return this.favoritadores.remove(u);
-  }
-
-  public String toString(){
-    return "\nPost n° " + ID + "\n Legenda do post: " + legenda + "\n";
   }
 }

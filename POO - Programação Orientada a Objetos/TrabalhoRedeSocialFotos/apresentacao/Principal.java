@@ -16,39 +16,39 @@ public class Principal {
     
     /* Gerando imagens para colocar nos posts/fotos de perfil */
     byte[] i1 = null;
-    try { i1 = Post.ImageParaBytes(ImageIO.read(new File("imagens/foto1.jpg")), "png");
+    try { i1 = Sistema.ImageParaBytes(ImageIO.read(new File("imagens/foto1.jpg")));
     } catch (java.io.IOException e) { System.out.println(e.getMessage()); }
 
     byte[] i2 = null;
-    try { i2 = Post.ImageParaBytes(ImageIO.read(new File("imagens/foto2.jpg")), "png");
+    try { i2 = Sistema.ImageParaBytes(ImageIO.read(new File("imagens/foto2.jpg")));
     } catch (java.io.IOException e) { System.out.println(e.getMessage()); }
 
     byte[] i3 = null;
-    try { i3 = Post.ImageParaBytes(ImageIO.read(new File("imagens/foto3.jpg")), "png");
+    try { i3 = Sistema.ImageParaBytes(ImageIO.read(new File("imagens/foto3.jpg")));
     } catch (java.io.IOException e) { System.out.println(e.getMessage()); }
 
     byte[] i4 = null;
-    try { i4 = Post.ImageParaBytes(ImageIO.read(new File("imagens/calendario1.jpg")), "png");
+    try { i4 = Sistema.ImageParaBytes(ImageIO.read(new File("imagens/calendario1.jpg")));
     } catch (java.io.IOException e) { System.out.println(e.getMessage()); }
 
     byte[] i5 = null;
-    try { i5 = Post.ImageParaBytes(ImageIO.read(new File("imagens/calendario2.jpg")), "png");
+    try { i5 = Sistema.ImageParaBytes(ImageIO.read(new File("imagens/calendario2.jpg")));
     } catch (java.io.IOException e) { System.out.println(e.getMessage()); }
 
     byte[] i6 = null;
-    try { i6 = Post.ImageParaBytes(ImageIO.read(new File("imagens/amigos.jpg")), "png");
+    try { i6 = Sistema.ImageParaBytes(ImageIO.read(new File("imagens/amigos.jpg")));
     } catch (java.io.IOException e) { System.out.println(e.getMessage()); }
 
     byte[] i7 = null;
-    try { i7 = Post.ImageParaBytes(ImageIO.read(new File("imagens/pipa1.jpg")), "png");
+    try { i7 = Sistema.ImageParaBytes(ImageIO.read(new File("imagens/pipa1.jpg")));
     } catch (java.io.IOException e) { System.out.println(e.getMessage()); }
 
     byte[] i8 = null;
-    try { i8 = Post.ImageParaBytes(ImageIO.read(new File("imagens/pipa2.jpg")), "png");
+    try { i8 = Sistema.ImageParaBytes(ImageIO.read(new File("imagens/pipa2.jpg")));
     } catch (java.io.IOException e) { System.out.println(e.getMessage()); }
 
     byte[] i9 = null;
-    try { i9 = Post.ImageParaBytes(ImageIO.read(new File("imagens/pipa3.jpg")), "png");
+    try { i9 = Sistema.ImageParaBytes(ImageIO.read(new File("imagens/pipa3.jpg")));
     } catch (java.io.IOException e) { System.out.println(e.getMessage()); }
 
     /* Instanciando usuários */
