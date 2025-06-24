@@ -8,11 +8,12 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+import DAO.postDAO;
+import DAO.userDAO;
+
 public class Sistema {
   private ArrayList<User> users;
-  private int userIDtracker = 1;
   private ArrayList<Post> posts;
-  private int postIDtracker = 1;
 
   // Construtor
   public Sistema () {
@@ -29,30 +30,25 @@ public class Sistema {
     return posts;
   }
 
-  public boolean cadastrarUser(User u){
-    for(User userNaBase : getAllUsers()){
-      if(userNaBase.getUsername().equals(u.getUsername())){ // Se já há um username igual cadastrado
-        return false;
-      }
+  public User buscarPorUsername(String username){
+    return userDAO.buscarPorUsername(username);
+  }
+
+  public boolean cadastrarUser(String username, String senha, String nomeCompleto, String biografia, byte[] imagemPerfil){
+    if(userDAO.buscarPorUsername(username) != null){ // Se já houver alguém com esse username
+      return false;
     }
-    u.setID(userIDtracker);
-    users.add(u);
-    userIDtracker++;
+    userDAO.cadastrarUser(username, senha, nomeCompleto, biografia, imagemPerfil);
     return true;  
   }
 
   public User fazerLogin(String username, String senha){
-    for(User userNaBase : getAllUsers()){
-      if(userNaBase.getUsername().equals(username)){
-        if(userNaBase.getSenha().equals(senha)){
-          return userNaBase;
+    User usuario = userDAO.buscarPorUsername(username);
+        if(usuario.getSenha().equals(senha)){
+          return usuario;
         }
         // Se errou a senha
         return null;
-      }
-    }
-    // Se não encontrou user
-    return null;
   }
 
   public boolean deletarUser(User u){
@@ -77,11 +73,8 @@ public class Sistema {
     return users.remove(u);
   }
 
-  public void criarPost(User u, Post p){
-    p.setID(postIDtracker);
-    postIDtracker++;
-    u.postar(p);
-    posts.add(p);
+  public void criarPost(User u, String legenda, byte[] imagem){
+    postDAO.criarPost(u.getId(), legenda, imagem);
   }
 
   public void deletarPost(Post p){

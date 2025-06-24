@@ -87,8 +87,7 @@ public class TelaPostar extends JFrame {
         JOptionPane.showMessageDialog(this, "Erro: O post não tem uma imagem");
         return;        
       }
-      Post post = new Post(userLogado, legenda, Sistema.ImageParaBytes(imagemPost));
-      s.criarPost(userLogado, post);
+      s.criarPost(userLogado, legenda, Sistema.ImageParaBytes(imagemPost));
         JOptionPane.showMessageDialog(this, "Postado com sucesso!");
         TelaUser telaUser = new TelaUser(userLogado, s);
         telaUser.setVisible(true);

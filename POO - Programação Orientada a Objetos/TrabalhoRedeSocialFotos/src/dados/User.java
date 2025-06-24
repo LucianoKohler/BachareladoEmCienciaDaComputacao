@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 public class User {
-  private int ID;
+  private int id;
   private String username;
   private String senha;
   private String nomeCompleto;
@@ -20,7 +20,8 @@ public class User {
   private ArrayList<User> seguindo;
 
   // Construtor
-  public User(String username, String senha, String nomeCompleto, String biografia, byte[] imagemPerfil){
+  public User(int id, String username, String senha, String nomeCompleto, String biografia, byte[] imagemPerfil){
+    this.id = id;
     this.username = username;
     this.senha = senha;
     this.nomeCompleto = nomeCompleto;
@@ -33,8 +34,8 @@ public class User {
   }
 
   // Gets
-  public int getID() {
-    return ID;
+  public int getId() {
+    return id;
   }
   public String getUsername() {
     return username;
@@ -77,8 +78,8 @@ public class User {
   public void mudarBiografia(String biografia) {
     this.biografia = biografia;
   }
-  public void setID(int id) {
-    ID = id;
+  public void setId(int id) {
+    this.id = id;
   }
   public void setFotoPerfil(byte[] imagemPerfil) {
     this.imagemPerfil = imagemPerfil;
@@ -103,7 +104,7 @@ public class User {
 
   public static byte[] carregarImagemPadrao() {
     try {
-        String caminhoImagem = System.getProperty("user.dir") + "/imagens/fotosPerfil/DEFAULT.png"; 
+        String caminhoImagem = System.getProperty("user.dir") + "/src/imagens/fotosPerfil/DEFAULT.png"; 
         BufferedImage imagem = ImageIO.read(new File(caminhoImagem));
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(imagem, "png", baos);

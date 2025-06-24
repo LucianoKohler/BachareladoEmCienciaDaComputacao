@@ -27,6 +27,7 @@ public class TelaPerfil extends JFrame {
   /* INSTANCIANDO ELEMENTOS */
   public JPanel painelPrincipal = new JPanel();
   public JLabel labelUsername = new JLabel("USUÁRIO"); // Setado no construtor
+  public JLabel labelBiografia = new JLabel("BIOGRAFIA"); // Setado no construtor
   public JPanel painelAcoes = new JPanel();
 
   /* LABELS */
@@ -69,6 +70,7 @@ public class TelaPerfil extends JFrame {
 
     /* CARACTERÍSTICAS DOS ELEMENTOS */
     labelUsername.setText(userLogado.getNomeCompleto());
+    labelBiografia.setText(userLogado.getBiografia());
     labelUsername.setFont(new Font("Arial", Font.BOLD, 24));
     qtdPostsLabel1.setFont(new Font("Arial", Font.BOLD, 24));
     seguidoresLabel1.setFont(new Font("Arial", Font.BOLD, 24));
@@ -97,6 +99,7 @@ public class TelaPerfil extends JFrame {
     voltarButton.setAlignmentX(Component.CENTER_ALIGNMENT);
     ouLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
     adicionarImagemButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+    labelBiografia.setAlignmentX(Component.CENTER_ALIGNMENT);
 
     qtdPostsLabel1.setAlignmentX(Component.CENTER_ALIGNMENT);
     qtdPostsLabel2.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -153,6 +156,8 @@ public class TelaPerfil extends JFrame {
     painelPrincipal.add(imagemPerfil);
     painelPrincipal.add(Box.createRigidArea(new Dimension(0, 20)));
     painelPrincipal.add(labelUsername);
+    painelPrincipal.add(Box.createRigidArea(new Dimension(0, 10)));
+    painelPrincipal.add(labelBiografia);
     painelPrincipal.add(Box.createRigidArea(new Dimension(0, 20)));
     painelPrincipal.add(estatisticasPanel);
     painelPrincipal.add(Box.createRigidArea(new Dimension(0, 20)));

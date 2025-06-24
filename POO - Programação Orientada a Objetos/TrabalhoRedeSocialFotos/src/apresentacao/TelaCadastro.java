@@ -11,6 +11,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import DAO.userDAO;
 import apresentacao.componentes.SeletorImagem;
 import dados.User;
 import negocio.Sistema;
@@ -117,13 +118,12 @@ public class TelaCadastro extends JFrame {
         return;
       }
 
-      User novoUser = new User(username, senha, nomeCompleto, biografia, Sistema.ImageParaBytes(fotoPerfil));
-      boolean sucesso = s.cadastrarUser(novoUser);
+      boolean sucesso = s.cadastrarUser(username, senha, nomeCompleto, biografia, Sistema.ImageParaBytes(fotoPerfil));
       if(!sucesso){
           JOptionPane.showMessageDialog(this, "Erro: nome de usuário já cadastrado.");
       }else{
         JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!");
-        TelaUser telaUser = new TelaUser(novoUser, s);
+        TelaUser telaUser = new TelaUser(userDAO.buscarPorUsername(username), s);
         telaUser.setVisible(true);
         this.dispose();
       }

@@ -8,14 +8,15 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 public class Post {
-  private int ID;
+  private int id;
   private User donoPost;
   private String legenda;
   private byte[] imagem;
   private ArrayList<User> favoritadores;
 
   // Construtor
-  public Post(User donoPost, String legenda, byte[] imagem){
+  public Post(int id, User donoPost, String legenda, byte[] imagem){
+    this.id = id;
     this.donoPost = donoPost;
     this.legenda = legenda;
     this.imagem = (imagem == null) ? carregarImagemPadrao() : imagem;
@@ -23,10 +24,10 @@ public class Post {
   }
 
   // Gets
-  public int getID() {
-    return ID;
+  public int getId() {
+    return id;
   }
-  public User getDonoPost() { // ID ??
+  public User getDonoPost() { // id ??
     return donoPost;
   }
   public byte[] getImagem() {
@@ -39,14 +40,14 @@ public class Post {
     return favoritadores;
   }
 
-  public void setID(int id) {
-    ID = id;
+  public void setId(int id) {
+    this.id = id;
   }
 
   // Métodos
 public static byte[] carregarImagemPadrao() {
   try {
-      String caminhoImagem = System.getProperty("user.dir") + "/imagens/fotosPost/postSemImagem.png"; 
+      String caminhoImagem = System.getProperty("user.dir") + "/src/imagens/fotosPost/postSemImagem.png"; 
       BufferedImage imagem = ImageIO.read(new File(caminhoImagem));
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       ImageIO.write(imagem, "png", baos);
