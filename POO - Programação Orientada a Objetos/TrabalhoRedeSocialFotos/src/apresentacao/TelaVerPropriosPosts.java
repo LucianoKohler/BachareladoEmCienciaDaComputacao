@@ -3,6 +3,7 @@ package apresentacao;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.util.ArrayList;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -43,12 +44,12 @@ public class TelaVerPropriosPosts extends JFrame {
     painelConteudo.add(Box.createRigidArea(new Dimension(0, 20)));
     painelConteudo.add(labelTitulo);
     
-    if(userLogado.getPosts().size() == 0){
+    if(s.verPostsDeUmUser(userLogado) == null){
       painelConteudo.add(Box.createRigidArea(new Dimension(0, 10)));
       painelConteudo.add(labelNenhumPost);
       painelConteudo.add(Box.createRigidArea(new Dimension(0, 10)));
     }else{
-      for(Post post : userLogado.getPosts()){
+      for(Post post : s.verPostsDeUmUser(userLogado)){
         JPanel painelPost = new JPanel();
         JPanel painelBotoes = new JPanel();
 
@@ -56,7 +57,6 @@ public class TelaVerPropriosPosts extends JFrame {
         JLabel legendaPost = new JLabel(post.getLegenda());
         JButton buttonFavoritar = new JButton("Favoritar");
         JButton buttonDeletar = new JButton("Deletar"); 
-
         
         painelPost.setLayout(new BoxLayout(painelPost, BoxLayout.Y_AXIS));
         painelBotoes.setLayout(new BoxLayout(painelBotoes, BoxLayout.X_AXIS));
@@ -78,16 +78,19 @@ public class TelaVerPropriosPosts extends JFrame {
         painelPost.add(imagemPost);
         painelPost.add(Box.createRigidArea(new Dimension(0, 10)));
         painelPost.add(legendaPost);
-        if(userLogado.getFavoritos().contains(post)){
-          buttonFavoritar.setText("Desfavoritar");
-
-          JLabel labelFavorito = new JLabel("Você favoritou este post");
-          labelFavorito.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-          painelPost.add(Box.createRigidArea(new Dimension(0, 10)));
-          painelPost.add(labelFavorito);
+        ArrayList<Post> favoritos = s.verFavoritosDeUmUser(userLogado);
+        if(favoritos != null){ // TODO ARRUMAR
+          if(favoritos.contains(post)){
+            buttonFavoritar.setText("Desfavoritar");
+            
+            JLabel labelFavorito = new JLabel("Você favoritou este post");
+            labelFavorito.setAlignmentX(Component.CENTER_ALIGNMENT);
+            
+            painelPost.add(Box.createRigidArea(new Dimension(0, 10)));
+            painelPost.add(labelFavorito);
+          }
         }
-
+          
         painelPost.add(Box.createRigidArea(new Dimension(0, 10)));
         painelPost.add(painelBotoes);
         
@@ -99,14 +102,20 @@ public class TelaVerPropriosPosts extends JFrame {
 
         /* FUNCIONALIDADES DOS BOTÕES */
         buttonFavoritar.addActionListener(e -> {
-          if(userLogado.getFavoritos().contains(post)){
-            s.desFavoritarPost(userLogado, post);
-            JOptionPane.showMessageDialog(this, "Você desfavoritou o post");
+          if(favoritos == null){
+              s.favoritarPost(userLogado, post);
+              JOptionPane.showMessageDialog(this, "Você favoritou o post");
           }else{
-            s.favoritarPost(userLogado, post);
-            JOptionPane.showMessageDialog(this, "Você favoritou o post");
+
+            if(favoritos.contains(post)){
+              s.desFavoritarPost(userLogado, post);
+              JOptionPane.showMessageDialog(this, "Você desfavoritou o post");
+            }else{
+              s.favoritarPost(userLogado, post);
+              JOptionPane.showMessageDialog(this, "Você favoritou o post");
+            }
           }
-            TelaVerPropriosPosts telaVerPropriosPosts = new TelaVerPropriosPosts(userLogado, s);
+            TelaVerPropriosPosts telaVerPropriosPosts = new TelaVerPropriosPosts(s.buscarPorUsername(userLogado.getUsername()), s);
             telaVerPropriosPosts.setVisible(true);
             this.dispose();
         });

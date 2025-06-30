@@ -7,7 +7,7 @@ public class Principal {
     Sistema s = new Sistema();
 
     /* Descomente as duas linhas abaixo e comente as duas próximas para entrar logado diretamente */
-    TelaUser telaUser = new TelaUser(s.buscarPorUsername("joaoInstagram"), s);
+    TelaUser telaUser = new TelaUser(s.buscarPorUsername("teste"), s);
     telaUser.setVisible(true);
     // TelaGuest telaGuest = new TelaGuest(s);
     // telaGuest.setVisible(true);

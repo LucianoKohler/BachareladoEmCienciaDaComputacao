@@ -1,4 +1,5 @@
 CREATE SEQUENCE seq_usuario;
+CREATE SEQUENCE seq_seguidores;
 CREATE SEQUENCE seq_post;
 CREATE SEQUENCE seq_usuarioFavoritos;
 
@@ -15,6 +16,15 @@ CREATE TABLE usuario(
 	nomeCompleto varchar(30),
 	biografia varchar (100),
 	imagemPerfil BYTEA
+);
+
+CREATE TABLE seguidores(
+	ID INT PRIMARY KEY DEFAULT nextval('seq_seguidores'),
+	idFollowed INT,
+	idFollower INT,
+
+	FOREIGN KEY (idFollowed) REFERENCES usuario(ID),
+	FOREIGN KEY (idFollower) REFERENCES usuario(ID)
 );
 
 CREATE TABLE post(

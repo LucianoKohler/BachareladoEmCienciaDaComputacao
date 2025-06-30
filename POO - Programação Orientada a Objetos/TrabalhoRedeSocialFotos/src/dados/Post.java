@@ -9,15 +9,15 @@ import javax.imageio.ImageIO;
 
 public class Post {
   private int id;
-  private User donoPost;
+  private int idDonoPost;
   private String legenda;
   private byte[] imagem;
   private ArrayList<User> favoritadores;
 
   // Construtor
-  public Post(int id, User donoPost, String legenda, byte[] imagem){
+  public Post(int id, int idDonoPost, String legenda, byte[] imagem){
     this.id = id;
-    this.donoPost = donoPost;
+    this.idDonoPost = idDonoPost;
     this.legenda = legenda;
     this.imagem = (imagem == null) ? carregarImagemPadrao() : imagem;
     this.favoritadores = new ArrayList<User>();
@@ -27,8 +27,8 @@ public class Post {
   public int getId() {
     return id;
   }
-  public User getDonoPost() { // id ??
-    return donoPost;
+  public int getDonoPost() { // id ??
+    return idDonoPost;
   }
   public byte[] getImagem() {
     return imagem;

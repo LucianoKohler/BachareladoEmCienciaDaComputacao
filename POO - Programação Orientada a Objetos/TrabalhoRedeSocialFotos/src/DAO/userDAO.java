@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import banco.ConexaoDB;
 import dados.User;
@@ -53,6 +54,191 @@ public class userDAO {
     } catch (SQLException e){
       System.out.println(e.getMessage());
       return null;
+    }
+  }
+
+  public static User buscarPorId(int id){
+    String sql = "SELECT * FROM usuario WHERE id = ?";
+
+    try{
+      Connection con = ConexaoDB.getInstancia();
+      PreparedStatement statement = con.prepareStatement(sql);
+      statement.setInt(1, id);
+      ResultSet resultado = statement.executeQuery();
+
+      if(resultado.next()){ // Se há registro
+        return new User(
+          resultado.getInt("id"),
+          resultado.getString("username"), 
+          resultado.getString("senha"), 
+          resultado.getString("nomeCompleto"),
+          resultado.getString("biografia"),
+          resultado.getBytes("imagemPerfil")
+          );
+      }else{ // Se não encontrou ninguém
+        return null;
+      }
+    } catch (SQLException e){
+      System.out.println(e.getMessage());
+      return null;
+    }
+  }
+
+  public static ArrayList<User> getAllUsers(){
+    ArrayList<User> users = new ArrayList<>();
+    String sql = "SELECT * FROM usuario";
+
+    try{
+      Connection con = ConexaoDB.getInstancia();
+      PreparedStatement statement = con.prepareStatement(sql);
+      ResultSet resultado = statement.executeQuery();
+
+      if(resultado.next()){
+        do {
+          users.add(new User(
+            resultado.getInt("id"),
+            resultado.getString("username"),
+            resultado.getString("senha"),
+            resultado.getString("nomeCompleto"),
+            resultado.getString("biografia"),
+            resultado.getBytes("imagemPerfil")
+          ));
+        } while (resultado.next());
+          return users;
+
+      }else{
+        return null;
+      }
+    } catch (SQLException e){
+      System.out.println(e.getMessage());
+      return null;
+    }
+  }
+
+  public static void follow(int idFollowed, int idFollower){
+    String sql = "INSERT INTO seguidores (idFollowed, idFollower) VALUES (?, ?)";
+
+    try {
+      Connection con = ConexaoDB.getInstancia();
+      PreparedStatement statement = con.prepareStatement(sql);
+      statement.setInt(1, idFollowed);
+      statement.setInt(2, idFollower);
+      statement.executeUpdate();
+      statement.close();
+      System.out.println("Seguido!");
+    } catch(SQLException e){
+      System.out.println(e.getMessage());
+    }
+  }
+
+  public static void unfollow(int idUnfollower, int idUnfollowed){
+    String sql = "DELETE FROM seguidores WHERE idFollowed = ? AND idFollower = ?";
+
+    try {
+      Connection con = ConexaoDB.getInstancia();
+      PreparedStatement statement = con.prepareStatement(sql);
+      statement.setInt(1, idUnfollowed);
+      statement.setInt(2, idUnfollower);
+      statement.executeUpdate();
+    } catch(SQLException e){
+      System.out.println(e.getMessage());
+    }
+  }
+
+  public static void mudarCredenciaisPerfil(int idUser, String info, String infoMudada){
+    String sql = "UPDATE usuario SET " + infoMudada + " = ? WHERE id = ?";
+
+    try {
+      Connection con = ConexaoDB.getInstancia();
+      PreparedStatement statement = con.prepareStatement(sql);
+      statement.setString(1, info);
+      statement.setInt(2, idUser);
+      statement.executeUpdate();
+      statement.close();
+
+    } catch (SQLException e){
+      System.out.println(e.getMessage());
+    }
+  }
+
+  public static void mudarFotoPerfil(int idUser, byte[] imagem){
+    String sql = "UPDATE usuario SET imagemperfil  = ? WHERE id = ?";
+
+    try {
+      Connection con = ConexaoDB.getInstancia();
+      PreparedStatement statement = con.prepareStatement(sql);
+      statement.setBytes(1, imagem);
+      statement.setInt(2, idUser);
+      statement.executeUpdate();
+      statement.close();
+
+    } catch (SQLException e){
+      System.out.println(e.getMessage());
+    }
+  }
+
+  public static ArrayList<User> verSeguidoresDeUmUser(int idUser) {
+    ArrayList<User> seguidores = new ArrayList<>();
+    String sql = "SELECT * FROM seguidores WHERE idfollowed = ?";
+
+    try {
+      Connection con = ConexaoDB.getInstancia();
+      PreparedStatement statement = con.prepareStatement(sql);
+      statement.setInt(1, idUser);
+      ResultSet resultado = statement.executeQuery();
+
+      if(resultado.next()){
+        do {
+          User user = buscarPorId(idUser); // A função principal só pega os IDs do user, então chamamos essa
+          seguidores.add(user);
+        } while (resultado.next());
+        statement.close();
+        return seguidores;
+      }else{
+        return null;
+      }
+    } catch (SQLException e){
+      System.out.println(e.getMessage());
+      return null;
+    }
+  }
+
+  public static ArrayList<User> verSeguindoDeUmUser(int idUser) {
+    ArrayList<User> seguindo = new ArrayList<>();
+    String sql = "SELECT * FROM seguidores WHERE idfollower = ?";
+
+    try {
+      Connection con = ConexaoDB.getInstancia();
+      PreparedStatement statement = con.prepareStatement(sql);
+      statement.setInt(1, idUser);
+      ResultSet resultado = statement.executeQuery();
+
+      if(resultado.next()){
+        do {
+          User user = buscarPorId(idUser);
+          seguindo.add(user);
+        } while (resultado.next());
+        statement.close();
+        return seguindo;
+      }else{
+        return null;
+      }
+    } catch (SQLException e){
+      System.out.println(e.getMessage());
+      return null;
+    }
+  }
+
+  public static void deletarUser(int idUser){
+    String sql = "DELETE FROM usuario WHERE id = ?";
+
+    try {
+      Connection con = ConexaoDB.getInstancia();
+      PreparedStatement statement = con.prepareStatement(sql);
+      statement.setInt(1, idUser);
+      statement.executeUpdate();
+    }catch(SQLException e){
+      System.out.println(e.getMessage());
     }
   }
 }
