@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import apresentacao.componentes.SeletorImagem;
-import dados.Post;
 import dados.User;
 import negocio.Sistema;
 

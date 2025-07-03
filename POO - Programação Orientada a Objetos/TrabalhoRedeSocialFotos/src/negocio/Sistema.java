@@ -12,22 +12,17 @@ import DAO.postDAO;
 import DAO.userDAO;
 
 public class Sistema {
-  private ArrayList<User> users;
-  private ArrayList<Post> posts;
 
   // Construtor
-  public Sistema () {
-    this.users = new ArrayList<User>();
-    this.posts = new ArrayList<Post>();
-  }
+  public Sistema () {}
 
   // Métodos
   public ArrayList<User> getAllUsers(){
-    return users;
+    return userDAO.getAllUsers();
   }
 
   public ArrayList<Post> getAllPosts(){
-    return posts;
+    return postDAO.getAllPosts();
   }
 
   public User buscarPorUsername(String username){
@@ -44,33 +39,34 @@ public class Sistema {
 
   public User fazerLogin(String username, String senha){
     User usuario = userDAO.buscarPorUsername(username);
-        if(usuario.getSenha().equals(senha)){
-          return usuario;
-        }
+    if(usuario != null){
+      if(usuario.getSenha().equals(senha)){
+        return usuario;
+      }
+    }
         // Se errou a senha
         return null;
   }
 
-  public boolean deletarUser(User u){
+  public void deletarUser(User u){
     // Deixando de seguir todos os seus seguindos:
-    ArrayList<User> seguindoCopia = new ArrayList<>(u.verSeguindo());
-    for(User userSeguindo : seguindoCopia){ 
-      u.unfollow(userSeguindo);
-    }
+    ArrayList<User> seguindos = userDAO.verSeguindoDeUmUser(u.getId());
+      for(User seguido : seguindos){ 
+        unfollowUser(u, seguido);
+      }
 
     // Removendo ele da lista de seguidores dos outros
-    ArrayList<User> seguidoresCopia = new ArrayList<>(u.verSeguidores());
-    for(User seguidor : seguidoresCopia){
-      seguidor.unfollow(u);
-    }
+    ArrayList<User> seguidores = userDAO.verSeguidoresDeUmUser(u.getId());
+      for(User seguidor : seguidores){
+        unfollowUser(seguidor, u);
+      }
 
     // Apagando cada post dele
-    ArrayList<Post> postsCopia = new ArrayList<>(u.getPosts());
-    for(Post p : postsCopia){
-      // Remove o post dos favoritos dos usuários
-      deletarPost(p);
-    }
-    return users.remove(u);
+    ArrayList<Post> posts = postDAO.verPostsDeUmUser(u.getId());
+      for(Post p : posts){
+        deletarPost(p);
+      }
+    userDAO.deletarUser(u.getId());
   }
 
   public void criarPost(User u, String legenda, byte[] imagem){
@@ -78,44 +74,42 @@ public class Sistema {
   }
 
   public void deletarPost(Post p){
-    p.getDonoPost().deletarPost(p);
-    // Cria uma cópia da lista para evitar ConcurrentModificationException
-    ArrayList<User> listaFavoritadores = new ArrayList<>(p.getFavoritadores());
-    for(User userFavoritador : listaFavoritadores){
-      desFavoritarPost(userFavoritador, p);
-    }
-    posts.remove(p);
+    // Remover os favoritos
+    ArrayList<User> usersQueFavoritaram = postDAO.verUsersQueFavoritaramPost(p.getId());
+      for(User u : usersQueFavoritaram){
+        if(u != null){
+          desFavoritarPost(u, p);
+        }
+      }
+    // Remover o post
+    postDAO.deletarPost(p.getId());
   }
 
   public ArrayList<Post> verPostsDisponiveis(User u){
     ArrayList<Post> postsVisiveis = new ArrayList<Post>();
-    for(Post post : posts){
-      if(post.getDonoPost().verSeguidores().contains(u) || post.getDonoPost().equals(u)){
-        // Se você segue o dono do post OU o post é seu
-        postsVisiveis.add(post);
+    ArrayList<User> usuariosSeguidos = userDAO.verSeguindoDeUmUser(u.getId());
+    ArrayList<Post> posts = postDAO.getAllPosts();
+      for(Post post : posts){
+        if(usuariosSeguidos != null){
+          if(usuariosSeguidos.contains(userDAO.buscarPorId(post.getDonoPost())) || post.getDonoPost() == u.getId()){
+            // Se você segue o dono do post OU o post é seu
+            postsVisiveis.add(post);
+          }
+        }
       }
-    }
     return postsVisiveis;
   }
 
   public ArrayList<Post> verPostsDeUmUser(User u){
-    ArrayList<Post> postsVisiveis = new ArrayList<Post>();
-    for(Post post : posts){
-      if(post.getDonoPost().equals(u)){
-        postsVisiveis.add(post);
-      }
-    }
-    return postsVisiveis;
+    return postDAO.verPostsDeUmUser(u.getId());
   }
 
-  public void followUser(User u, User alvo){
-    u.follow(alvo);
-    alvo.novoSeguidor(u);
+  public void followUser(User u, User alvo){ 
+    userDAO.follow(u.getId(), alvo.getId());
   }
 
   public void unfollowUser(User u, User alvo){
-    u.unfollow(alvo);
-    alvo.removerSeguidor(u);
+    userDAO.unfollow(u.getId(), alvo.getId());
   }
 
   public boolean mudarCredenciaisPerfil(User u, String s, int escolha){
@@ -124,21 +118,18 @@ public class Sistema {
     switch (escolha) {
       case 1: // username
         // Checando para ver se já há um username igual:
-        for(User userNaBase : getAllUsers()){
-          if (userNaBase.getUsername().equals(s)){
-            return false;
-          }
-        } // Caso não haja
-        u.mudarUsername(s);
+        if (userDAO.buscarPorUsername(s) != null){ return false; }
+
+        userDAO.mudarCredenciaisPerfil(u.getId(), s, "username");
         break;
       case 2: // senha
-        u.mudarSenha(s);
+        userDAO.mudarCredenciaisPerfil(u.getId(), s, "senha");
         break;
       case 3: // nome completo
-        u.mudarNomeCompleto(s);
+        userDAO.mudarCredenciaisPerfil(u.getId(), s, "nomecompleto");
         break;
       case 4: // biografia
-        u.mudarBiografia(s);
+        userDAO.mudarCredenciaisPerfil(u.getId(), s, "biografia");
         break;    
       default:
         System.out.println("Escolha inválida");
@@ -147,27 +138,38 @@ public class Sistema {
     return true;
   }
 
-  public boolean favoritarPost(User u, Post p){
-    if(p.getFavoritadores().contains(u)){
-      return false;
-    }else{
-      u.favoritarPost(p);
-      p.adicionarFavoritador(u);
-      return true;
+  public void mudarFotoPerfil(User u, byte[] imagem){
+    if(imagem == null){
+      imagem = User.carregarImagemPadrao();
     }
+
+    userDAO.mudarFotoPerfil(u.getId(), imagem);
+  }
+
+  public boolean favoritarPost(User u, Post p){
+    ArrayList<Post> favoritos = postDAO.verFavoritosDeUmUser(u.getId());
+      if(favoritos.contains(p)){
+        return false;
+      }else{
+        postDAO.favoritarPost(p.getId(), u.getId());
+        return true;
+      }
   }
 
   public void desFavoritarPost(User u, Post p){
-    p.removerFavoritador(u);
-    u.desFavoritarPost(p);
+    postDAO.desFavoritarPost(u.getId(), p.getId());
+  }
+
+  public ArrayList<Post> verFavoritosDeUmUser(User u){
+    return postDAO.verFavoritosDeUmUser(u.getId());
   }
 
   public ArrayList<User> verSeguidoresDeUmUser(User u){
-    return u.verSeguidores();
+    return userDAO.verSeguidoresDeUmUser(u.getId());
   }
   
   public ArrayList<User> verSeguindoDeUmUser(User u){
-    return u.verSeguindo();
+    return userDAO.verSeguindoDeUmUser(u.getId());
   }
 
   public static byte[] ImageParaBytes(BufferedImage imagem) {

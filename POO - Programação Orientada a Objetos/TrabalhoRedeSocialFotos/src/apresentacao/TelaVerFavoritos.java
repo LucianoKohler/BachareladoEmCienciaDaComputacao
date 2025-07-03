@@ -3,6 +3,7 @@ package apresentacao;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.util.ArrayList;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -43,12 +44,15 @@ public class TelaVerFavoritos extends JFrame {
     painelConteudo.add(Box.createRigidArea(new Dimension(0, 20)));
     painelConteudo.add(labelTitulo);
 
-    if(userLogado.getFavoritos().size() == 0){
+    ArrayList<Post> favoritos = s.verFavoritosDeUmUser(userLogado);
+
+    if(favoritos.size() == 0){
       painelConteudo.add(Box.createRigidArea(new Dimension(0, 10)));
       painelConteudo.add(labelNenhumPost);
       painelConteudo.add(Box.createRigidArea(new Dimension(0, 10)));
     }else{
-      for(Post post : userLogado.getFavoritos()){
+      for(Post post : favoritos){
+        if (post == null) continue;
         JPanel painelPost = new JPanel();
 
         ImagemQuadrada imagemPost = new ImagemQuadrada(post.getImagem(), 200, 300);

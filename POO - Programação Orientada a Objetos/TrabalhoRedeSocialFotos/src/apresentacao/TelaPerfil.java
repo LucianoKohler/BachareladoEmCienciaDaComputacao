@@ -207,7 +207,7 @@ public class TelaPerfil extends JFrame {
         JOptionPane.showMessageDialog(this, "Erro: Campo vazio ou username já escolhido.");
       }else{
         JOptionPane.showMessageDialog(this, "Informação alterada com sucesso!");
-        TelaPerfil telaPerfil = new TelaPerfil(userLogado, s);
+        TelaPerfil telaPerfil = new TelaPerfil(s.buscarPorUsername(userLogado.getUsername()), s);
         telaPerfil.setVisible(true);
         this.dispose();
       }
@@ -252,9 +252,9 @@ public class TelaPerfil extends JFrame {
         JOptionPane.showMessageDialog(this, "Nenhuma imagem escolhida");
         return;
       }
-      userLogado.setFotoPerfil(Sistema.ImageParaBytes(imagemEscolhida));
+      s.mudarFotoPerfil(userLogado, Sistema.ImageParaBytes(imagemEscolhida));
       JOptionPane.showMessageDialog(this, "Informação alterada com sucesso!");
-      TelaPerfil telaPerfil = new TelaPerfil(userLogado, s);
+      TelaPerfil telaPerfil = new TelaPerfil(s.buscarPorUsername(userLogado.getUsername()), s);
       telaPerfil.setVisible(true);
       this.dispose();
     });
