@@ -34,8 +34,8 @@ public class TelaPostar extends JFrame {
   public JButton buttonVoltar = new JButton("Voltar");
 
   public TelaPostar(Sistema s, User userLogado) {
-    int DEFAULT_HEIGHT = 500;
-    int DEFAULT_WIDTH = 400;
+    int DEFAULT_HEIGHT = 450;
+    int DEFAULT_WIDTH = 450;
     setTitle("Postar");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBounds(100, 100, DEFAULT_WIDTH, DEFAULT_HEIGHT);

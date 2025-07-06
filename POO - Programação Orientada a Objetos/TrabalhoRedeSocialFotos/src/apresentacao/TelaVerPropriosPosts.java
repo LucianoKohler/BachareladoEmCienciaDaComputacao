@@ -31,7 +31,7 @@ public class TelaVerPropriosPosts extends JFrame {
   public TelaVerPropriosPosts(User userLogado, Sistema s){
     painelPrincipal.getVerticalScrollBar().setUnitIncrement(16); // 16 pixels per scroll "tick"
     int DEFAULT_HEIGHT = 700;
-    int DEFAULT_WIDTH = 400;
+    int DEFAULT_WIDTH = 450;
     setTitle("Seus posts");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBounds(100, 100, DEFAULT_WIDTH, DEFAULT_HEIGHT);

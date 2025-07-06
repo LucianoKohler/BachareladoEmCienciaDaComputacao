@@ -27,7 +27,7 @@ public class TelaVerSeguidores extends JFrame {
 
   public TelaVerSeguidores(Sistema s, User userLogado) {
     int DEFAULT_HEIGHT = 700;
-    int DEFAULT_WIDTH = 400;
+    int DEFAULT_WIDTH = 450;
     setTitle("Seguidores");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBounds(100, 100, DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -49,13 +49,18 @@ public class TelaVerSeguidores extends JFrame {
 
       JLabel nomeLabel = new JLabel(user.getNomeCompleto());
       JButton removerSeguidorButton = new JButton("Remover seguidor");
+      JButton verPerfilButton = new JButton("Ver Perfil");
+
       nomeLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
       removerSeguidorButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
-
+      verPerfilButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
+      
       userPainel.add(Box.createRigidArea(new Dimension(20, 0)));
       userPainel.add(nomeLabel);
       userPainel.add(Box.createHorizontalGlue());
       userPainel.add(removerSeguidorButton);
+      userPainel.add(Box.createRigidArea(new Dimension(10, 0)));
+      userPainel.add(verPerfilButton);
       userPainel.add(Box.createRigidArea(new Dimension(20, 0)));
       
       painelConteudo.add(userPainel);
@@ -67,6 +72,11 @@ public class TelaVerSeguidores extends JFrame {
         TelaVerSeguidores telaVerSeguidores = new TelaVerSeguidores(s, userLogado);
         telaVerSeguidores.setVisible(true);
         this.dispose();
+      });
+
+      verPerfilButton.addActionListener(e -> {
+        TelaVerPerfil telaVerPerfil = new TelaVerPerfil(user, s, userLogado);
+        telaVerPerfil.setVisible(true);
       });
     }
 

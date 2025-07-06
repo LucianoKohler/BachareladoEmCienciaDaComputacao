@@ -53,7 +53,7 @@ public class TelaPerfil extends JFrame {
 
   public TelaPerfil(User userLogado, Sistema s) {
     int DEFAULT_HEIGHT = 700;
-    int DEFAULT_WIDTH = 400;
+    int DEFAULT_WIDTH = 450;
     setTitle("Perfil");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBounds(100, 100, DEFAULT_WIDTH, DEFAULT_HEIGHT);

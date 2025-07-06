@@ -35,8 +35,8 @@ public class TelaLogin extends JFrame {
   public JButton buttonIrParaCadastro = new JButton("Não tem uma conta? Cadastre-se");
   
   public TelaLogin(Sistema s) {
-    int DEFAULT_HEIGHT = 400;
-    int DEFAULT_WIDTH = 400;
+    int DEFAULT_HEIGHT = 450;
+    int DEFAULT_WIDTH = 450;
     setTitle("Login");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBounds(100, 100, DEFAULT_WIDTH, DEFAULT_HEIGHT);

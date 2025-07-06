@@ -27,7 +27,7 @@ public class TelaVerSeguindo extends JFrame {
 
   public TelaVerSeguindo(Sistema s, User userLogado) {
     int DEFAULT_HEIGHT = 700;
-    int DEFAULT_WIDTH = 400;
+    int DEFAULT_WIDTH = 450;
     setTitle("Seguindo");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBounds(100, 100, DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -49,12 +49,17 @@ public class TelaVerSeguindo extends JFrame {
 
       JLabel nomeLabel = new JLabel(user.getNomeCompleto());
       JButton deixarDeSeguirButton = new JButton("Deixar de seguir");
+      JButton verPerfilButton = new JButton("Ver Perfil");
+
       nomeLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
       deixarDeSeguirButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
+      verPerfilButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
       userPainel.add(Box.createRigidArea(new Dimension(20, 0)));
       userPainel.add(nomeLabel);
       userPainel.add(Box.createHorizontalGlue());
+      userPainel.add(verPerfilButton);
+      userPainel.add(Box.createRigidArea(new Dimension(10, 0)));
       userPainel.add(deixarDeSeguirButton);
       userPainel.add(Box.createRigidArea(new Dimension(20, 0)));
       
@@ -67,6 +72,11 @@ public class TelaVerSeguindo extends JFrame {
         TelaVerSeguindo telaVerSeguindo = new TelaVerSeguindo(s, userLogado);
         telaVerSeguindo.setVisible(true);
         this.dispose();
+      });
+
+      verPerfilButton.addActionListener(e -> {
+        TelaVerPerfil telaVerPerfil = new TelaVerPerfil(user, s, userLogado);
+        telaVerPerfil.setVisible(true);
       });
     }
 

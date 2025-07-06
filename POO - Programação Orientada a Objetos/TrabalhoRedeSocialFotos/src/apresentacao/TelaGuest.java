@@ -22,7 +22,7 @@ public class TelaGuest extends JFrame {
 
   public TelaGuest(Sistema s) {
     int DEFAULT_HEIGHT = 700;
-    int DEFAULT_WIDTH = 400;
+    int DEFAULT_WIDTH = 450;
     setTitle("Rede Social de Fotos");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBounds(100, 100, DEFAULT_WIDTH, DEFAULT_HEIGHT);

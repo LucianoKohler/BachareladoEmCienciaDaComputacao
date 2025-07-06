@@ -27,7 +27,7 @@ public class TelaDescobrirUsers extends JFrame {
 
   public TelaDescobrirUsers(Sistema s, ArrayList<User> users, User userLogado) {
     int DEFAULT_HEIGHT = 700;
-    int DEFAULT_WIDTH = 400;
+    int DEFAULT_WIDTH = 450;
     setTitle("Descubra novos usuários");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBounds(100, 100, DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -53,15 +53,19 @@ public class TelaDescobrirUsers extends JFrame {
       userPainel.setLayout(new BoxLayout(userPainel, BoxLayout.X_AXIS));
 
       JLabel nomeLabel = new JLabel(user.getNomeCompleto());
+      JButton verPerfilButton = new JButton("Ver Perfil");
       JButton seguirButton = new JButton("Seguir");
       
       nomeLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
       seguirButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
+      verPerfilButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
       userPainel.add(Box.createRigidArea(new Dimension(20, 0)));
       userPainel.add(nomeLabel);
       userPainel.add(Box.createHorizontalGlue());
       userPainel.add(seguirButton);
+      userPainel.add(Box.createRigidArea(new Dimension(10, 0)));
+      userPainel.add(verPerfilButton);
       userPainel.add(Box.createRigidArea(new Dimension(20, 0)));
       
       painelConteudo.add(userPainel);
@@ -74,15 +78,20 @@ public class TelaDescobrirUsers extends JFrame {
         telaDescobrirUsers.setVisible(true);
         this.dispose();
       });
+
+      verPerfilButton.addActionListener(e -> {
+        TelaVerPerfil telaVerPerfil = new TelaVerPerfil(user, s, userLogado);
+        telaVerPerfil.setVisible(true);
+      });
     }
 
     if(qtdUsersListados == 0){
       JLabel semUsuariosLabel = new JLabel("Parece que não há usuários disponíveis para seguir...");
       semUsuariosLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
       painelConteudo.add(semUsuariosLabel);
-      painelConteudo.add(Box.createRigidArea(new Dimension(0, 20)));
     }
 
+    painelConteudo.add(Box.createRigidArea(new Dimension(0, 20)));
     painelConteudo.add(voltarButton);
     
     painelPrincipal.setViewportView(painelConteudo);
