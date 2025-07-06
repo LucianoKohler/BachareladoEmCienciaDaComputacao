@@ -43,8 +43,9 @@ public class TelaDescobrirUsers extends JFrame {
     painelConteudo.add(Box.createRigidArea(new Dimension(0, 20)));
 
     int qtdUsersListados = 0;
+    ArrayList<User> seguindos = s.verSeguindoDeUmUser(userLogado);
     for (User user : users) {
-      if(userLogado.verSeguindo().contains(user)){ continue; } // Se o usuário já está seguindo o usuário, pula para o próximo
+      if(seguindos.contains(user)){ continue; } // Se o usuário já está seguindo o usuário, pula para o próximo
       if(user.equals(userLogado)) { continue; } // Mesma coisa se o usário for ele mesmo
       
       qtdUsersListados++;
@@ -68,8 +69,7 @@ public class TelaDescobrirUsers extends JFrame {
 
       seguirButton.addActionListener(e -> {
         JOptionPane.showMessageDialog(this, "Agora você segue: " + user.getNomeCompleto());
-        userLogado.follow(user);
-        user.novoSeguidor(userLogado);
+        s.followUser(userLogado, user);
         TelaDescobrirUsers telaDescobrirUsers = new TelaDescobrirUsers(s, users, userLogado);
         telaDescobrirUsers.setVisible(true);
         this.dispose();

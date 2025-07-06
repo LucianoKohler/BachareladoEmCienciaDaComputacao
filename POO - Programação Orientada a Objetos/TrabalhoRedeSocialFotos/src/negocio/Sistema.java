@@ -15,17 +15,18 @@ public class Sistema {
 
   // Construtor
   public Sistema () {}
-  public Sistema () {}
 
   // Métodos
   public ArrayList<User> getAllUsers(){
-    return userDAO.getAllUsers();
     return userDAO.getAllUsers();
   }
 
   public ArrayList<Post> getAllPosts(){
     return postDAO.getAllPosts();
-    return postDAO.getAllPosts();
+  }
+
+  public User buscarPorId(int id){
+    return userDAO.buscarPorId(id);
   }
 
   public User buscarPorUsername(String username){
@@ -47,16 +48,10 @@ public class Sistema {
         return usuario;
       }
     }
-    if(usuario != null){
-      if(usuario.getSenha().equals(senha)){
-        return usuario;
-      }
-    }
         // Se errou a senha
         return null;
   }
 
-  public void deletarUser(User u){
   public void deletarUser(User u){
     // Deixando de seguir todos os seus seguindos:
     ArrayList<User> seguindos = userDAO.verSeguindoDeUmUser(u.getId());
@@ -113,18 +108,11 @@ public class Sistema {
     return postDAO.verPostsDeUmUser(u.getId());
   }
 
-  public ArrayList<Post> verPostsDeUmUser(User u){
-    return postDAO.verPostsDeUmUser(u.getId());
-  }
-
-  public void followUser(User u, User alvo){ 
-    userDAO.follow(u.getId(), alvo.getId());
   public void followUser(User u, User alvo){ 
     userDAO.follow(u.getId(), alvo.getId());
   }
 
   public void unfollowUser(User u, User alvo){
-    userDAO.unfollow(u.getId(), alvo.getId());
     userDAO.unfollow(u.getId(), alvo.getId());
   }
 
@@ -137,20 +125,14 @@ public class Sistema {
         if (userDAO.buscarPorUsername(s) != null){ return false; }
 
         userDAO.mudarCredenciaisPerfil(u.getId(), s, "username");
-        if (userDAO.buscarPorUsername(s) != null){ return false; }
-
-        userDAO.mudarCredenciaisPerfil(u.getId(), s, "username");
         break;
       case 2: // senha
-        userDAO.mudarCredenciaisPerfil(u.getId(), s, "senha");
         userDAO.mudarCredenciaisPerfil(u.getId(), s, "senha");
         break;
       case 3: // nome completo
         userDAO.mudarCredenciaisPerfil(u.getId(), s, "nomecompleto");
-        userDAO.mudarCredenciaisPerfil(u.getId(), s, "nomecompleto");
         break;
-      case 4: // biografia
-        userDAO.mudarCredenciaisPerfil(u.getId(), s, "biografia");
+      case 4: // biografiaz
         userDAO.mudarCredenciaisPerfil(u.getId(), s, "biografia");
         break;    
       default:
@@ -158,14 +140,6 @@ public class Sistema {
         break;
     }
     return true;
-  }
-
-  public void mudarFotoPerfil(User u, byte[] imagem){
-    if(imagem == null){
-      imagem = User.carregarImagemPadrao();
-    }
-
-    userDAO.mudarFotoPerfil(u.getId(), imagem);
   }
 
   public void mudarFotoPerfil(User u, byte[] imagem){
@@ -192,20 +166,13 @@ public class Sistema {
 
   public ArrayList<Post> verFavoritosDeUmUser(User u){
     return postDAO.verFavoritosDeUmUser(u.getId());
-    postDAO.desFavoritarPost(u.getId(), p.getId());
-  }
-
-  public ArrayList<Post> verFavoritosDeUmUser(User u){
-    return postDAO.verFavoritosDeUmUser(u.getId());
   }
 
   public ArrayList<User> verSeguidoresDeUmUser(User u){
     return userDAO.verSeguidoresDeUmUser(u.getId());
-    return userDAO.verSeguidoresDeUmUser(u.getId());
   }
   
   public ArrayList<User> verSeguindoDeUmUser(User u){
-    return userDAO.verSeguindoDeUmUser(u.getId());
     return userDAO.verSeguindoDeUmUser(u.getId());
   }
 

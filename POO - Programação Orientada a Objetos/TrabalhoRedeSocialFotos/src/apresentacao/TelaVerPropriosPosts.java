@@ -4,7 +4,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.util.ArrayList;
-import java.util.ArrayList;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -53,7 +52,6 @@ public class TelaVerPropriosPosts extends JFrame {
       painelConteudo.add(Box.createRigidArea(new Dimension(0, 10)));
     }else{
       for(Post post : s.verPostsDeUmUser(userLogado)){
-      for(Post post : s.verPostsDeUmUser(userLogado)){
         JPanel painelPost = new JPanel();
         JPanel painelBotoes = new JPanel();
 
@@ -85,11 +83,8 @@ public class TelaVerPropriosPosts extends JFrame {
         ArrayList<Post> favoritos = s.verFavoritosDeUmUser(userLogado);
 
           final boolean[] isFavorito = {false};
-          for (Post favorito : favoritos) {
-            if (favorito.getId() == post.getId()) {
-              isFavorito[0] = true;
-              break;
-            }
+          if(favoritos.contains(post)){
+            isFavorito[0] = true;
           }
           if(isFavorito[0]){
             buttonFavoritar.setText("Desfavoritar");

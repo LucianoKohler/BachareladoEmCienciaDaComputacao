@@ -65,4 +65,12 @@ public static byte[] carregarImagemPadrao() {
   public boolean removerFavoritador(User u){
     return this.favoritadores.remove(u);
   }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || getClass() != obj.getClass()) return false;
+    Post other = (Post) obj;
+    return id == other.id;
+  }
 }

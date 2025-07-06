@@ -15,6 +15,7 @@ import negocio.Sistema;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.util.ArrayList;
 
 public class TelaVerSeguidores extends JFrame {
   
@@ -40,7 +41,8 @@ public class TelaVerSeguidores extends JFrame {
     painelConteudo.add(tituloLabel);
     painelConteudo.add(Box.createRigidArea(new Dimension(0, 20)));
 
-    for (User user : userLogado.verSeguidores()) {
+    ArrayList<User> seguidores = s.verSeguidoresDeUmUser(userLogado);
+    for (User user : seguidores) {
       
       JPanel userPainel = new JPanel();
       userPainel.setLayout(new BoxLayout(userPainel, BoxLayout.X_AXIS));
@@ -61,15 +63,14 @@ public class TelaVerSeguidores extends JFrame {
 
       removerSeguidorButton.addActionListener(e -> {
         JOptionPane.showMessageDialog(this, "Você removeu " + user.getNomeCompleto() + " da sua lista de seguidores");
-        user.unfollow(userLogado);
-        userLogado.removerSeguidor(user);
+        s.unfollowUser(user, userLogado); // TODO arrumar
         TelaVerSeguidores telaVerSeguidores = new TelaVerSeguidores(s, userLogado);
         telaVerSeguidores.setVisible(true);
         this.dispose();
       });
     }
 
-    if(userLogado.verSeguidores().size() == 0){
+    if(seguidores.size() == 0){
       JLabel semUsuariosLabel = new JLabel("Parece que ninguém te segue...");
       semUsuariosLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
       painelConteudo.add(semUsuariosLabel);

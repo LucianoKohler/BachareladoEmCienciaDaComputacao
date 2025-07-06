@@ -83,9 +83,9 @@ public class TelaPerfil extends JFrame {
     apagarContaButton.setMaximumSize(new Dimension(250, 25));
     voltarButton.setMaximumSize(new Dimension(250, 25));
     
-    qtdPostsLabel1.setText(String.valueOf(userLogado.getPosts().size()));
-    seguidoresLabel1.setText(String.valueOf(userLogado.verSeguidores().size()));
-    seguindoLabel1.setText(String.valueOf(userLogado.verSeguindo().size()));
+    qtdPostsLabel1.setText(String.valueOf(s.verPostsDeUmUser(userLogado).size()));
+    seguidoresLabel1.setText(String.valueOf(s.verSeguidoresDeUmUser(userLogado).size()));
+    seguindoLabel1.setText(String.valueOf(s.verSeguindoDeUmUser(userLogado).size()));
 
     /* INDICANDO COMO CADA ELEMENTO DEVE SE COMPORTAR */
     painelPrincipal.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -207,7 +207,7 @@ public class TelaPerfil extends JFrame {
         JOptionPane.showMessageDialog(this, "Erro: Campo vazio ou username já escolhido.");
       }else{
         JOptionPane.showMessageDialog(this, "Informação alterada com sucesso!");
-        TelaPerfil telaPerfil = new TelaPerfil(s.buscarPorUsername(userLogado.getUsername()), s);
+        TelaPerfil telaPerfil = new TelaPerfil(s.buscarPorId(userLogado.getId()), s);
         telaPerfil.setVisible(true);
         this.dispose();
       }

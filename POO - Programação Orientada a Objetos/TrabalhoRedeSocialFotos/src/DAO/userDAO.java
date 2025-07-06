@@ -128,14 +128,14 @@ public class userDAO {
     }
   }
 
-  public static void unfollow(int idUnfollower, int idUnfollowed){
-    String sql = "DELETE FROM seguidores WHERE idFollowed = ? AND idFollower = ?";
+  public static void unfollow(int idUnfollowed, int idUnfollower){
+    String sql = "DELETE FROM seguidores WHERE idFollower = ? AND idFollowed = ?";
 
     try {
       Connection con = ConexaoDB.getInstancia();
       PreparedStatement statement = con.prepareStatement(sql);
-      statement.setInt(1, idUnfollowed);
-      statement.setInt(2, idUnfollower);
+      statement.setInt(1, idUnfollower);
+      statement.setInt(2, idUnfollowed);
       statement.executeUpdate();
     } catch(SQLException e){
       System.out.println(e.getMessage());
@@ -176,7 +176,7 @@ public class userDAO {
 
   public static ArrayList<User> verSeguidoresDeUmUser(int idUser) {
     ArrayList<User> seguidores = new ArrayList<>();
-    String sql = "SELECT * FROM seguidores WHERE idfollowed = ?";
+    String sql = "SELECT * FROM seguidores WHERE idfollower = ?";
 
     try {
       Connection con = ConexaoDB.getInstancia();
@@ -186,7 +186,7 @@ public class userDAO {
 
       if(resultado.next()){
         do {
-          User user = buscarPorId(idUser); // A função principal só pega os IDs do user, então chamamos essa
+          User user = buscarPorId(resultado.getInt("idFollowed")); // A função principal só pega os IDs do user, então chamamos essa
           seguidores.add(user);
         } while (resultado.next());
       }
@@ -199,7 +199,7 @@ public class userDAO {
 
   public static ArrayList<User> verSeguindoDeUmUser(int idUser) {
     ArrayList<User> seguindo = new ArrayList<>();
-    String sql = "SELECT * FROM seguidores WHERE idfollower = ?";
+    String sql = "SELECT * FROM seguidores WHERE idfollowed = ?";
 
     try {
       Connection con = ConexaoDB.getInstancia();
@@ -209,7 +209,7 @@ public class userDAO {
 
       if(resultado.next()){
         do {
-          User user = buscarPorId(idUser);
+          User user = buscarPorId(resultado.getInt("idFollower"));
           seguindo.add(user);
         } while (resultado.next());
       }
@@ -232,4 +232,5 @@ public class userDAO {
       System.out.println(e.getMessage());
     }
   }
+  
 }

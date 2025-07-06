@@ -15,6 +15,7 @@ import negocio.Sistema;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.util.ArrayList;
 
 public class TelaVerSeguindo extends JFrame {
   
@@ -40,7 +41,8 @@ public class TelaVerSeguindo extends JFrame {
     painelConteudo.add(tituloLabel);
     painelConteudo.add(Box.createRigidArea(new Dimension(0, 20)));
 
-    for (User user : userLogado.verSeguindo()) {
+    ArrayList<User> seguindos = s.verSeguindoDeUmUser(userLogado);
+    for (User user : seguindos) {
       
       JPanel userPainel = new JPanel();
       userPainel.setLayout(new BoxLayout(userPainel, BoxLayout.X_AXIS));
@@ -61,15 +63,14 @@ public class TelaVerSeguindo extends JFrame {
 
       deixarDeSeguirButton.addActionListener(e -> {
         JOptionPane.showMessageDialog(this, "Você deixou de seguir: " + user.getNomeCompleto());
-        userLogado.unfollow(user);
-        user.removerSeguidor(userLogado);
+        s.unfollowUser(userLogado, user);
         TelaVerSeguindo telaVerSeguindo = new TelaVerSeguindo(s, userLogado);
         telaVerSeguindo.setVisible(true);
         this.dispose();
       });
     }
 
-    if(userLogado.verSeguindo().size() == 0){
+    if(seguindos.size() == 0){
       JLabel semUsuariosLabel = new JLabel("Parece que você não segue ninguém...");
       semUsuariosLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
       painelConteudo.add(semUsuariosLabel);
