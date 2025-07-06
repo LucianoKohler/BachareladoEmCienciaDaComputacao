@@ -2,25 +2,18 @@ package apresentacao;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
 
 import dados.User;
 import negocio.Sistema;
 import apresentacao.componentes.ImagemCircular;
-import apresentacao.componentes.SeletorImagem;
 
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.image.BufferedImage;
 
 public class TelaVerPerfil extends JFrame {
   
