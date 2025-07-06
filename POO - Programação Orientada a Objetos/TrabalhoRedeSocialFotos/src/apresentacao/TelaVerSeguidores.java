@@ -63,7 +63,7 @@ public class TelaVerSeguidores extends JFrame {
 
       removerSeguidorButton.addActionListener(e -> {
         JOptionPane.showMessageDialog(this, "Você removeu " + user.getNomeCompleto() + " da sua lista de seguidores");
-        s.unfollowUser(user, userLogado); // TODO arrumar
+        s.unfollowUser(user, userLogado);
         TelaVerSeguidores telaVerSeguidores = new TelaVerSeguidores(s, userLogado);
         telaVerSeguidores.setVisible(true);
         this.dispose();
