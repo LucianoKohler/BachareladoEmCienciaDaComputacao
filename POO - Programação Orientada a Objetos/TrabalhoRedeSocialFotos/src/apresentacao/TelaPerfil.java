@@ -2,14 +2,11 @@ package apresentacao;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
 
 import dados.User;
 import negocio.Sistema;
@@ -49,11 +46,11 @@ public class TelaPerfil extends JFrame {
   public JButton verSeguindoButton = new JButton("Ver quem você segue");
   public JButton apagarContaButton = new JButton("Apagar conta");
   public JButton voltarButton = new JButton("Voltar");
-  JButton adicionarImagemButton = new JButton("Mudar foto de perfil");
+  JButton adicionarImagemButton = new JButton("Foto de perfil");
 
   public TelaPerfil(User userLogado, Sistema s) {
     int DEFAULT_HEIGHT = 700;
-    int DEFAULT_WIDTH = 450;
+    int DEFAULT_WIDTH = 400;
     setTitle("Perfil");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBounds(100, 100, DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -167,51 +164,77 @@ public class TelaPerfil extends JFrame {
     /* FUNCIONALIDADES DOS BOTÕES */
     mudarCredenciaisButton.addActionListener(e -> {
       JPanel formPainel = new JPanel(new GridLayout(0, 1));
-      JRadioButton usernameOption = new JRadioButton("Username");
-      usernameOption.setSelected(true); // Começa com esse setado por padrão
-      JRadioButton senhaOption = new JRadioButton("Senha");
-      JRadioButton nomeCompletoOption = new JRadioButton("Nome Completo");
-      JRadioButton biografiaOption = new JRadioButton("Biografia");
-      JTextField novaInformacaoTextField = new JTextField();
-
-      ButtonGroup grupo = new ButtonGroup();
-      grupo.add(usernameOption);
-      grupo.add(senhaOption);
-      grupo.add(nomeCompletoOption);
-      grupo.add(biografiaOption);
-
+      JButton usernameButton = new JButton("Username");
+      JButton senhaButton = new JButton("Senha");
+      JButton nomeCompletoButton = new JButton("Nome Completo");
+      JButton biografiaButton = new JButton("Biografia");
+      
       formPainel.add(new JLabel("Escolha a credencial para ser mudada: "));
-      formPainel.add(usernameOption);
-      formPainel.add(senhaOption);
-      formPainel.add(nomeCompletoOption);
-      formPainel.add(biografiaOption);
-
-      formPainel.add(new JLabel("Insira a nova informação: "));
-      formPainel.add(novaInformacaoTextField);
-
-      formPainel.add(ouLabel);
+      formPainel.add(usernameButton);
+      formPainel.add(senhaButton);
+      formPainel.add(nomeCompletoButton);
+      formPainel.add(biografiaButton);
       formPainel.add(adicionarImagemButton);
 
-      int resultado = JOptionPane.showConfirmDialog(null, formPainel, "Mudar credenciais", JOptionPane.OK_CANCEL_OPTION);
-    
-    if(resultado == JOptionPane.OK_OPTION){
-      int opcaoEscolhida = 0;
-      if(usernameOption.isSelected()) {opcaoEscolhida = 1;}
-      if(senhaOption.isSelected()) {opcaoEscolhida = 2;}
-      if(nomeCompletoOption.isSelected()) {opcaoEscolhida = 3;}
-      if(biografiaOption.isSelected()) {opcaoEscolhida = 4;}
-      String novaInformacao = novaInformacaoTextField.getText();
+     usernameButton.addActionListener(f -> {
+      String novoUsername = JOptionPane.showInputDialog(this, "Digite o novo username:");
+      if (novoUsername != null && !novoUsername.trim().isEmpty()) {
+        if (s.mudarCredenciaisPerfil(userLogado, novoUsername.trim(), 1)) {
+          JOptionPane.showMessageDialog(this, "Username alterado com sucesso!");
+          TelaPerfil telaPerfil = new TelaPerfil(s.buscarPorId(userLogado.getId()), s);
+          telaPerfil.setVisible(true);
+          this.dispose();
+        } else {
+          JOptionPane.showMessageDialog(this, "Erro: Username já cadastrado ou vazio");
+        }
+      }
+     });
 
-      boolean sucesso = s.mudarCredenciaisPerfil(userLogado, novaInformacao, opcaoEscolhida);
-      if(!sucesso){
-        JOptionPane.showMessageDialog(this, "Erro: Campo vazio ou username já escolhido.");
-      }else{
-        JOptionPane.showMessageDialog(this, "Informação alterada com sucesso!");
+      senhaButton.addActionListener(f -> {
+      String novaSenha = JOptionPane.showInputDialog(this, "Digite a nova senha:");
+      if (novaSenha != null && !novaSenha.trim().isEmpty()) {
+        s.mudarCredenciaisPerfil(userLogado, novaSenha, 2);
+        JOptionPane.showMessageDialog(null, "Informação alterada com sucesso!");
         TelaPerfil telaPerfil = new TelaPerfil(s.buscarPorId(userLogado.getId()), s);
         telaPerfil.setVisible(true);
         this.dispose();
       }
-    }
+     });
+
+      nomeCompletoButton.addActionListener(f -> {
+      String novoNomeCompleto = JOptionPane.showInputDialog(this, "Digite o novo nome completo:");
+      if (novoNomeCompleto != null && !novoNomeCompleto.trim().isEmpty()) {
+        s.mudarCredenciaisPerfil(userLogado, novoNomeCompleto, 3);
+        JOptionPane.showMessageDialog(null, "Informação alterada com sucesso!");
+        TelaPerfil telaPerfil = new TelaPerfil(s.buscarPorId(userLogado.getId()), s);
+        telaPerfil.setVisible(true);
+        this.dispose();
+      }
+     });
+
+      biografiaButton.addActionListener(f -> {
+      String novaBiografia = JOptionPane.showInputDialog(this, "Digite a nova biografia:");
+      if (novaBiografia != null && !novaBiografia.trim().isEmpty()) {
+        s.mudarCredenciaisPerfil(userLogado, novaBiografia, 4);
+        JOptionPane.showMessageDialog(null, "Informação alterada com sucesso!");
+        TelaPerfil telaPerfil = new TelaPerfil(s.buscarPorId(userLogado.getId()), s);
+        telaPerfil.setVisible(true);
+        this.dispose();
+      }
+     });
+     
+      // Cria um JOptionPane customizado para exibir o painel de botões
+      JOptionPane optionPane = new JOptionPane(formPainel, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{}, null);
+      javax.swing.JDialog dialog = optionPane.createDialog(this, "Mudar credenciais");
+
+      // Fecha o dialog ao clicar em qualquer botão do painel
+      usernameButton.addActionListener(f -> dialog.dispose());
+      senhaButton.addActionListener(f -> dialog.dispose());
+      nomeCompletoButton.addActionListener(f -> dialog.dispose());
+      biografiaButton.addActionListener(f -> dialog.dispose());
+      adicionarImagemButton.addActionListener(f -> dialog.dispose());
+
+      dialog.setVisible(true);
     });
 
     verSeguidoresButton.addActionListener(e -> {
@@ -253,7 +276,7 @@ public class TelaPerfil extends JFrame {
         return;
       }
       s.mudarFotoPerfil(userLogado, Sistema.ImageParaBytes(imagemEscolhida));
-      JOptionPane.showMessageDialog(this, "Informação alterada com sucesso!");
+      JOptionPane.showMessageDialog(this, "Foto de perfil alterada com sucesso!");
       TelaPerfil telaPerfil = new TelaPerfil(s.buscarPorUsername(userLogado.getUsername()), s);
       telaPerfil.setVisible(true);
       this.dispose();
