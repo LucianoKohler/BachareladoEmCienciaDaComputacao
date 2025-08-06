@@ -7,9 +7,9 @@ public class Principal {
     Sistema s = new Sistema();
 
     /* Descomente as duas linhas abaixo e comente as duas próximas para entrar logado diretamente */
-    TelaUser telaUser = new TelaUser(s.buscarPorUsername("joaoInstagram"), s);
-    telaUser.setVisible(true);
-    // TelaGuest telaGuest = new TelaGuest(s);
-    // telaGuest.setVisible(true);
+    // TelaUser telaUser = new TelaUser(s.buscarPorUsername("joaoInstagram"), s);
+    // telaUser.setVisible(true);
+    TelaGuest telaGuest = new TelaGuest(s);
+    telaGuest.setVisible(true);
   }
 }

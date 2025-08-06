@@ -53,8 +53,8 @@ public class userDAO {
       }
     } catch (SQLException e){
       System.out.println(e.getMessage());
-      return null;
     }
+    return null;
   }
 
   public static User buscarPorId(int id){
@@ -80,8 +80,8 @@ public class userDAO {
       }
     } catch (SQLException e){
       System.out.println(e.getMessage());
-      return null;
     }
+    return null;
   }
 
   public static ArrayList<User> getAllUsers(){
