@@ -1,3 +1,7 @@
 # Ignorar a pasta que o pyCharm chama toda vez que abro um projeto
 .idea/
 .__pycache__
+
+# Ignorar o MARS instalado na pasta da matéria
+AOC - Arquitetura e Organização de Computadores/Mars4_5.jar
+
