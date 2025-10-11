@@ -20,7 +20,7 @@ int main(){
   int visitado[150] = {0};
   float tolerancia; // Varia de 0 (nada passa) a 1 (tudo passa)
   
-  FILE *arquivo = fopen("in/dataset.csv", "rt");
+  FILE *arquivo = fopen("input/dataset.csv", "rt");
   
   // 2. Lendo o arquivo e salvando as coordenadas na matriz data
   if(arquivo == NULL){
@@ -68,11 +68,10 @@ int main(){
   }
 
   // 5. Calculando as matrizes de adjacência de acordo com os limiares (0.0, 0.3, 0.5 e 0.9)
-  
-  FILE *p0_0 = fopen("out/adjacenciasLimiar0_0.csv", "wt");
-  FILE *p0_3 = fopen("out/adjacenciasLimiar0_3.csv", "wt");
-  FILE *p0_5 = fopen("out/adjacenciasLimiar0_5.csv", "wt");
-  FILE *p0_9 = fopen("out/adjacenciasLimiar0_9.csv", "wt");
+  FILE *p0_0 = fopen("output/adjacenciasLimiar0_0.csv", "wt");
+  FILE *p0_3 = fopen("output/adjacenciasLimiar0_3.csv", "wt");
+  FILE *p0_5 = fopen("output/adjacenciasLimiar0_5.csv", "wt");
+  FILE *p0_9 = fopen("output/adjacenciasLimiar0_9.csv", "wt");
 
   for(int i = 0; i < tam; i++){
     for(int j = 0; j < tam; j++){
@@ -135,19 +134,24 @@ int main(){
   int escolha = 0;
   scanf("%d", &escolha);
 
-int (*adjacenciaEscolhida)[tam] = NULL;
+  int (*adjacenciaEscolhida)[tam] = NULL;
+  float limiarEscolhido = -1;
   switch (escolha){
   case 1:
       adjacenciaEscolhida = adjacencia0_0;
+      limiarEscolhido = 0.0;
     break;
     case 2:
       adjacenciaEscolhida = adjacencia0_3;
+      limiarEscolhido = 0.3;
     break;
     case 3:
       adjacenciaEscolhida = adjacencia0_5;
+      limiarEscolhido = 0.5;
     break;
     case 4:
       adjacenciaEscolhida = adjacencia0_9;
+      limiarEscolhido = 0.9;
     break;
     default:
       printf("Tolerancia invalida.");
@@ -156,6 +160,7 @@ int (*adjacenciaEscolhida)[tam] = NULL;
 
   // 7. Encontrando a quantidade de clusters com o tolerância recebida
   int qtdClusters = 0;
+  printf("Analisando o limiar = %.1f:\n", limiarEscolhido);
   for(int i = 0; i < tam; i++){
     if(!visitado[i]){
       qtdClusters++;
