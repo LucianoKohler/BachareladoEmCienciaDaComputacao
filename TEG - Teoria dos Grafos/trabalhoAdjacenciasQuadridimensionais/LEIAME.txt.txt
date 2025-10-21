@@ -1,0 +1,1 @@
+O código C está presente na pasta, porém o mesmo já compilado também está presente, para rodá-lo, basta abrir o arquivo "main.exe" em um terminal via comando ".\main.exe", lembrando de executar esta linha de comando dentro da pasta contendo o arquivo!
