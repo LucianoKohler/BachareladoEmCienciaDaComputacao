@@ -5,14 +5,14 @@ Hazards são problemas que provém do uso de *pipelining*, existem três tipos p
 - Hazard de Dados
 - Hazard de Controle
 
-## Hazard Estrutural
+# Hazard Estrutural
 *Quando um componente é utilizado por mais de uma intrução para tarefas diferentes*
 
 **Problema**: Sobrecarga do componente, falhando em executar a instrução
 
 **Solução**: Duplicar componentes que são utilizados mais de uma vez na execução da instrução
 
-## Hazard de Dados
+# Hazard de Dados
 *Quando um valor ainda não foi atualizado, mas é necessário para a próxima instrução*
 
 Exemplo:
@@ -29,6 +29,8 @@ sub $s1, $s0, $t2
 *Nota: Para o `lw`, é necessário um forwarding diferente.
 
 Algumas sequências de instruções precisam, mesmo com o forwarding, dar um *stall* no código para atrasar uma instrução e executá-la sem perigo de hazards, por conta disso, os compiladores mais sofisticados tentam fazer de tudo para evitar esses stalls (como por exemplo, inverter a ordem de algumas instruções que não mudem a lógica do código)
+
+`lw com add/sub` sempre precisa de stall!!
 
 # Hazard de Controle
 *Quando, após um branch, o código não sabe qual instrução ele deve ler à seguir para manter o pipeline regular.*
