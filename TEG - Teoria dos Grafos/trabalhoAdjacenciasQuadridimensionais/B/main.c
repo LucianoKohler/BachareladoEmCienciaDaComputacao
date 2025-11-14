@@ -132,9 +132,11 @@ int main(){
 
   // 6. Analisando os dados encontrados com o limiar
   printf("\n\nANALISE DOS CLUSTERS: ");
+  int somaAcertos = 0;
   for(int i = 0; i < TAM; i++){
     cluster atual = clusters[i];
     if(atual.tipoCluster == 0){ break; } // Não é cluster
+    somaAcertos+= atual.qtdAcertos;
     printf("\nCluster num. %d:", i+1);
     printf("\n\tQuantidade de elementos no cluster: %d", atual.qtdElementosNoCluster);
     printf("\n\tCentro de gravidade do cluster: (%.2f, %.2f, %.2f, %.2f)", 
@@ -144,9 +146,12 @@ int main(){
       printf("\n\tTipo do cluster: Tipo %d", atual.tipoCluster);
       printf("\n\tQuantidade de acertos: %d", atual.qtdAcertos);
       printf("\n\tQuantidade de erros: %d", atual.qtdErros);
-      printf("\n\tTaxa de acerto: %.2f", atual.qtdAcertos / atual.qtdElementosNoCluster);
-      printf("\n");
+      printf("\n\tTaxa de acerto: %.2f%%", 100*(atual.qtdAcertos / (float)atual.qtdElementosNoCluster));
+      printf("\n-------------------------------------");
   }
+
+  printf("\nACURACIA TOTAL: %.2f%%", 100*(somaAcertos/(float)TAM));
+  printf("\n-------------------------------------");
 }
 
 void dfs(int nodo, int adjacencia[TAM][TAM], int visitado[TAM], cluster* retorno){
@@ -172,7 +177,6 @@ void dfs(int nodo, int adjacencia[TAM][TAM], int visitado[TAM], cluster* retorno
     }
   }
 }
-
 
 void calculaAdjacencias(float limiar){
   FILE *arq = fopen("output/adjacencias.csv", "wt");
