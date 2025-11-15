@@ -1,0 +1,27 @@
+ANALISE DOS CLUSTERS: 
+Cluster num. 1:
+	Quantidade de elementos no cluster: 51
+	Centro de gravidade do cluster: (5.93, 2.78, 4.28, 1.35)
+	Tipo do cluster: Tipo 1
+	Quantidade de acertos: 50
+	Quantidade de erros: 1
+	Taxa de acerto: 98.04%
+-------------------------------------
+Cluster num. 2:
+	Quantidade de elementos no cluster: 50
+	Centro de gravidade do cluster: (5.01, 3.42, 1.46, 0.24)
+	Tipo do cluster: Tipo 2
+	Quantidade de acertos: 50
+	Quantidade de erros: 0
+	Taxa de acerto: 100.00%
+-------------------------------------
+Cluster num. 3:
+	Quantidade de elementos no cluster: 49
+	Centro de gravidade do cluster: (7.42, 3.78, 6.37, 2.83)
+	Tipo do cluster: Tipo 3
+	Quantidade de acertos: 49
+	Quantidade de erros: 0
+	Taxa de acerto: 100.00%
+-------------------------------------
+ACURACIA TOTAL: 99.33%
+-------------------------------------

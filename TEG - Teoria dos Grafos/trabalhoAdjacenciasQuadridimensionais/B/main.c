@@ -130,16 +130,25 @@ int main(){
     }
   }
 
-  // 6. Analisando os dados encontrados com o limiar
+  // 6. Analisando os dados encontrados com o limiar e salvando-os num .txt
+  FILE *clusterArq = fopen("output/clusters.txt", "wt");
   printf("\n\nANALISE DOS CLUSTERS: ");
+  fprintf(clusterArq, "ANALISE DOS CLUSTERS: ");
+
   int somaAcertos = 0;
   for(int i = 0; i < TAM; i++){
     cluster atual = clusters[i];
     if(atual.tipoCluster == 0){ break; } // Não é cluster
     somaAcertos+= atual.qtdAcertos;
     printf("\nCluster num. %d:", i+1);
+    fprintf(clusterArq, "\nCluster num. %d:", i+1);
+    
     printf("\n\tQuantidade de elementos no cluster: %d", atual.qtdElementosNoCluster);
     printf("\n\tCentro de gravidade do cluster: (%.2f, %.2f, %.2f, %.2f)", 
+      atual.mediaCoordenadas[0], atual.mediaCoordenadas[1],
+      atual.mediaCoordenadas[2], atual.mediaCoordenadas[3]);
+    fprintf(clusterArq, "\n\tQuantidade de elementos no cluster: %d", atual.qtdElementosNoCluster);
+    fprintf(clusterArq, "\n\tCentro de gravidade do cluster: (%.2f, %.2f, %.2f, %.2f)", 
       atual.mediaCoordenadas[0], atual.mediaCoordenadas[1],
       atual.mediaCoordenadas[2], atual.mediaCoordenadas[3]);
       
@@ -148,10 +157,19 @@ int main(){
       printf("\n\tQuantidade de erros: %d", atual.qtdErros);
       printf("\n\tTaxa de acerto: %.2f%%", 100*(atual.qtdAcertos / (float)atual.qtdElementosNoCluster));
       printf("\n-------------------------------------");
+      fprintf(clusterArq, "\n\tTipo do cluster: Tipo %d", atual.tipoCluster);
+      fprintf(clusterArq, "\n\tQuantidade de acertos: %d", atual.qtdAcertos);
+      fprintf(clusterArq, "\n\tQuantidade de erros: %d", atual.qtdErros);
+      fprintf(clusterArq, "\n\tTaxa de acerto: %.2f%%", 100*(atual.qtdAcertos / (float)atual.qtdElementosNoCluster));
+      fprintf(clusterArq, "\n-------------------------------------");
   }
 
   printf("\nACURACIA TOTAL: %.2f%%", 100*(somaAcertos/(float)TAM));
   printf("\n-------------------------------------");
+  fprintf(clusterArq, "\nACURACIA TOTAL: %.2f%%", 100*(somaAcertos/(float)TAM));
+  fprintf(clusterArq, "\n-------------------------------------");
+
+  printf("\n\nMatriz de adjacencia e informacoes de clusters geradas na pasta output.\n");
 }
 
 void dfs(int nodo, int adjacencia[TAM][TAM], int visitado[TAM], cluster* retorno){
