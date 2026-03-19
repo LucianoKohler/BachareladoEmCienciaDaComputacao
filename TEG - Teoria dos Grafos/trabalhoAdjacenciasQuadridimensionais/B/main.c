@@ -7,6 +7,9 @@ typedef struct cluster{
   int qtdElementosNoCluster;
   float mediaCoordenadas[4]; // X, Y, Z, W
   int tipoCluster;
+  int qtdTipo1;
+  int qtdTipo2;
+  int qtdTipo3;
   int qtdAcertos; // Se o nodo tipo 1 está no cluster 1
   int qtdErros; // Se o nodo tipo 1 está no cluster 2 ou 3
 }cluster;
@@ -164,16 +167,32 @@ int main(){
       fprintf(clusterArq, "\n-------------------------------------");
   }
 
+  printf("\nMATRIZ DE CONFUSAO: ");
+  fprintf(clusterArq, "\nMATRIZ DE CONFUSAO: ");
+  printf("\n   %5d %5d %5d", 1, 2, 3);
+  fprintf(clusterArq, "\n   %5d %5d %5d", 1, 2, 3);
+  for(int i = 0; i < 3; i++){
+    cluster atual = clusters[i];
+    printf("\n%2d %5d %5d %5d", i+1, atual.qtdTipo1, atual.qtdTipo2, atual.qtdTipo3);
+    fprintf(clusterArq, "\n%2d %5d %5d %5d", i+1, atual.qtdTipo1, atual.qtdTipo2, atual.qtdTipo3);
+  }
+  printf("\n-------------------------------------");
+  fprintf(clusterArq, "\n-------------------------------------");
   printf("\nACURACIA TOTAL: %.2f%%", 100*(somaAcertos/(float)TAM));
   printf("\n-------------------------------------");
   fprintf(clusterArq, "\nACURACIA TOTAL: %.2f%%", 100*(somaAcertos/(float)TAM));
   fprintf(clusterArq, "\n-------------------------------------");
 
-  printf("\n\nMatriz de adjacencia e informacoes de clusters geradas na pasta output.\n");
+  printf("\n\nMatriz de adjacencia e informacoes de clusters geradas na pasta output.\n\n");
+  fclose(clusterArq);
 }
 
 void dfs(int nodo, int adjacencia[TAM][TAM], int visitado[TAM], cluster* retorno){
   visitado[nodo] = 1;
+  if(nodos[nodo].tipo == 1)      retorno->qtdTipo1++;
+  else if(nodos[nodo].tipo == 2) retorno->qtdTipo2++;
+  else                           retorno->qtdTipo3++;
+  
   retorno->qtdElementosNoCluster++;
   retorno->mediaCoordenadas[0] += nodos[nodo].x;
   retorno->mediaCoordenadas[1] += nodos[nodo].y;
