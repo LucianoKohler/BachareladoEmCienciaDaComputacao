@@ -1,4 +1,5 @@
-// gcc snowman_sample.c -lglut -lGL -lGLU -lm -o snowman && ./snowman
+// Lnx: gcc castelo.c -lglut -lGL -lGLU -lm -o castelo && ./castelo
+// Win: gcc castelo.c -lfreeglut -lopengl32 -lglu32 -o castelo; .\castelo
 
 #include <GL/freeglut.h>
   
@@ -59,9 +60,9 @@ void SetupRC(){
       
     // Set Material properties to follow glColor values  
     glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);  
-  
+
     // Background color  
-    glClearColor(.6f, 0.6f, 0.8f, 1.0f);  
+    glClearColor(.7f, 0.5f, 0.0f, 1.0f);  
 }  
   
 // Respond to arrow keys (rotate snowman)
@@ -85,7 +86,40 @@ void SpecialKeys(int key, int x, int y){
     // Refresh the Window  
     glutPostRedisplay();
 }
-  
+
+void makeTower(GLUquadricObj *pObj, float x, float y, float z, float height){
+    
+	// Tower color
+	glColor3f(.8f, 0.6f, 0.0f);
+    
+	glPushMatrix();
+        // Tower body
+        glTranslatef(x, y, z); 
+        glRotatef(90, 1, 0, 0);
+        gluCylinder(pObj, .3f, .3f, height, 26, 13);
+        
+        // Tower roof
+        glColor3f(1.0f, 0.0f, 0.0f);
+        
+        glRotatef(180, 1, 0, 0);
+        gluCylinder(pObj, .5f, .0f, .7f, 26, 13);
+	glPopMatrix();
+
+    // Tower windows
+    glColor3f(.0f,.0f,.0f);
+
+    glPushMatrix();
+        glTranslatef(x, y-height/4, z); 
+        glScalef(.3f, .5f, .6f);
+        glutSolidCube(1.0);
+    glPopMatrix();
+    glPushMatrix();
+        glTranslatef(x, y-height/4, z); 
+        glScalef(.6f, .5f, .3f);
+        glutSolidCube(1.0);
+    glPopMatrix();
+}
+
 // Called to draw scene  
 void RenderScene(void){  
 
@@ -106,110 +140,49 @@ void RenderScene(void){
 	pObj = gluNewQuadric();  
 	gluQuadricNormals(pObj, GLU_SMOOTH);  
 
-	// white
-	glColor3f(1.0f, 1.0f, 1.0f);  
-
+    glTranslatef(.0f, 1.0f, .0f);
 	// Main Body
-	glPushMatrix();
-		glTranslatef(0.0f, 0.3f, 0.0f); 
-		gluSphere(pObj, .54f, 26, 13);
-	glPopMatrix();
+    makeTower(pObj,  2.0f, 0.0f, -10.0f, 1.5f);
+    makeTower(pObj, -2.0f, 0.0f, -4.00f, 1.5f);
+    makeTower(pObj,  2.0f, 0.0f, -4.00f, 1.5f);
+    makeTower(pObj, -2.0f, 0.0f, -10.0f, 1.5f);
 
-	// Mid section
-	glPushMatrix();
-		glTranslatef(0.0f, 1.04f, 0.0f); 
-		gluSphere(pObj, 0.37f, 26, 13);
-	glPopMatrix();
-
-	// Head
-	glPushMatrix(); // save transform matrix state
-		glTranslatef(0.0f, 1.5f, 0.0f);
-		gluSphere(pObj, 0.24f, 26, 13);
-	glPopMatrix(); // restore transform matrix state
-
-	// Nose (orange)
-	glColor3f(1.0f, 0.4f, 0.51f);  
-	glPushMatrix();
-		glTranslatef(0.0f, 1.5f, 0.2f);
-		gluCylinder(pObj, 0.04f, 0.0f, 0.3f, 26, 13);  
-	glPopMatrix();  
-
-	// Black for hat and eyes
-    glColor3f(.0f, .0f, .0f);
-    
-    // Hat
+    // Walls around towers
     glPushMatrix();
-        glRotatef(90, 1, 0, 0);
-        glTranslatef(.0f, .0f, -2.1f);
-        gluCylinder(pObj, 0.1f, 0.1f, 0.3f, 26, 13);
-        glRotatef(180, 1, 0, 0);
-        gluDisk(pObj,.0f, .1f, 26, 13);
-    glPopMatrix();
-
-    // Hat Brim
-    glPushMatrix();
-        glRotatef(90, 1, 0, 0);
-        glTranslatef(.0f, .0f, -1.8f);
-        gluCylinder(pObj, 0.2f, 0.2f, 0.1f, 26, 13);
-        glTranslatef(.0f, .0f, .1f);
-        gluDisk(pObj,.0f, .2f, 26, 13);
-        glTranslatef(.0f, .0f, -0.1f);
-        glRotatef(180, 1, 0, 0);
-        gluDisk(pObj,.0f, .2f, 26, 13);
-    glPopMatrix();
-
-    // Eyes
-    glPushMatrix();
-        glTranslatef(.1f, 1.6f, .2f);
-		gluSphere(pObj, .03f, 26, 13);
-        glTranslatef(-.2f, .0f, .0f);
-        gluSphere(pObj, .03f, 26, 13);
-    glPopMatrix();
-
-    // Buttons
-    glPushMatrix();
-        glTranslatef(.0f, 1.25f, .28f);
-        gluSphere(pObj, .03f, 26, 13);
-        glTranslatef(.0f, -0.1f, .05f);
-        gluSphere(pObj, .03f, 26, 13);
-        glTranslatef(.0f, -0.1f, .02f);
-        gluSphere(pObj, .03f, 26, 13);
-    glPopMatrix();
-
-    // Arms
-    glColor3f(.6f, .3f, .05f);
-
-    glPushMatrix();
-        glTranslatef(.3f, 1.1f, .0f);
-        glRotatef(80, 0, 1, 0);  
-        glRotatef(-15, 1, 0, 0);  
-		gluCylinder(pObj, 0.04f, 0.04f, .6f, 26, 13);
+        glColor3f(.8f, 0.6f, 0.0f);  
+        glScalef(4.5f, .75f, .3f);
         
-        glTranslatef(.0f, .2f, .4f);
-        glRotatef(90, 1, 0, 0);
-		gluCylinder(pObj, 0.04f, 0.04f, .2f, 26, 13);
+        glTranslatef(0.0f, -1.5f, -14.0f);
+        glutSolidCube(1.0);
         
-        glTranslatef(.0f, -.2f, .2f);
-		gluCylinder(pObj, 0.04f, 0.04f, .1f, 26, 13);
+        glTranslatef(0.0f, 0.0f, -20.0f);
+        glutSolidCube(1.0);
     glPopMatrix();
 
     glPushMatrix();
-        glTranslatef(-.3f, 1.1f, .0f);
-        glRotatef(-80, 0, 1, 0);  
-        glRotatef(-10, 1, 0, 0);  
-		gluCylinder(pObj, 0.04f, 0.04f, .6f, 26, 13);
+        glScalef(.3f, .75f, 5.0f);
         
-        glRotatef(180, 0, 0, 1);
-        glTranslatef(.0f, .2f, .4f);
-        glRotatef(90, 1, 0, 0);
-		gluCylinder(pObj, 0.04f, 0.04f, .2f, 26, 13);
+        glTranslatef(7.0f, -1.5f, -1.5f);
+        glutSolidCube(1.0);
         
-        glTranslatef(.0f, -.2f, .2f);
-		gluCylinder(pObj, 0.04f, 0.04f, .18f, 26, 13);
+        glTranslatef(-14.0f, 0.0f, 0.0f);
+        glutSolidCube(1.0);
     glPopMatrix();
 
+    // Front door
+    glPushMatrix();
+        glColor3f(0.0f, 0.0f, 0.0f);
+        glTranslatef(0.0f, -1.2f, -4.0f);
+        
+        glScalef(.4f, .55f, .1f);
+        glutSolidCube(1.0);
+    glPopMatrix();
 
-    
+    // Earth Beneath
+    glColor3f(1.0f, .8f, .1f);  
+    glTranslatef(.0f, -51.5f, -10.0f);
+    gluSphere(pObj, 50.0f, 72, 72);
+
     // Restore the matrix state  
     glPopMatrix();  
   
@@ -223,7 +196,7 @@ int main(int argc, char *argv[]){
     glutInit(&argc, argv);  
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);  
     glutInitWindowSize(800, 600);  
-    glutCreateWindow("Bonnie o boneco de neve");  
+    glutCreateWindow("Castelo de Goldtown");  
     glutReshapeFunc(ChangeSize);  
     glutSpecialFunc(SpecialKeys);  
     glutDisplayFunc(RenderScene);  
