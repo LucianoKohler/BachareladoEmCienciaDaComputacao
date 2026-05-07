@@ -7,7 +7,7 @@ Sistemas Operacionais - Rafael Obelheiro
 1. Fundamentos
 2. Gerência de processador
     - procesos e threads
-    - programaçãp concorrente
+    - programação concorrente
     - escalonamento
 3. Gerência de memória
 4. Sistemas de arquivos

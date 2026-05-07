@@ -4,4 +4,6 @@
 
 # Ignorar o MARS instalado na pasta da matéria
 AOC - Arquitetura e Organização de Computadores/Mars4_5.jar
-
+*.class
+*.out
+*.exe

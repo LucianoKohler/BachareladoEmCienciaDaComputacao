@@ -4,7 +4,7 @@ pertence :: Int -> [Int] -> Bool
 pertence _ [] = False
 pertence n (xs : ys) = if n == xs then True else pertence n ys
 
--- 2. Retorne a intercessãa entre duas listas
+-- 2. Retorne a intercessão entre duas listas
 
 intercessao :: [Int] -> [Int] -> [Int]
 intercessao [] _ = []
