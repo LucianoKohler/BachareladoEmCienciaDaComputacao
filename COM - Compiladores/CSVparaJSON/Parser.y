@@ -37,7 +37,7 @@ Registros
 -- Um registro, tecnicamente uma "linha"
 Registro
   : Valor                     { [$1] }
-  | Valor ',' Registro       { $1 : $3 }
+  | Valor ',' Registro        { $1 : $3 }
 
 -- Elemento dentro de um registro
 Valor

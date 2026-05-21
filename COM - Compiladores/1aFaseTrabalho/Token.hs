@@ -9,9 +9,9 @@ data Token
     | ID String | CDOUBLE Double | CINT Int | LITERAL String 
     
     -- Relacionais
-    | LESS | GRTR | LEQ | GEQ | EQUAL | NEQUAL -- <, >, <=, >=, = e !=
+    | LESS | GRTR | LEQ | GEQ | EQUAL | NEQUAL -- <, >, <=, >=, = e /   =
     
-    -- Lógicos
+    -- Lógi os
     | AND | OR | NOT
 
     -- Aritméticos
@@ -27,6 +27,5 @@ data Token
 {-
 NOTAS:
     - ATTRIB é "="
-    - LITERAL = Só "abc" por exemplo pro print
-
+    - LITERAL é só "abc" por exemplo pro print
 -}
