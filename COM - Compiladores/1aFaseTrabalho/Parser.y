@@ -49,11 +49,11 @@ import qualified Lexer as L
  LiteralStr{ LITERAL $$ }
 
 -- Associações para eviar ambiguidade
-
+-- mais abaixo -> maior precedência
 %left "||"
 %left "&&"
 %right "!"
-%nonassoc "<" "<=" ">" ">=" "==" "/="
+%nonassoc "<" "<=" ">" ">=" "==" "/=" -- Dá parse error se fizer a < b < c por exemplo
 %left "+" "-"
 %left "*" "/"
 
@@ -82,7 +82,7 @@ ParamFormais
 ParamFormal
   : Tipo Id                      { $2 :#: ($1, 0) }
 
-BlocoPrincipal -- [( Id , [ Var ] , Bloco )] [ Var ] Bloco
+BlocoPrincipal
   : "{" Declaracoes ListaCmd "}"  { ($2, $3) }
   | "{" ListaCmd "}"              { ([], $2) }
 
