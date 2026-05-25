@@ -11,4 +11,3 @@ NUM = pi Pacientes.nome, Consultas.codm (
 
 -- 3° Dividir
 NUM / DEN
-

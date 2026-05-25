@@ -9,4 +9,3 @@ MED_MAIS_VELHOS_QUE_ALGUEM = pi MED1.nome, MED1.idade (sigma MED1.idade > MED2.i
 
 -- 3° O único médico que não é mais velho que ninguém é o mais novo
 pi nome (MED - MED_MAIS_VELHOS_QUE_ALGUEM)
-
