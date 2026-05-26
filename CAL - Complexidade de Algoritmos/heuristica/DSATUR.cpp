@@ -58,6 +58,7 @@ int main(){
         int nodoEscolhido = -1;
         int qtdCoresNodo = -1;
         int grauMaximo = -1;
+        int indiceNodo = -1;
 
         // Encontra o próximo nó ideal com base na saturação atual
         for(int i = 0; i < nodos; i++) {
@@ -78,9 +79,15 @@ int main(){
                 qtdCoresNodo = coresAtual;
                 grauMaximo = graus[i];
                 nodoEscolhido = i;
-            } else if(coresAtual == qtdCoresNodo) {
+                indiceNodo = i;
+            } else if(coresAtual == qtdCoresNodo && graus[i] != grauMaximo) {
                 if(graus[i] > grauMaximo) {
                     grauMaximo = graus[i];
+                    nodoEscolhido = i;
+                    indiceNodo = i;
+                }
+            } else if(coresAtual == qtdCoresNodo && graus[i] == grauMaximo) {
+                if(i > indiceNodo){
                     nodoEscolhido = i;
                 }
             }

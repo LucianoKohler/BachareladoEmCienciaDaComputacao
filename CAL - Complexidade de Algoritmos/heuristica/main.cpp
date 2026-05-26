@@ -69,8 +69,12 @@ int main(){
             pintaNodo(nodo);
         }
 
-        for(int i = 0; i < qtdN; i++){
-            cout << "Nodo " << i << " tem cor " << cor[i] << "\n"; 
-        }
+    int qtdCores = 0;
+    for(int i = 0; i < 500; i++){
+        string s = to_string(i) + " " + to_string(cor[i]) + "\n";
+        cout << "Nodo " << i << " tem cor " << cor[i] << "\n";
+        if(cor[i] > qtdCores) qtdCores = cor[i];
+    }
 
+    cout << "Total de cores utilizadas: " << qtdCores << "\n";
 }
