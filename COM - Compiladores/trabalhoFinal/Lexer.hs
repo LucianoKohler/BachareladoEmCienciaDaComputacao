@@ -9797,7 +9797,7 @@ alexRightContext IBOX(sc) user__ _ _ input__ =
 {-# LINE 80 "Lexer.x" #-}
 testLex = do 
   putStr "Output do léxico:\n"
-  s <- readFile "teste.j--_"
+  s <- readFile "professor.j--_"
   print (alexScanTokens s)
 
 -- OUTPUT FORMATADO PARA VISUALIZAÇÃO

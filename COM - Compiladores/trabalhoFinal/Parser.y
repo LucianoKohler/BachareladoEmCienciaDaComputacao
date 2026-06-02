@@ -184,7 +184,7 @@ parseError :: [Token] -> a
 parseError s = error ("Parse error:" ++ show s)
 
 main = do
-    input <- readFile "teste.j--_"    
+    input <- readFile "professor.j--_"    
     let tokens = L.alexScanTokens (input)
     
     -- Printando AST

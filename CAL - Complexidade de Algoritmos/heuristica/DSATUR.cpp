@@ -75,6 +75,7 @@ int main(){
 
             // Se o grau for maior, escolhe ele pra pintar, 
             // e se for igual, ve qual o maior grau como desempate
+            // E SE AMBOS FOREM IGUAIS, usamos o indice como desempate definitivog
             if(coresAtual > qtdCoresNodo) {
                 qtdCoresNodo = coresAtual;
                 grauMaximo = graus[i];

@@ -80,7 +80,7 @@ tokens :-
 {
 testLex = do 
   putStr "Output do léxico:\n"
-  s <- readFile "teste.j--_"
+  s <- readFile "professor.j--_"
   print (alexScanTokens s)
 
 -- OUTPUT FORMATADO PARA VISUALIZAÇÃO
