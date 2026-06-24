@@ -4,7 +4,7 @@ import Types
 import qualified Lexer as L
 import qualified Parser as P
 import qualified Data.Map.Strict as Map
-import Data.List (group, sort)
+import Data.List (group, sort) -- Para checar duplicatas nas funções
 
 
 -- Mônada do professor ----------------------------------------------------------
@@ -22,7 +22,7 @@ instance Monad Result where
 --  return a = Result (False, "", a)
   Result (b, s, a) >>= f = let Result (b', s', a') = f a in Result (b || b', s++s', a')
   
-errorMsg s = Result (True, "Erro:"++s++"\n", ())
+errorMsg s = Result (True, "Erro: "++s++"\n", ())
 
 warningMsg s = Result (False, "Advertencia: "++s++"\n", ())
 
@@ -128,7 +128,7 @@ checaExpr tg tl (Chamada id args) =
         Just (tiposParams, tipoRetorno) -> do
             if length tiposParams /= length args 
                 then do
-                    errorMsg("Quantidade de parametros insuficiente em '" ++ id ++ "', esperado '" ++ show (length tiposParams) ++ "', recebido '" ++ show (length args))
+                    errorMsg("Quantidade de parametros insuficiente em '" ++ id ++ "', esperado '" ++ show (length tiposParams) ++ "', recebido '" ++ show (length args) ++ "'")
                     return (Chamada id args, tipoRetorno)
                 else do
                     args' <- mapM (checaParam tg tl id) (zip3 [1..] tiposParams args)
@@ -164,6 +164,24 @@ checaAritmetica tg tl oper contexto expr1 expr2 = do
             (expr1_, expr2_, tipo) <- coerceExpr tipo1 tipo2 expr1' expr2' contexto 
             return (oper expr1_ expr2_, tipo)
 
+-- Análise de expressões lógicas ------------------------------------------------
+
+checaExprLog :: TabelaGlobal -> TabelaLocal -> ExprL -> Result ExprL
+checaExprLog tg tl (And expr1 expr2) = do -- And
+    expr1' <- checaExprLog tg tl expr1
+    expr2' <- checaExprLog tg tl expr2
+    return (And expr1' expr2')
+checaExprLog tg tl (Or expr1 expr2) = do -- Or
+    expr1' <- checaExprLog tg tl expr1
+    expr2' <- checaExprLog tg tl expr2
+    return (Or expr1' expr2')
+checaExprLog tg tl (Not expr) = do -- Not
+    expr' <- checaExprLog tg tl expr
+    return (Not expr')
+checaExprLog tg tl (Rel expr) = do -- Rel
+    expr' <- checaExprRel tg tl expr
+    return (Rel expr')
+
 -- Análise de expressões Relacionais --------------------------------------------
 
 checaExprRel :: TabelaGlobal -> TabelaLocal -> ExprR -> Result ExprR
@@ -172,14 +190,14 @@ checaExprRel tg tl expr = do
     (expr1', tipo1) <- checaExpr tg tl expr1
     (expr2', tipo2) <- checaExpr tg tl expr2
     case (tipo1, tipo2) of
-        (TString, TString) -> return (oper expr1' expr2')
-        (TString, _) -> do
+        (TString, TString) -> return (oper expr1' expr2') -- "ab" == "ba"
+        (TString, _) -> do -- "ab" < 4
             errorMsg("Operacao relacional de tipos incompativeis (string e valor numerico)")
             return (oper expr1' expr2')
-        (_, TString) -> do
+        (_, TString) -> do -- "4 >= "ab"
             errorMsg("Operacao relacional de tipos incompativeis (string e valor numerico)")
             return (oper expr1' expr2')
-        _           -> do
+        _           -> do -- 4 > 5 
             (expr1_, expr2_, _) <- coerceExpr tipo1 tipo2 expr1' expr2' "operacao relacional"
             return (oper expr1_ expr2_)
 
@@ -192,36 +210,18 @@ decomporR (Rgt  e1 e2) = (Rgt,  e1, e2)
 decomporR (Rle  e1 e2) = (Rle,  e1, e2)
 decomporR (Rge  e1 e2) = (Rge,  e1, e2)
 
--- Análise de expressões lógicas ------------------------------------------------
-
-checaExprLog :: TabelaGlobal -> TabelaLocal -> ExprL -> Result ExprL
-checaExprLog tg tl (And expr1 expr2) = do
-    expr1' <- checaExprLog tg tl expr1
-    expr2' <- checaExprLog tg tl expr2
-    return (And expr1' expr2')
-checaExprLog tg tl (Or expr1 expr2) = do
-    expr1' <- checaExprLog tg tl expr1
-    expr2' <- checaExprLog tg tl expr2
-    return (Or expr1' expr2')
-checaExprLog tg tl (Not expr) = do
-    expr' <- checaExprLog tg tl expr
-    return (Not expr')
-checaExprLog tg tl (Rel expr) = do
-    expr' <- checaExprRel tg tl expr
-    return (Rel expr')
-
 -- Análise dos comandos (if, while, ...) ----------------------------------------
 
 checaComando :: TabelaGlobal -> TabelaLocal -> Tipo -> Comando -> Result Comando
 
--- IF
+-- If
 checaComando tg tl retorno (If cond blocoI blocoE) = do
     cond' <- checaExprLog tg tl cond
     blocoI' <- mapM(checaComando tg tl retorno) blocoI
     blocoE' <- mapM(checaComando tg tl retorno) blocoE
     return (If cond' blocoI' blocoE')
 
--- WHILE
+-- While
 checaComando tg tl retorno (While cond bloco) = do
     cond' <- checaExprLog tg tl cond
     bloco' <- mapM(checaComando tg tl retorno) bloco
@@ -239,7 +239,7 @@ checaComando tg tl retorno (Atrib id expr) = do
             expr_ <- coerceTipo tipoVar tipoExpr expr' ("atribuicao de variavel '" ++ id ++ "'")
             return (Atrib id expr_)
 
--- read
+-- Read
 checaComando tg tl retorno (Leitura id) = do
     case Map.lookup id tl of
         Nothing -> do
@@ -247,19 +247,19 @@ checaComando tg tl retorno (Leitura id) = do
         Just _ -> return () -- Não implementado ainda
     return (Leitura id)
 
--- print
+-- Print
 checaComando tg tl retorno (Imp expr) = do
     (expr', _) <- checaExpr tg tl expr
     return (Imp expr')
 
--- retorno do tipo void 
+-- Retorno do tipo void 
 checaComando _ _ tipoRetorno (Ret Nothing) = do
     case tipoRetorno of
         TVoid -> return () 
         _     -> errorMsg ("Retorno vazio em funcao de tipo " ++ show tipoRetorno) -- retornou nada numa função que retorna algo
     return (Ret Nothing)
 
--- retorno com valor
+-- Retorno com valor
 checaComando tg tl tipoRetorno (Ret (Just retorno)) = do
     (expr', tipoExpr) <- checaExpr tg tl retorno
     case tipoExpr of
@@ -270,7 +270,7 @@ checaComando tg tl tipoRetorno (Ret (Just retorno)) = do
             expr_ <- coerceTipo tipoRetorno tipoExpr expr' ("retorno de funcao de tipo '" ++ show tipoRetorno ++ "'")
             return (Ret (Just expr_))
 
--- chamada de função
+-- Chamada de função
 checaComando tg tl _ (Proc id args) = do
     (chamada', _) <- checaExpr tg tl (Chamada id args)
     case chamada' of
@@ -312,8 +312,12 @@ testSemantico = do
     let lex = L.alexScanTokens input
     let par = P.parser lex
     let Result (temErros, logs, programa) = checaPrograma par
-    putStrLn "\nANÁLISE DO ANALISADOR SEMÂNTICO:\n"
-    putStrLn $ "Há erros no código? " ++ show temErros
+    putStrLn "\nANÁLISE DO ANALISADOR SEMÂNTICO:"
     putStrLn $ "\nLogs de erro: \n" ++ logs
-    putStrLn "Programa anotado: " 
-    print programa
+
+    if not temErros
+        then do
+            putStrLn "Programa anotado: " 
+            print programa
+        else do
+            putStrLn "Erros encontrados, compilação terminada."

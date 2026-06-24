@@ -7,3 +7,6 @@ AOC - Arquitetura e Organização de Computadores/Mars4_5.jar
 *.class
 *.out
 *.exe
+
+# Ignorar as bibliotecas gigaenormes que incluí para rodar projetos no OpenGL (de CGR)
+modelagemBlender
