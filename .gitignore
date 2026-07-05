@@ -10,4 +10,7 @@ AOC - Arquitetura e Organização de Computadores/Mars4_5.jar
 
 # Ignorar as bibliotecas gigaenormes que incluí para rodar projetos no OpenGL (de CGR)
 **/modelagemBlender/
-**/trabalhoFinalCGR/
+**/trabalhoFinalCGR/glad.c
+**/trabalhoFinalCGR/stb_image.h
+**/trabalhoFinalCGR/glad
+**/trabalhoFinalCGR/jogo_pinguim
