@@ -1,132 +1,144 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int mx = 100;      // Tamanho máximo do grid
-const int max_k = 10;    // Com 10 chaves, precisamos salvar 2^10 = 1024 estados possíveis
+// Tamanho máximo do labirinto e das chaves
+const int mx = 100;      
+const int max_k = 10;
 
-struct Move { int row, col, mask; char dir; };
-struct State { int row, col, mask; };
+struct Movimento { int linha, coluna, chaves; char dir; };
+struct Estado { int linha, coluna, chaves; };
 
-int gridRow, gridCol;
-int startRow, startCol;
-int numKeys = 0; // Quantidade total de chaves (K)
+int gridLinha, gridColuna;
+int startLinha, startCol; // Coordenadas do herói
+int numTesouros = 0; // Quantidade total de tesouros
 
 vector<vector<char>> grid(mx, vector<char>(mx, '_'));
-vector<vector<int>> keyId(mx, vector<int>(mx, -1)); // Mapeia as posições das chaves para IDs (0 até K-1)
+vector<vector<int>> tesouroId(mx, vector<int>(mx, -1)); // Mapeia as posições das chaves para IDs (0 até K-1)
+/* 
+Exemplo com o mapa:
+#####
+#A.T#
+#.##.
+#T.T#
+#...#
 
-// O controle de visitados agora possui 3 dimensões: [linha][coluna][estado_das_chaves]
-int distHero[mx][mx][1 << max_k];
-Move parentMove[mx][mx][1 << max_k];
+tesouroId: 
+-1 -1 -1 -1 -1
+-1 -1 -1 00 -1
+-1 -1 -1 -1 -1
+-1 01 -1 02 -1
+-1 -1 -1 -1 -1
+*/
+
+// Chegar na célula (2, 3) com as chaves (1, 2) é diferente de
+// chegar na célula (2, 3) com somente a chave (1), logo temos 3 dimensões
+int distHeroi[mx][mx][1 << max_k];
+Movimento parentMove[mx][mx][1 << max_k]; // Para printar o caminho
 
 struct Direction { int xDir, yDir; char dir; };
-Direction directions[4] = {
+Direction direcoes[4] = {
     { 1, 0, 'R'},
     { 0, 1, 'D'},
     {-1, 0, 'L'},
     {0, -1, 'U'}
 };
 
-bool validPosition(int row, int col) {
-    if(row < 0 || row >= gridRow || col < 0 || col >= gridCol) return false;
-    if(grid[row][col] == '#') return false;
+bool posicaoValida(int linha, int coluna) {
+    if(linha < 0 || linha >= gridLinha || coluna < 0 || coluna >= gridColuna) return false;
+    if(grid[linha][coluna] == '#') return false;
     return true;
 }
 
-// Nova condição de vitória: Estar na borda E possuir TODAS as chaves
-bool winCondition(int row, int col, int mask) {
-    bool onBorder = (row == 0 || row == gridRow - 1 || col == 0 || col == gridCol - 1);
-    bool allKeysCollected = (mask == ((1 << numKeys) - 1));
-    return onBorder && allKeysCollected;
+bool condicaoVitoria(int linha, int coluna, int chaves) {
+    bool naBorda = (linha == 0 || linha == gridLinha - 1 || coluna == 0 || coluna == gridColuna - 1);
+    bool todasChavesColetadas = (chaves == ((1 << numTesouros) - 1));
+    return naBorda && todasChavesColetadas;
 }
 
-void solveTSPGrid() {
+void calculaCaminho() {
     // 1. Inicializa o array de distâncias com "infinito"
-    for(int i = 0; i < gridRow; i++) {
-        for(int j = 0; j < gridCol; j++) {
-            for(int m = 0; m < (1 << numKeys); m++) {
-                distHero[i][j][m] = 1e9;
+    for(int i = 0; i < gridLinha; i++) {
+        for(int j = 0; j < gridColuna; j++) {
+            for(int m = 0; m < (1 << numTesouros); m++) {
+                distHeroi[i][j][m] = 1e9;
             }
         }
     }
 
-    queue<State> heroQ;
-    
-    // 2. O estado inicial tem máscara 0 (nenhuma chave), a menos que o jogador nasça em cima de uma
-    int initialMask = 0;
-    if (keyId[startRow][startCol] != -1) {
-        initialMask |= (1 << keyId[startRow][startCol]);
-    }
+    queue<Estado> heroQ;
+    heroQ.push({startLinha, startCol, 0});
+    distHeroi[startLinha][startCol][0] = 0;
 
-    heroQ.push({startRow, startCol, initialMask});
-    distHero[startRow][startCol][initialMask] = 0;
-
-    // 3. Execução da BFS com Bitmask
+    // 2. Execução da BFS com Bitchaves
     while(!heroQ.empty()) {
-        auto [row, col, mask] = heroQ.front();
+        auto [linha, coluna, chaves] = heroQ.front();
         heroQ.pop();
 
-        if(winCondition(row, col, mask)) {
+        // Se a condição de vitória foi suprida
+        if(condicaoVitoria(linha, coluna, chaves)) {
             string path = "";
-            int currRow = row, currCol = col, currMask = mask;
+            int currLinha = linha, currColuna = coluna, currMask = chaves;
             
-            // Reconstrução do caminho adaptada para a máscara de bits
-            while(currRow != startRow || currCol != startCol || currMask != initialMask) {
-                Move m = parentMove[currRow][currCol][currMask];
+            // Reconstrução do caminho via backtrack com o parentMove[][][]
+            while(currLinha != startLinha || currColuna != startCol || currMask != 0) {
+                Movimento m = parentMove[currLinha][currColuna][currMask];
                 path += m.dir;
-                currRow = m.row;
-                currCol = m.col;
-                currMask = m.mask;
+                currLinha = m.linha;
+                currColuna = m.coluna;
+                currMask = m.chaves;
             }
+            // O caminho reconstuído é invertido, então chamamos reverse()
             reverse(path.begin(), path.end());
             
-            cout << "YES\n";
-            cout << path.length() << "\n";
-            cout << path << "\n";
+            cout << "Caminho encontrado com tamanho " << path.length() << "\n";
+            cout << "Caminho: " << path << "\n";
             return;
         }
 
-        for(auto [xDir, yDir, dir] : directions) {
-            int newRow = row + yDir;
-            int newCol = col + xDir;
+        // Continua a BFS
+        for(auto [xDir, yDir, dir] : direcoes) {
+            int newLinha = linha + yDir;
+            int newCol = coluna + xDir;
 
-            if(validPosition(newRow, newCol)) {
-                int newMask = mask;
+            if(posicaoValida(newLinha, newCol)) {
+                int newMask = chaves;
                 
-                // Se a nova célula tem uma chave, atualizamos a máscara usando o operador bitwise OR
-                if (keyId[newRow][newCol] != -1) {
-                    newMask |= (1 << keyId[newRow][newCol]);
+                // Se um tesouro novo foi encontrado, atualiza a máscara 
+                if (tesouroId[newLinha][newCol] != -1) {
+                    newMask |= (1 << tesouroId[newLinha][newCol]);
                 }
 
-                // Se esse estado específico ainda não foi visitado, nós entramos nele
-                if(distHero[newRow][newCol][newMask] == 1e9) {
-                    distHero[newRow][newCol][newMask] = distHero[row][col][mask] + 1;
-                    parentMove[newRow][newCol][newMask] = {row, col, mask, dir};
-                    heroQ.push({newRow, newCol, newMask});
+                // Se não visitou essa célula nesse estado, atualiza
+                if(distHeroi[newLinha][newCol][newMask] == 1e9) {
+                    distHeroi[newLinha][newCol][newMask] = distHeroi[linha][coluna][chaves] + 1;
+                    parentMove[newLinha][newCol][newMask] = {linha, coluna, chaves, dir};
+                    heroQ.push({newLinha, newCol, newMask});
                 }
             }
         }
     }
 
-    cout << "NO\n"; // Caminho impossível
+    // Se não encontraram uma solução até o fim da fila da BFS
+    cout << "Labirinto impossível\n";
 }
 
 int main() {
-    cin >> gridRow >> gridCol;
-    
-    for(int i = 0; i < gridRow; i++) {
-        for(int j = 0; j < gridCol; j++) {
+    cin >> gridLinha >> gridColuna;
+
+    for(int i = 0; i < gridLinha; i++) {
+        for(int j = 0; j < gridColuna; j++) {
             cin >> grid[i][j];
-            if(grid[i][j] == 'A') {
-                startRow = i;
+            if(grid[i][j] == 'A') { // Salva a coordenada do herói
+                startLinha = i;
                 startCol = j;
             } 
-            // Agora procuramos pelas letras 'K' que representam as chaves
-            else if (grid[i][j] == 'K') { 
-                keyId[i][j] = numKeys; // Associa a chave atual a um ID (0, 1, 2...)
-                numKeys++;
+            else if (grid[i][j] == 'T') { // Se encontra um tesouro
+                tesouroId[i][j] = numTesouros; 
+                numTesouros++;
             }
         }
     }
 
-    solveTSPGrid();    return 0;
+    calculaCaminho();    
+    return 0;
 }
