@@ -45,7 +45,7 @@ struct Obstacle {
 std::vector<Obstacle> obstacles;
 float baseObstacleSpeed = 300.0f;
 float spawnTimer = 0.0f;
-float spawnInterval = 1.2f; 
+float spawnInterval = 1.2f;
 
 // Peixes e atributos
 enum FishRarity { COMMON, UNCOMMON, RARE, LEGENDARY };
