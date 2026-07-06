@@ -69,7 +69,7 @@ out vec2 TexCoords;
 
 uniform mat4 model;
 uniform mat4 projection;
-uniform vec4 uvRect; 
+uniform vec4 uvRect;
 
 void main() {
     TexCoords = vec2(vertex.z * (uvRect.z - uvRect.x) + uvRect.x, 
