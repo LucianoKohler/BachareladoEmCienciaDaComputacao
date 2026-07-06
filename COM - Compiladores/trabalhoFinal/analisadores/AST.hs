@@ -1,4 +1,4 @@
-module Types where
+module AST where
 
 type Id = String
 

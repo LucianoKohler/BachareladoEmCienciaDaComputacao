@@ -11,7 +11,7 @@
 module Parser where
 
 import Token
-import Types
+import AST
 import qualified Lexer as L
 import qualified Control.Monad as Happy_Prelude
 import qualified Data.Bool as Happy_Prelude

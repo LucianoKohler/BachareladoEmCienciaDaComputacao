@@ -5,7 +5,7 @@
 module Parser where
 
 import Token
-import Types
+import AST
 import qualified Lexer as L
 }
 

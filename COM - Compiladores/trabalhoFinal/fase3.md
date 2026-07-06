@@ -1,2 +1,0 @@
-- Jasmin
-- Retornar só I, D ou String

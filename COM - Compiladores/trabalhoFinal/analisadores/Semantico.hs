@@ -1,6 +1,6 @@
 module Semantico where
 
-import Types
+import AST
 import qualified Lexer as L
 import qualified Parser as P
 import qualified Data.Map.Strict as Map
