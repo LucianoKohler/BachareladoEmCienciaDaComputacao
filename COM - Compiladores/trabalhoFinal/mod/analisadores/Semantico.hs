@@ -118,6 +118,7 @@ checaExpr tg tl (Add expr1 expr2) = checaAritmetica tg tl Add "expr: '+'" expr1 
 checaExpr tg tl (Sub expr1 expr2) = checaAritmetica tg tl Sub "expr: '-'" expr1 expr2
 checaExpr tg tl (Mul expr1 expr2) = checaAritmetica tg tl Mul "expr: '*'" expr1 expr2
 checaExpr tg tl (Div expr1 expr2) = checaAritmetica tg tl Div "expr: '/'" expr1 expr2
+checaExpr tg tl (Mod expr1 expr2) = checaAritmetica tg tl Mod "expr: '%" expr1 expr2
 
 -- Checa chamada de funções
 checaExpr tg tl (Chamada id args) = 
@@ -307,8 +308,8 @@ checaPrograma (Prog funcoes corposFuncoes varsMain blocoMain) = do
 
 -- OUTPUT -----------------------------------------------------------------------
 
-testSemantico = do
-    input <- readFile "teste.j--_"
+testSem = do
+    input <- readFile "../inputs/input.j--"
     let lex = L.alexScanTokens input
     let par = P.parser lex
     let Result (temErros, logs, programa) = checaPrograma par

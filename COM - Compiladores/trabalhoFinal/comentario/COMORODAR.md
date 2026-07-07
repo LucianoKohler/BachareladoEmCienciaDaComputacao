@@ -19,6 +19,7 @@ Após isso, só rodar o Main.hs (ex. com `ghci Main.hs`) no seu compilador **e c
     - `-ianalisadores` indica que os includes estão em `./analisadores`
 - `java -jar jasmin.jar Output.j`
 - `java Output`
+- **Note que o arquivo de input (.j--) precisa ser passado por código no Main.hs**
 
 **COMPRIMIDO**
 - `alex analisadores/Lexer.x && happy --ghc analisadores/Parser.y && ghc -ianalisadores Main.hs -e compila && java -jar jasmin.jar Output.j && java Output`

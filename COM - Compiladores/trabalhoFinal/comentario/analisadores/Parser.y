@@ -183,8 +183,8 @@ ExpressaoRelacional
 parseError :: [Token] -> a
 parseError s = error ("Parse error:" ++ show s)
 
-main = do
-    input <- readFile "professor.j--_"    
+testSin = do
+    input <- readFile "../inputs/input.j--"    
     let tokens = L.alexScanTokens (input)
     
     -- Printando AST

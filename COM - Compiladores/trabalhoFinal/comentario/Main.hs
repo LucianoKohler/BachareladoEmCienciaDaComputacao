@@ -4,7 +4,7 @@ import qualified Semantico as S
 import qualified Gerador as G
 
 compila = do
-    file <- readFile "inputs/meuCodigo.j--"
+    file <- readFile "inputs/input.j--"
     let programa = P.parser (L.alexScanTokens file)
     let S.Result (status, mensagem, progVerificado) = S.checaPrograma programa
     let nomeClasse = "Output"
