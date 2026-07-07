@@ -23,7 +23,7 @@ buscarFuncao ((idAtual :->: (parsFormais, tipoRetorno)):restoFuns) alvoId
 calcularFrame :: [Var] -> Int -> [Var]
 calcularFrame [] _ = []
 calcularFrame ((nomeVar :#: (tipo, _)):restoVars) offset
-    | tipo == TInt || tipo == TString = (nomeVar :#: (tipo, offset)) : calcularFrame restoVars (offset + 1)
+    | tipo == TInt || tipo == TString || tipo == TFloat = (nomeVar :#: (tipo, offset)) : calcularFrame restoVars (offset + 1)
     | otherwise                                         = (nomeVar :#: (tipo, offset)) : calcularFrame restoVars (offset + 2) -- TDouble ocupa 2 slots
 
 calcularFrames :: [Funcao] -> [(Id, [Var], Bloco)] -> ([Funcao], [(Id, [Var], Bloco)])
@@ -89,6 +89,7 @@ genScanner nomeClasse =
 
 geraTipo :: Tipo -> String
 geraTipo TInt = "I"
+geraTipo TFloat = "F"
 geraTipo TDouble = "D"
 geraTipo TString = "Ljava/lang/String;"
 geraTipo TVoid = "V"
@@ -110,9 +111,17 @@ geraDouble valor
     | valor == 1.0  = "\tdconst_1\n"
     | otherwise = "\tldc2_w " ++ show valor ++ "\n"
 
+geraFloat :: Float -> String
+geraFloat valor
+    | valor == 0.0  = "\tfconst_0\n"
+    | valor == 1.0  = "\tfconst_1\n"
+    | valor == 2.0  = "\tfconst_2\n"
+    | otherwise = "\tldc " ++ show valor ++ "\n"
+
 geraOp :: Tipo -> String -> String
 geraOp TInt op = "\ti" ++ op ++ "\n"
 geraOp TDouble op = "\td" ++ op ++ "\n"
+geraOp TFloat op = "\tf" ++ op ++ "\n"
 geraOp _ op = "\ta" ++ op ++ "\n"
 
 -- Tradutor de expressões aritméticas -------------------------------------
@@ -125,6 +134,7 @@ geraExprA classe tabelaVars tabelaFuns expr1 expr2 operacao = do
 
 genExpr :: String -> [Var] -> [Funcao] -> Expr -> State Int (Tipo, String)
 genExpr _ _ _ (Const (CInt valor)) = return (TInt, geraInt valor)
+genExpr _ _ _ (Const (CFloat valor)) = return (TFloat, geraFloat valor)
 genExpr _ _ _ (Const (CDouble valor)) = return (TDouble, geraDouble valor)
 genExpr _ _ _ (Lit texto) = return (TString, "\tldc " ++ show texto ++ "\n") -- show recoloca as aspas na string
 
@@ -132,6 +142,7 @@ genExpr _ tabelaVars _ (IdVar nomeVar) = return (tipo, loadCmd tipo offset ++ "\
   where
     (_ :#: (tipo, offset)) = buscarVar tabelaVars nomeVar
     loadCmd TInt frame = "\tiload" ++ (if frame <= 3 then "_" else " ") ++ show frame
+    loadCmd TFloat frame = "\tfload" ++ (if frame <= 3 then "_" else " ") ++ show frame
     loadCmd TDouble frame = "\tdload" ++ (if frame <= 3 then "_" else " ") ++ show frame
     loadCmd TString frame = "\taload" ++ (if frame <= 3 then "_" else " ") ++ show frame
     loadCmd TVoid _ = ""
@@ -139,10 +150,24 @@ genExpr _ tabelaVars _ (IdVar nomeVar) = return (tipo, loadCmd tipo offset ++ "\
 genExpr classe tabelaVars tabelaFuns (IntDouble expressao) = do
     (_, expressao') <- genExpr classe tabelaVars tabelaFuns expressao
     return (TDouble, expressao' ++ "\ti2d\n")
+genExpr classe tabelaVars tabelaFuns (IntFloat expressao) = do
+    (_, expressao') <- genExpr classe tabelaVars tabelaFuns expressao
+    return (TFloat, expressao' ++ "\ti2f\n")
 
 genExpr classe tabelaVars tabelaFuns (DoubleInt expressao) = do
     (_, expressao') <- genExpr classe tabelaVars tabelaFuns expressao
     return (TInt, expressao' ++ "\td2i\n")
+genExpr classe tabelaVars tabelaFuns (DoubleFloat expressao) = do
+    (_, expressao') <- genExpr classe tabelaVars tabelaFuns expressao
+    return (TFloat, expressao' ++ "\td2f\n")
+
+genExpr classe tabelaVars tabelaFuns (FloatInt expressao) = do
+    (_, expressao') <- genExpr classe tabelaVars tabelaFuns expressao
+    return (TInt, expressao' ++ "\tf2i\n")
+genExpr classe tabelaVars tabelaFuns (FloatDouble expressao) = do
+    (_, expressao') <- genExpr classe tabelaVars tabelaFuns expressao
+    return (TDouble, expressao' ++ "\tf2d\n")
+
 
 genExpr classe tabelaVars tabelaFuns (Add expr1 expr2) = geraExprA classe tabelaVars tabelaFuns expr1 expr2 "add"
 genExpr classe tabelaVars tabelaFuns (Sub expr1 expr2) = geraExprA classe tabelaVars tabelaFuns expr1 expr2 "sub"
@@ -150,7 +175,7 @@ genExpr classe tabelaVars tabelaFuns (Mul expr1 expr2) = geraExprA classe tabela
 genExpr classe tabelaVars tabelaFuns (Div expr1 expr2) = geraExprA classe tabelaVars tabelaFuns expr1 expr2 "div"
 genExpr classe tabelaVars tabelaFuns (Neg expressao) = do
     (tipo, expressao') <- genExpr classe tabelaVars tabelaFuns expressao
-    let comando = if tipo == TInt then "\tineg\n" else "\tdneg\n"
+    let comando = if tipo == TInt then "\tineg\n" else if tipo == TFloat then "\tfneg\n" else "\tdneg\n"
     return (tipo, expressao' ++ comando)
 
 genExpr classe tabelaVars tabelaFuns (Chamada idFuncao argumentos) = do
@@ -180,6 +205,7 @@ geraExprL classe tabelaVars tabelaFuns labelVerdadeiro labelFalso (And expr1 exp
 
 geraExprRel :: Tipo -> String -> String -> String
 geraExprRel TInt labelVerdadeiro operacao = "\tif_icmp" ++ operacao ++ " " ++ labelVerdadeiro ++ "\n"
+geraExprRel TFloat labelVerdadeiro operacao = "\tfcmpg\n\tif" ++ operacao ++ " " ++ labelVerdadeiro ++ "\n"
 geraExprRel TDouble labelVerdadeiro operacao = "\tdcmpg\n\tif" ++ operacao ++ " " ++ labelVerdadeiro ++ "\n"
 geraExprRel TString labelVerdadeiro operacao = "\tif_acmp" ++ operacao ++ " " ++ labelVerdadeiro ++ "\n" 
 geraExprRel TVoid _ _ = ""
@@ -232,6 +258,7 @@ geraComando classe tabelaVars tabelaFuns (Atrib nomeVar expressao) = do
     return (expressao' ++ cmd tipo offset ++ "\n")
   where
     cmd TInt    frame = "\tistore" ++ (if frame <= 3 then "_" else " ") ++ show frame
+    cmd TFloat  frame = "\tfstore" ++ (if frame <= 3 then "_" else " ") ++ show frame
     cmd TDouble frame = "\tdstore" ++ (if frame <= 3 then "_" else " ") ++ show frame
     cmd TString frame = "\tastore" ++ (if frame <= 3 then "_" else " ") ++ show frame
     cmd TVoid _ = ""
@@ -240,6 +267,7 @@ geraComando classe tabelaVars tabelaFuns (Leitura nomeVar) = return ("\tgetstati
   where
     (_ :#: (tipo, offset)) = buscarVar tabelaVars nomeVar
     cmd TInt    frame = "nextInt()I\n\tistore" ++ (if frame <= 3 then "_" else " ") ++ show frame
+    cmd TFloat  frame = "nextFloat()F\n\tfstore" ++ (if frame <= 3 then "_" else " ") ++ show frame
     cmd TDouble frame = "nextDouble()D\n\tdstore" ++ (if frame <= 3 then "_" else " ") ++ show frame
     cmd TString frame = "nextLine()Ljava/lang/String;\n\tastore" ++ (if frame <= 3 then "_" else " ") ++ show frame
     cmd TVoid _ = ""
@@ -249,6 +277,7 @@ geraComando classe tabelaVars tabelaFuns (Imp expressao) = do
     return ("\tgetstatic java/lang/System/out Ljava/io/PrintStream;\n" ++ expressao' ++ "\tinvokevirtual java/io/PrintStream/println" ++ cmd tipo ++ "\n")
   where
     cmd TInt = "(I)V"
+    cmd TFloat = "(F)V"
     cmd TDouble = "(D)V"
     cmd TString = "(Ljava/lang/String;)V"
     cmd TVoid = "()V"
@@ -259,6 +288,7 @@ geraComando classe tabelaVars tabelaFuns (Ret (Just expressao)) = do
     return (expressao' ++ "\t" ++ pre tipo ++ "return\n")
   where
     pre TInt = "i"
+    pre TFloat = "f"
     pre TDouble = "d"
     pre TString = "a"
     pre TVoid = ""
@@ -274,6 +304,7 @@ geraComando classe tabelaVars tabelaFuns (Proc idFuncao argumentos) = do
 
 iniciaComando :: Var -> String
 iniciaComando (_ :#: (TInt, offset))    = "\ticonst_0\n\tistore" ++ (if offset <= 3 then "_" else " ") ++ show offset ++ "\n"
+iniciaComando (_ :#: (TFloat, offset))  = "\tfconst_0\n\tfstore" ++ (if offset <= 3 then "_" else " ") ++ show offset ++ "\n"
 iniciaComando (_ :#: (TDouble, offset)) = "\tdconst_0\n\tdstore" ++ (if offset <= 3 then "_" else " ") ++ show offset ++ "\n"
 iniciaComando (_ :#: (TString, offset)) = "\tldc \"\"\n\tastore" ++ (if offset <= 3 then "_" else " ") ++ show offset ++ "\n"
 iniciaComando _ = ""

@@ -3,7 +3,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-binds #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 {-# LANGUAGE CPP #-}
-{-# LINE 1 "Lexer.x" #-}
+{-# LINE 1 "analisadores/Lexer.x" #-}
 module Lexer where
 
 import Token
@@ -9794,7 +9794,7 @@ alexRightContext IBOX(sc) user__ _ _ input__ =
         -- match when checking the right context, just
         -- the first match will do.
 #endif
-{-# LINE 80 "Lexer.x" #-}
+{-# LINE 80 "analisadores/Lexer.x" #-}
 testLex = do 
   putStr "Output do léxico:\n"
   s <- readFile "../inputs/input.j--"

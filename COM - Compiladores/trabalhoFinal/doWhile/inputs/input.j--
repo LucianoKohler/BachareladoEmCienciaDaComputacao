@@ -1,4 +1,4 @@
-float menor (double a, double b)
+double menor (double a, double b)
 {
   double m;
   
