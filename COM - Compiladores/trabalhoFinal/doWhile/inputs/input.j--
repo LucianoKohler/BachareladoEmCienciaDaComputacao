@@ -49,7 +49,12 @@ void imprimir(string s, double r)
   
   print("Numero:");
   read (num);
-  a = menor (2.5, 10);
+  a = 1;
+  do{
+    print(a);
+    a = a + 1;
+  }while(a < 5);
+  
   imprimir("Fatorial:", fat(num));
   imprimir("Menor:", a);
   return;

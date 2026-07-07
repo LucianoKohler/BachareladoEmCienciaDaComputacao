@@ -126,8 +126,8 @@ CmdSe
 CmdEnquanto
   : "while" "(" ExpressaoLogica ")" Bloco         { While $3 $5 }
 
-CmdEnquanto
-  : "do" Bloco "While" "(" ExpressaoLogica ")"    { DoWhile $2 $5 }
+CmdFacaEnquanto
+  : "do" Bloco "while" "(" ExpressaoLogica ")" ";" { DoWhile $2 $5 }
 
 CmdAtrib
   : Id "=" ExpressaoAritmetica ";"     { Atrib $1 $3 } 

@@ -34,16 +34,16 @@
 	dload_0
 	dload_2
 	dcmpg
-	iflt L0
-	goto L1
-L0:
+	iflt L2
+	goto L3
+L2:
 	dload_0
 	dstore 8
-	goto L2
-L1:
+	goto L4
+L3:
 	dload_2
 	dstore 8
-L2:
+L4:
 	dload 8
 	dreturn
 .end method
@@ -57,12 +57,12 @@ L2:
 	istore_2
 	iconst_1
 	istore_2
-L3:
+L5:
 	iload_0
 	iconst_0
-	if_icmpgt L4
-	goto L5
-L4:
+	if_icmpgt L6
+	goto L7
+L6:
 	iload_2
 	iload_0
 	imul
@@ -71,8 +71,8 @@ L4:
 	iconst_1
 	isub
 	istore_0
-	goto L3
-L5:
+	goto L5
+L7:
 	iload_2
 	ireturn
 .end method
@@ -91,12 +91,12 @@ L5:
 	dstore_3
 	iconst_0
 	istore_2
-L6:
+L8:
 	iload_2
 	iload_0
-	if_icmplt L7
-	goto L8
-L7:
+	if_icmplt L9
+	goto L10
+L9:
 	dload_3
 	iload_2
 	i2d
@@ -106,8 +106,8 @@ L7:
 	iconst_1
 	iadd
 	istore_2
-	goto L6
-L8:
+	goto L8
+L10:
 	dload_3
 	d2i
 	ireturn
@@ -146,11 +146,25 @@ L8:
 	getstatic Output/read Ljava/util/Scanner;
 	invokevirtual java/util/Scanner/nextInt()I
 	istore_2
-	ldc2_w 2.5
-	bipush 10
+	iconst_1
 	i2d
-	invokestatic Output/menor(DD)D
 	dstore_3
+L0:
+	getstatic java/lang/System/out Ljava/io/PrintStream;
+	dload_3
+	invokevirtual java/io/PrintStream/println(D)V
+	dload_3
+	iconst_1
+	i2d
+	dadd
+	dstore_3
+	dload_3
+	iconst_5
+	i2d
+	dcmpg
+	iflt L0
+	goto L1
+L1:
 	ldc "Fatorial:"
 	iload_2
 	invokestatic Output/fat(I)I
