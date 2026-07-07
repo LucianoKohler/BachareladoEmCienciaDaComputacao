@@ -1,8 +1,8 @@
-double menor (double a, double b)
+double maior (double a, double b)
 {
-  double m;
+  int m;
   
-  if (a < b) {m = a;}
+  if (a > b) {m = a;}
   else {m = b;}
   return m;
 }
@@ -11,9 +11,9 @@ int fat (int n)
 {
   int f;
   
-  f = 1;
+  f = 0;
   while (n > 0)
-  {
+  { 
     f = f * n;
     n = n - 1;
   }
@@ -49,8 +49,8 @@ void imprimir(string s, double r)
   
   print("Numero:");
   read (num);
-  a = menor (2.5, 10);
-  imprimir("Fatorial:", fat(num));
-  imprimir("Menor:", a);
+  x = fat (4.5);
+  a = maior (2.5, 10);
+  imprimir("teste:", 1);
   return;
 }

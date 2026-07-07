@@ -44,13 +44,10 @@ void imprimir(string s, double r)
 }
 
 { 
-  int x, num;
+  int x, num, i;
   double a;
-  
-  print("Numero:");
-  read (num);
-  a = menor (2.5, 10);
-  imprimir("Fatorial:", fat(num));
-  imprimir("Menor:", a);
+  for(i = 0; i < 5; i = i + 1){
+    print(i);
+  }
   return;
 }
