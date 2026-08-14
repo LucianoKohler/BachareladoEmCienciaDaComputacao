@@ -1,6 +1,12 @@
-*Professor já anunciou que já pode fazer o artigo final (tá no finalzinho do moodle), prazo até a última semana de novembro*
+**Adendos*
+- Aula que vem **na F-306**
+- Não tem trabalho pra semana que vem!!!
+- Slides relacionados ao documento: **Aula 1, 39 - 83**
+- Professor já anunciou que já pode fazer o artigo final (tá no finalzinho do moodle), prazo até a última semana de novembro (é bom aprender um pouco antes de começar)
 
-*Professor então mostrou uma paulada de ilusão de ótica e logos malfeitas que parecem imagens de duplo-sentido*
+
+# Início da Aula
+Professor mostrou uma paulada de ilusão de ótica e logos malfeitas que parecem imagens de duplo-sentido pra mostrar como é importante pensar no design das coisas, e então introduziu o termo **TIC**
 
 # TICs
 - Tecnologias da Informação e da Comunicação
@@ -23,7 +29,3 @@ Para criar softwares que condizem com os ideais da IHC, é importante, primeiram
     - **Mídia**: Máquina feita para intermediar a comunicação entre duas pessoas
 
 Professor falou sobre o **Esqueumorfismo**, uma técnica de criação de software que tenta ao máximo assemelhar seu uso com o da vida real (tipo usar um ícone de lixeira para apagar um arquivo), um GRANDE exemplo disso é o **Microsoft Bob**
-
-**Adendos*
-- Aula que vem na F-306
-- Não tem trabalho pra semana que vem!!!
