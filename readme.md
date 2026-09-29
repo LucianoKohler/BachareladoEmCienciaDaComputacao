@@ -30,11 +30,9 @@ Valeu falou! 👋👋
   - ```C```: [Comparação analítica de diferentes árvores balanceadas](https://github.com/LucianoKohler/BachareladoEmCienciaDaComputacao/tree/master/EDA2%20-%20Estruturas%20de%20Dados%20II/trabalhoFinal)
   - ```C++```: [Geração de fractais por meio de autômatos finitos](https://github.com/LucianoKohler/BachareladoEmCienciaDaComputacao/tree/master/LFA%20-%20Linguagens%20Formais%20e%20Aut%C3%B4matos/trabalhoFinal)
 * ## 5° Semestre:
-  - ```Haskell```
-  - ```Java```: [Modelagem de um sistema + geração de testes básicos]()
+  - ```Haskell```: [Compilador de uma linguagem própria usando Alex, Happy e Jasmin](https://github.com/LucianoKohler/BachareladoEmCienciaDaComputacao/tree/master/COM%20-%20Compiladores/trabalhoFinal/normal)
 * ## 6° Semestre:
 * ## 7° Semestre:
 * ## 8° Semestre:
 * ## 9° Semestre:
 
-- COM, SOFT
