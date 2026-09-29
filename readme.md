@@ -33,4 +33,4 @@ Valeu falou! 👋👋
 * ## 8° Semestre:
 * ## 9° Semestre:
 
-- LFA, BAN, EDA2, COM
+- LFA, BAN, EDA2, COM, SOFT
