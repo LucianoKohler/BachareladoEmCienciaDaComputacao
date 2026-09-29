@@ -6,11 +6,13 @@ Esse repositório contém um projeto em Java (buildado em Maven) que, por meio d
 
 <p align="center">
 <img src="imagensDoReadme/Modelagem Conceitual.png">
+<br>
  Diagrama conceitual, feito com o <a href="https://www.drawio.com/">draw.io</a>
 </p>
 
 <p align="center">
 <img src="imagensDoReadme/Modelagem Lógica.png">
+<br>
  Diagrama lógico, feito com o <a href="https://drawsql.app/">DrawSQL</a>
 </p>
 

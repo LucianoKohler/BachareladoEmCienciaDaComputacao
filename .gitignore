@@ -17,3 +17,7 @@ AOC - Arquitetura e Organização de Computadores/Mars4_5.jar
 
 # Ignorar classes em Java
 *.class
+
+# Pasta que o Mac cria
+.DS_store
+*~
