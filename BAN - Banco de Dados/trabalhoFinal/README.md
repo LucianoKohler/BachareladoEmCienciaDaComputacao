@@ -19,6 +19,5 @@ Esse repositório contém um projeto em Java (buildado em Maven) que, por meio d
 <p align="center">Este repositório existe graças a:</p>
 <p align="center">
   <img src="https://images.weserv.nl/?url=avatars.githubusercontent.com/u/108994222?v=4&h=300&w=300&fit=cover&mask=circle&maxage=7d" width="30%">
-  <img src="https://images.weserv.nl/?url=avatars.githubusercontent.com/u/165173180?v=4&h=300&w=300&fit=cover&mask=circle&maxage=7d" width="30%">
 </p>
-<p align="center"><strong>Luciano Kohler da Silva e Luiza Mannes Silveira<br>e a estimada professora Rebeca Shcroeder Freitas✨</strong></p>
+<p align="center"><strong>Luciano Kohler da Silva<br>e a estimada professora Rebeca Shcroeder Freitas✨</strong></p>
