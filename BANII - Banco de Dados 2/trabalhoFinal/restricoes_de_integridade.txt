@@ -1,0 +1,21 @@
+R.I. 1: O horarioTermino de um evento deve ser estritamente maior que o seu horarioInicio. Da mesma forma, em Apresentador, se houver horário específico no cronograma, a mesma lógica se aplica.  
+
+R.I. 2: Atributos como numParticipantes (em Evento), capMaxima e area (em Local), valorUnit (em Servico), e valorPago (em Pagamento) devem ser sempre maiores que zero.  
+
+R.I. 3: O atributo status da entidade Evento deve aceitar exclusivamente os valores definidos pelo escopo do projeto: "orçamento", "confirmado", "em preparação", "realizado" ou "cancelado". O status em ItemServico para os fornecedores deve ser restrito a "contratado", "confirmado" ou "concluído". 
+
+R.I. 4: Na entidade Cliente, o cliente deve fornecer ou o cpf (se pessoa física) ou o cnpj (se pessoa jurídica). Não é permitido ter ambos os campos preenchidos, nem ambos vazios. 
+
+R.I. 5: O numParticipantes (estimado) de um evento não pode ultrapassar a capMaxima do local onde ele ocorrerá.  
+
+R.I. 6: A soma de todos os pagamentos realizados não pode exceder o valor total do orçamento do evento. 
+
+R.I. 7: Um Relatorio final (com avaliação geral e número real de participantes) só pode ser gerado e associado a um Evento se o status desse evento for "realizado".
+
+R.I. 8: Um Local não pode ter dois eventos simultâneos. Deve haver validação impedindo a sobreposição de data, horarioInicio e horarioTermino para eventos no mesmo local.  
+
+R.I. 9: Um evento não pode ser alterado para o status "confirmado" se a validade de seu Orcamento já estiver expirada em relação à data atual.
+
+R.I. 10: Se um Evento for cancelado ou excluído, o Orcamento associado não deve ser perdido caso existam Pagamentos já atrelados a ele para fins de auditoria.  
+
+R.I. 11: Um ItemServico não pode ser inserido sem estar vinculado a um Servico válido e a um Evento existente.  
