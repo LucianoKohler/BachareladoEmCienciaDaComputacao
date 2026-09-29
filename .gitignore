@@ -14,3 +14,6 @@ AOC - Arquitetura e Organização de Computadores/Mars4_5.jar
 **/trabalhoFinalCGR/stb_image.h
 **/trabalhoFinalCGR/glad
 **/trabalhoFinalCGR/jogo_pinguim
+
+# Ignorar classes em Java
+*.class

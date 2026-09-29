@@ -32,3 +32,5 @@ Valeu falou! 👋👋
 * ## 7° Semestre:
 * ## 8° Semestre:
 * ## 9° Semestre:
+
+- LFA, BAN, EDA2
