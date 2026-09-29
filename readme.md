@@ -20,17 +20,21 @@ Valeu falou! 👋👋
 # Destaques de projetos semestrais da UDESC
 
 * ## 1° Semestre:
-  - ```Haskell```: [Separador e ordenador de textos por meio da estrutura de dados de árvore](https://github.com/LucianoKohler/notas/blob/master/UDESC/PFN/Exerc4Tree/listaExerc4.hs)
+  - ```Haskell```: [Separador e ordenador de textos por meio da estrutura de dados de árvore](https://github.com/LucianoKohler/BachareladoEmCienciaDaComputacao/blob/master/PFN%20-%20Programa%C3%A7%C3%A3o%20Funcional/Exerc4Tree/listaExerc4.hs)
 * ## 2° Semestre:
-  - ```C```: [Sistema de escrita, leitura e geração de informações formatadas em aquivos .txt](https://github.com/LucianoKohler/notas/blob/master/UDESC/LPG/trabalho2/trabalho2.c)
+  - ```C```: [Sistema de escrita, leitura e geração de informações formatadas em aquivos .txt](https://github.com/LucianoKohler/BachareladoEmCienciaDaComputacao/blob/master/LPG%20-%20Linguagem%20de%20Programa%C3%A7%C3%A3o/trabalho2/trabalho2.c)
 
 * ## 3° Semestre:
-  - ```Java```: [Sistema bancário de contas corrente e salário](https://github.com/LucianoKohler/notas/tree/master/UDESC/POO/Aula4/SistemaBanco)
+  - ```Java```: [Rede social de fotos em Java usando Swing](https://github.com/LucianoKohler/BachareladoEmCienciaDaComputacao/tree/master/POO%20-%20Programa%C3%A7%C3%A3o%20Orientada%20a%20Objetos/TrabalhoRedeSocialFotos)
 * ## 4° Semestre:
+  - ```C```: [Comparação analítica de diferentes árvores balanceadas](https://github.com/LucianoKohler/BachareladoEmCienciaDaComputacao/tree/master/EDA2%20-%20Estruturas%20de%20Dados%20II/trabalhoFinal)
+  - ```C++```: [Geração de fractais por meio de autômatos finitos](https://github.com/LucianoKohler/BachareladoEmCienciaDaComputacao/tree/master/LFA%20-%20Linguagens%20Formais%20e%20Aut%C3%B4matos/trabalhoFinal)
 * ## 5° Semestre:
+  - ```Haskell```
+  - ```Java```: [Modelagem de um sistema + geração de testes básicos]()
 * ## 6° Semestre:
 * ## 7° Semestre:
 * ## 8° Semestre:
 * ## 9° Semestre:
 
-- LFA, BAN, EDA2, COM, SOFT
+- COM, SOFT
